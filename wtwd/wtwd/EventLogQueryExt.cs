@@ -1,4 +1,5 @@
-﻿namespace wtwd;
+﻿#pragma warning disable CA1416
+namespace wtwd;
 
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
