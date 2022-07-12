@@ -22,8 +22,10 @@ internal class Program
 
     private static IEnumerable<PcStateChange> ReadEventLogForPcStateChanges(DateTime since)
     {
-        string sinceAsStr = since.ToUniversalTime().ToString("O");
         IEnumerable<PcStateChange> result = new List<PcStateChange>();
+
+        string sinceAsStr = since.ToUniversalTime().ToString("O");
+        XNamespace eventLogNS = "http://schemas.microsoft.com/win/2004/08/events/event";
 
         EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelBoot != null)
@@ -83,10 +85,9 @@ internal class Program
             result = result.Concat(queryEvents);
         }
 
-        EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData]");
+        EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData/Data]");
         if (querySynTpEnhServiceForLockUnlock != null)
         {
-            XNamespace ns = "http://schemas.microsoft.com/win/2004/08/events/event";
             IEnumerable<PcStateChange> queryEvents = querySynTpEnhServiceForLockUnlock
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
@@ -94,9 +95,9 @@ internal class Program
                 .Select(x => new ValueTuple<EventRecord, string>(
                     x,
                     XDocument.Parse(x.ToXml())
-                        .Descendants(ns + "Event")
-                        .Descendants(ns + "EventData")
-                        .Descendants(ns + "Data")
+                        .Descendants(eventLogNS + "Event")
+                        .Descendants(eventLogNS + "EventData")
+                        .Descendants(eventLogNS + "Data")
                         .Select(x => x.Value)
                         .Where(x => x.StartsWith("Session Changed User", StringComparison.OrdinalIgnoreCase))
                         .FirstOrDefault(string.Empty)
