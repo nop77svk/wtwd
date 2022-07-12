@@ -99,15 +99,15 @@ internal class Program
                         .Descendants(eventLogNS + "EventData")
                         .Descendants(eventLogNS + "Data")
                         .Select(x => x.Value)
-                        .Where(x => x.StartsWith("Session Changed User", StringComparison.OrdinalIgnoreCase))
+                        .Where(x => x.StartsWith("Session Changed User ", StringComparison.OrdinalIgnoreCase))
                         .FirstOrDefault(string.Empty)
                 ))
                 .Where(x => !string.IsNullOrEmpty(x.Item2))
                 .Select(x => new PcStateChange(
                     PcStateChangeHow.LockOrUnlock,
-                    x.Item2.Equals("Session Changed User lock", StringComparison.OrdinalIgnoreCase)
+                    x.Item2.EndsWith(" lock", StringComparison.OrdinalIgnoreCase)
                         ? PcStateChangeWhat.Off
-                        : x.Item2.Equals("Session Changed User unlock", StringComparison.OrdinalIgnoreCase)
+                        : x.Item2.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
                             ? PcStateChangeWhat.On
                             : PcStateChangeWhat.Unknown,
                     x.Item1.TimeCreated ?? DateTime.Now,
