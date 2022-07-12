@@ -7,20 +7,17 @@ using System.Xml.Linq;
 
 internal class Program
 {
-    static void Main(string[] args)
+    internal static void Main(string[] args)
     {
         IEnumerable<PcStateChange> allEvents = ReadEventLogForPcStateChanges(DateTime.Now.AddMonths(-1));
-        //IEnumerable<PcSession> allSessions = CalculateSessions(allEvents);
 
-        foreach (var row in allEvents
-            .Where(x => x.What != PcStateChangeWhat.Unknown)
-            .OrderBy(x => x.When)
-        )
+        foreach (var row in allEvents.StateChangesToSessions())
         {
-            Console.WriteLine($"[{row.When}] {row.EventAsString}");
+            if (row.IsStillRunning)
+                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (still running)");
+            else
+                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> {row.SessionLastEnd?.EventAsString ?? "?"} @ {row.SessionLastEnd?.When.ToString() ?? "?"} = {row.FullSessionSpan?.ToString() ?? "?"}");
         }
-
-        Console.WriteLine("Hello, World!");
     }
 
     private static IEnumerable<PcStateChange> ReadEventLogForPcStateChanges(DateTime since)
@@ -118,10 +115,5 @@ internal class Program
         }
 
         return result;
-    }
-
-    private static IEnumerable<PcSession> CalculateSessions(IEnumerable<PcStateChange> pcStateChanges)
-    {
-        throw new NotImplementedException("Feature not yet implemented");
     }
 }

@@ -1,61 +1,80 @@
 ﻿namespace wtwd;
 
-internal class PcSession : IComparable<PcSession>, IEquatable<PcSession>
+internal class PcSession
 {
-    PcStateChangeHow SessionStartHow { get; }
-    DateTime SessionStartWhen { get; }
-    PcStateChangeHow? SessionTrueStartHow { get; set;  }
-    DateTime? SessionTrueStartWhen { get; set;  }
-    PcStateChangeHow? SessionEndHow { get; set; }
-    DateTime? SessionEndWhen { get; set; }
-    PcStateChangeHow? SessionIdleEndHow { get; set; }
-    DateTime? SessionIdleEndWhen { get; set; }
+    internal PcStateChange SessionFirstStart { get; private set; }
+    internal PcStateChange SessionLastStart { get; private set; }
+    internal PcStateChange? SessionFirstEnd { get; private set; }
+    internal PcStateChange? SessionLastEnd { get; private set; }
 
-    TimeSpan IdleStartSpan { get => SessionTrueStartWhen?.Subtract(SessionStartWhen) ?? TimeSpan.Zero; }
-    TimeSpan? SessionSpan { get => (SessionEndWhen ?? SessionIdleEndWhen)?.Subtract(SessionTrueStartWhen ?? SessionStartWhen); }
-    TimeSpan? IdleEndSpan { get => SessionIdleEndWhen?.Subtract(SessionEndWhen ?? DateTime.Now); }
+    internal TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
+    internal bool IsStillRunning { get => SessionLastEnd == null && SessionFirstEnd == null; }
+    internal TimeSpan? ShortSessionSpan { get => (SessionFirstEnd ?? SessionLastEnd)?.When.Subtract(SessionLastStart.When); }
+    internal TimeSpan? FullSessionSpan { get => (SessionLastEnd ?? SessionFirstEnd)?.When.Subtract(SessionFirstStart.When); }
+    internal TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
 
-    internal PcSession(PcStateChangeHow sessionStartHow, DateTime sessionStartWhen)
+    internal PcSession(PcStateChange sessionStart)
     {
-        SessionStartHow = sessionStartHow;
-        SessionStartWhen = sessionStartWhen;
+        if (sessionStart.What != PcStateChangeWhat.On)
+            throw new ArgumentOutOfRangeException(nameof(sessionStart) + "." + nameof(sessionStart.What), sessionStart.What.ToString());
+
+        SessionFirstStart = sessionStart;
+        SessionLastStart = sessionStart;
     }
 
-    public int CompareTo(PcSession? other)
+    internal void ResolveEvent(PcStateChange evnt)
     {
-        if (other == null) return 1;
-
-        int result = 0;
-
-        if (result == 0)
-            result = 2 * SessionStartHow.CompareTo(other.SessionStartHow);
-
-        if (result == 0)
-            result = 3 * SessionStartWhen.CompareTo(other.SessionStartWhen);
-
-        if (result == 0)
-            result = 4 * (SessionTrueStartHow?.CompareTo(other.SessionTrueStartHow) ?? 1);
-
-        if (result == 0)
-            result = 5 * (SessionTrueStartWhen?.CompareTo(other.SessionTrueStartWhen) ?? 1);
-
-        if (result == 0)
-            result = 6 * (SessionEndHow?.CompareTo(other.SessionEndHow) ?? 1);
-
-        if (result == 0)
-            result = 7 * (SessionEndWhen?.CompareTo(other.SessionEndWhen) ?? 1);
-
-        if (result == 0)
-            result = 8 * (SessionIdleEndHow?.CompareTo(other.SessionIdleEndHow) ?? 1);
-
-        if (result == 0)
-            result = 9 * (SessionIdleEndWhen?.CompareTo(other.SessionIdleEndWhen) ?? 1);
-
-        return result;
+        if (evnt.What == PcStateChangeWhat.On)
+            ResolveStartEvent(evnt);
+        else if (evnt.What == PcStateChangeWhat.Off)
+            ResolveEndEvent(evnt);
     }
 
-    public bool Equals(PcSession? other)
+    private void ResolveStartEvent(PcStateChange evnt)
     {
-        return this.CompareTo(other) == 0;
+        if (evnt.What != PcStateChangeWhat.On)
+            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.What), evnt.What.ToString());
+
+        if (SessionFirstStart == null && SessionLastStart == null)
+        {
+            SessionFirstStart = evnt;
+            SessionLastStart = evnt;
+        }
+        else if (SessionFirstStart == null || SessionLastStart == null)
+        {
+            throw new EInvalidSessionMarkerEvent("Invalid state of session start markers");
+        }
+        else
+        {
+            if (evnt.When < SessionFirstStart.When || evnt.When == SessionFirstStart.When && evnt.How < evnt.How)
+                SessionFirstStart = evnt;
+            
+            if (evnt.When > SessionLastStart.When || evnt.When == SessionLastStart.When && evnt.How > evnt.How)
+                SessionLastStart = evnt;
+        }
+    }
+
+    private void ResolveEndEvent(PcStateChange evnt)
+    {
+        if (evnt.What != PcStateChangeWhat.Off)
+            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.What), evnt.What.ToString());
+
+        if (SessionFirstEnd == null && SessionLastEnd == null)
+        {
+            SessionFirstEnd = evnt;
+            SessionLastEnd = evnt;
+        }
+        else if (SessionFirstEnd == null || SessionLastEnd == null)
+        {
+            throw new EInvalidSessionMarkerEvent("Invalid state of session end markers");
+        }
+        else
+        {
+            if (evnt.When < SessionFirstEnd.When || evnt.When == SessionFirstEnd.When && evnt.How < evnt.How)
+                SessionFirstEnd = evnt;
+            
+            if (evnt.When > SessionLastEnd.When || evnt.When == SessionLastEnd.When && evnt.How > evnt.How)
+                SessionLastEnd = evnt;
+        }
     }
 }
