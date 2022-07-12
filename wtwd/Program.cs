@@ -12,7 +12,10 @@ internal class Program
         IEnumerable<PcStateChange> allEvents = ReadEventLogForPcStateChanges(DateTime.Now.AddMonths(-1));
         //IEnumerable<PcSession> allSessions = CalculateSessions(allEvents);
 
-        foreach (var row in allEvents.OrderBy(x => x.When))
+        foreach (var row in allEvents
+            .Where(x => x.What != PcStateChangeWhat.Unknown)
+            .OrderBy(x => x.When)
+        )
         {
             Console.WriteLine($"[{row.When}] {row.EventAsString}");
         }
@@ -33,8 +36,7 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(PcStateChangeHow.ShutdownOrStartup, x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown, x.TimeCreated ?? DateTime.Now, x))
-                .Where(x => x.What != PcStateChangeWhat.Unknown);
+                .Select(x => new PcStateChange(PcStateChangeHow.ShutdownOrStartup, x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown, x.TimeCreated ?? DateTime.Now, x));
             result = result.Concat(queryEvents);
         }
 
@@ -54,8 +56,7 @@ internal class Program
                     },
                     x.TimeCreated ?? DateTime.Now,
                     x
-                ))
-                .Where(x => x.What != PcStateChangeWhat.Unknown);
+                ));
             result = result.Concat(queryEvents);
         }
 
@@ -80,8 +81,7 @@ internal class Program
                     },
                     x.TimeCreated ?? DateTime.Now,
                     x
-                ))
-                .Where(x => x.What != PcStateChangeWhat.Unknown);
+                ));
             result = result.Concat(queryEvents);
         }
 
@@ -112,8 +112,7 @@ internal class Program
                             : PcStateChangeWhat.Unknown,
                     x.Item1.TimeCreated ?? DateTime.Now,
                     x.Item1
-                ))
-                .Where(x => x.What != PcStateChangeWhat.Unknown);
+                ));
             result = result.Concat(queryEvents);
         }
 
