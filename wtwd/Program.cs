@@ -29,7 +29,8 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(PcStateChangeHow.ShutdownOrStartup, x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown, x.TimeCreated ?? DateTime.Now, x));
+                .Select(x => new PcStateChange(PcStateChangeHow.ShutdownOrStartup, x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown, x.TimeCreated ?? DateTime.Now, x))
+                .Where(x => x.What != PcStateChangeWhat.Unknown);
             result = result.Concat(queryEvents);
         }
 
@@ -49,7 +50,8 @@ internal class Program
                     },
                     x.TimeCreated ?? DateTime.Now,
                     x
-                ));
+                ))
+                .Where(x => x.What != PcStateChangeWhat.Unknown);
             result = result.Concat(queryEvents);
         }
 
@@ -74,7 +76,30 @@ internal class Program
                     },
                     x.TimeCreated ?? DateTime.Now,
                     x
-                ));
+                ))
+                .Where(x => x.What != PcStateChangeWhat.Unknown);
+            result = result.Concat(queryEvents);
+        }
+
+
+        EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"*[System[Provider/@Name='SynTPEnhService' and EventID = 0 and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        if (querySynTpEnhServiceForLockUnlock != null)
+        {
+            IEnumerable<PcStateChange> queryEvents = querySynTpEnhServiceForLockUnlock
+                .AsEnumerable()
+                .Where(x => x.TimeCreated != null)
+                .Where(x => x.FormatDescription().Contains("Session Changed User", StringComparison.OrdinalIgnoreCase))
+                .Select(x => new PcStateChange(
+                    PcStateChangeHow.LockOrUnlock,
+                    x.FormatDescription().Contains("Session Changed User lock", StringComparison.OrdinalIgnoreCase)
+                        ? PcStateChangeWhat.Off
+                        : x.FormatDescription().Contains("Session Changed User unlock", StringComparison.OrdinalIgnoreCase)
+                            ? PcStateChangeWhat.On
+                            : PcStateChangeWhat.Unknown,
+                    x.TimeCreated ?? DateTime.Now,
+                    x
+                ))
+                .Where(x => x.What != PcStateChangeWhat.Unknown);
             result = result.Concat(queryEvents);
         }
 
