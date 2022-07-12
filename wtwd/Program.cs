@@ -14,7 +14,7 @@ internal class Program
         foreach (var row in allEvents.StateChangesToSessions())
         {
             if (row.IsStillRunning)
-                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (still running)");
+                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (ongoing session)");
             else
                 Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> {row.SessionLastEnd?.EventAsString ?? "?"} @ {row.SessionLastEnd?.When.ToString() ?? "?"} = {row.FullSessionSpan?.ToString() ?? "?"}");
         }
