@@ -2,7 +2,7 @@
 namespace wtwd;
 using System.Diagnostics.Eventing.Reader;
 
-internal record PcStateChange(PcStateChangeHow How, PcStateChangeWhat What, DateTime When, EventRecord OriginalEvent)
+internal record PcStateChange(PcStateChangeHow How, PcStateChangeWhat What, DateTime When)
 {
     internal string? EventAsString
     {

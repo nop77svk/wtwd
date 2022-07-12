@@ -36,7 +36,11 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(PcStateChangeHow.ShutdownOrStartup, x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown, x.TimeCreated ?? DateTime.Now, x));
+                .Select(x => new PcStateChange(
+                    PcStateChangeHow.ShutdownOrStartup,
+                    x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown,
+                    x.TimeCreated ?? DateTime.Now
+                ));
             result = result.Concat(queryEvents);
         }
 
@@ -54,8 +58,7 @@ internal class Program
                         13 => PcStateChangeWhat.Off,
                         _ => PcStateChangeWhat.Unknown
                     },
-                    x.TimeCreated ?? DateTime.Now,
-                    x
+                    x.TimeCreated ?? DateTime.Now
                 ));
             result = result.Concat(queryEvents);
         }
@@ -79,8 +82,7 @@ internal class Program
                         107 => PcStateChangeWhat.On,
                         _ => PcStateChangeWhat.Unknown
                     },
-                    x.TimeCreated ?? DateTime.Now,
-                    x
+                    x.TimeCreated ?? DateTime.Now
                 ));
             result = result.Concat(queryEvents);
         }
@@ -110,8 +112,7 @@ internal class Program
                         : x.Item2.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
                             ? PcStateChangeWhat.On
                             : PcStateChangeWhat.Unknown,
-                    x.Item1.TimeCreated ?? DateTime.Now,
-                    x.Item1
+                    x.Item1.TimeCreated ?? DateTime.Now
                 ));
             result = result.Concat(queryEvents);
         }
