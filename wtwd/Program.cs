@@ -2,13 +2,15 @@
 namespace wtwd;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Linq;
+using System.Xml.Linq;
 
 internal class Program
 {
     static void Main(string[] args)
     {
         IEnumerable<PcStateChange> allEvents = ReadEventLogForPcStateChanges(DateTime.Now.AddMonths(-1));
-        IEnumerable<PcSession> allSessions = CalculateSessions(allEvents);
+        //IEnumerable<PcSession> allSessions = CalculateSessions(allEvents);
 
         foreach (var row in allEvents.OrderBy(x => x.When))
         {
@@ -23,7 +25,7 @@ internal class Program
         string sinceAsStr = since.ToUniversalTime().ToString("O");
         IEnumerable<PcStateChange> result = new List<PcStateChange>();
 
-        EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"*[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelBoot != null)
         {
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
@@ -34,7 +36,7 @@ internal class Program
             result = result.Concat(queryEvents);
         }
 
-        EventLogQuery? queryKernelGeneral = new EventLogQuery("System", PathType.LogName, $"*[System[Provider/@Name = 'Microsoft-Windows-Kernel-General' and (EventID = 12 or EventID = 13) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelGeneral = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-General' and (EventID = 12 or EventID = 13) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelGeneral != null)
         {
             IEnumerable<PcStateChange> queryEvents = queryKernelGeneral
@@ -55,7 +57,7 @@ internal class Program
             result = result.Concat(queryEvents);
         }
 
-        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"*[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelPower != null)
         {
             IEnumerable<PcStateChange> queryEvents = queryKernelPower
@@ -81,23 +83,34 @@ internal class Program
             result = result.Concat(queryEvents);
         }
 
-
-        EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"*[System[Provider/@Name='SynTPEnhService' and EventID = 0 and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData]");
         if (querySynTpEnhServiceForLockUnlock != null)
         {
+            XNamespace ns = "http://schemas.microsoft.com/win/2004/08/events/event";
             IEnumerable<PcStateChange> queryEvents = querySynTpEnhServiceForLockUnlock
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Where(x => x.FormatDescription().Contains("Session Changed User", StringComparison.OrdinalIgnoreCase))
+                .Where(x => x.TimeCreated >= since)
+                .Select(x => new ValueTuple<EventRecord, string>(
+                    x,
+                    XDocument.Parse(x.ToXml())
+                        .Descendants(ns + "Event")
+                        .Descendants(ns + "EventData")
+                        .Descendants(ns + "Data")
+                        .Select(x => x.Value)
+                        .Where(x => x.StartsWith("Session Changed User", StringComparison.OrdinalIgnoreCase))
+                        .FirstOrDefault(string.Empty)
+                ))
+                .Where(x => !string.IsNullOrEmpty(x.Item2))
                 .Select(x => new PcStateChange(
                     PcStateChangeHow.LockOrUnlock,
-                    x.FormatDescription().Contains("Session Changed User lock", StringComparison.OrdinalIgnoreCase)
+                    x.Item2.Equals("Session Changed User lock", StringComparison.OrdinalIgnoreCase)
                         ? PcStateChangeWhat.Off
-                        : x.FormatDescription().Contains("Session Changed User unlock", StringComparison.OrdinalIgnoreCase)
+                        : x.Item2.Equals("Session Changed User unlock", StringComparison.OrdinalIgnoreCase)
                             ? PcStateChangeWhat.On
                             : PcStateChangeWhat.Unknown,
-                    x.TimeCreated ?? DateTime.Now,
-                    x
+                    x.Item1.TimeCreated ?? DateTime.Now,
+                    x.Item1
                 ))
                 .Where(x => x.What != PcStateChangeWhat.Unknown);
             result = result.Concat(queryEvents);
