@@ -3,12 +3,18 @@ namespace wtwd;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using wtwd.ext;
 using wtwd.model;
 
 internal class Program
 {
+    private const string DayFormat = "yyyy-MM-dd";
+    private const string NextDayFormat = "(yyyy-MM-dd) HH:mm";
+    private const string TimeFormat = "HH:mm";
+    private const string SessionSpanFormat = @"hh\:mm";
+
     internal static void Main(string[] args)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
@@ -26,12 +32,20 @@ internal class Program
 
     private static void DisplayTheSessions(IEnumerable<PcSession> sessions)
     {
+        PcSession? prevSession = null;
         foreach (var session in sessions)
         {
-            if (session.IsStillRunning)
-                Console.WriteLine($"[{session.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> (ongoing session from {session.SessionFirstStart.EventAsString})");
+            if (prevSession == null || session.SessionFirstStart.When.Date != prevSession.SessionFirstStart.When.Date)
+                System.Console.WriteLine($"{session.SessionFirstStart.When.ToString(DayFormat)}");
+
+            if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
+                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> (ongoing session from {session.SessionFirstStart.EventAsString})");
+            else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
+                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> {session.SessionLastEnd.When.ToString(NextDayFormat)} = [{session.ShortSessionSpan?.ToString(SessionSpanFormat) ?? "?"} / {session.FullSessionSpan?.ToString(SessionSpanFormat) ?? "?"}] {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd.EventAsString}");
             else
-                Console.WriteLine($"[{session.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> [{session.SessionLastEnd?.When.ToString("yyyy-MM-dd HH:mm") ?? "?"}] = {session.ShortSessionSpan?.ToString() ?? "?"} (full {session.FullSessionSpan?.ToString() ?? "?"} @ {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd?.EventAsString ?? "?"})");
+                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> {session.SessionLastEnd.When.ToString(TimeFormat)} = [{session.ShortSessionSpan?.ToString(SessionSpanFormat) ?? "?"} / {session.FullSessionSpan?.ToString(SessionSpanFormat) ?? "?"}] {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd.EventAsString}");
+            
+            prevSession = session;
         }
     }
 
