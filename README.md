@@ -16,8 +16,8 @@ Mine your Windows event log for PC startup/shutdown/wakeup/sleep/unlock/lock
 events and transform them into a human readable information on the times when
 your PC has been used. It does not track your tasks for you, but it at least
 gives you clues on whether your seemingly 12-hour work day indeed took 12
-hours or was it more like 3 hours of PC work and 9 hours of attending to your
-children (or pets) in perpetual desperate need of your attention.
+hours or was it more like 3 hours of PC work and 9 hours of recurrently attending
+to your children (or pets) in desperate need of your attention.
 
 Just run `dotnet wtwd.dll` (provided you have the .NET 6 run-time installed)
 and see the results.
