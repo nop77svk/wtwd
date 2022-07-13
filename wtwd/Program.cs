@@ -9,9 +9,13 @@ internal class Program
 {
     internal static void Main(string[] args)
     {
-        IEnumerable<PcStateChange> allEvents = ReadEventLogForPcStateChanges(DateTime.Now.AddMonths(-1));
+        DateTime logsSince = DateTime.Now.AddMonths(-1);
+        IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
+            .Select(evnt => evnt.AsPcStateChange())
+            .Where(stch => stch.How != PcStateChangeHow.Unknown && stch.What != PcStateChangeWhat.Unknown)
+            .StateChangesToSessions();
 
-        foreach (var row in allEvents.StateChangesToSessions())
+        foreach (var row in pcSessions)
         {
             if (row.IsStillRunning)
                 Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (ongoing session)");
@@ -20,7 +24,7 @@ internal class Program
         }
     }
 
-    private static IEnumerable<PcStateChange> ReadEventLogForPcStateChanges(DateTime since)
+    private static IEnumerable<EventRecord> GetEventLogsSince(DateTime since)
     {
         string sinceAsStr = since.ToUniversalTime().ToString("O");
 
@@ -39,12 +43,12 @@ internal class Program
 
         EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData/Data]");
         if (querySynTpEnhServiceForLockUnlock != null)
-            unionedEvents = unionedEvents.Concat(querySynTpEnhServiceForLockUnlock.AsEnumerable());
+            unionedEvents = unionedEvents.Concat(querySynTpEnhServiceForLockUnlock.AsEnumerable()
+                .Where(evnt => evnt.TimeCreated >= since)
+            );
 
         return unionedEvents
             .Where(evnt => evnt.TimeCreated != null)
-            .Where(evnt => evnt.TimeCreated >= since)
-            .Select(evnt => evnt.AsPcStateChange())
-            .Where(stch => stch.How != PcStateChangeHow.Unknown && stch.What != PcStateChangeWhat.Unknown);
+            .Where(evnt => evnt.TimeCreated >= since);
     }
 }
