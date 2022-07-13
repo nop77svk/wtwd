@@ -27,7 +27,7 @@ internal class Program
         string sinceAsStr = since.ToUniversalTime().ToString("O");
         XNamespace eventLogNS = "http://schemas.microsoft.com/win/2004/08/events/event";
 
-        EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25 or EventID = 27) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelBoot != null)
         {
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
@@ -35,7 +35,7 @@ internal class Program
                 .Where(x => x.TimeCreated != null)
                 .Select(x => new PcStateChange(
                     PcStateChangeHow.ShutdownOrStartup,
-                    x.Id is 20 or 25 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown,
+                    x.Id is 20 or 25 or 27 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown,
                     x.TimeCreated ?? DateTime.Now
                 ));
             result = result.Concat(queryEvents);
@@ -60,7 +60,7 @@ internal class Program
             result = result.Concat(queryEvents);
         }
 
-        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107 or Event = 506 or Event = 507) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelPower != null)
         {
             IEnumerable<PcStateChange> queryEvents = queryKernelPower
@@ -70,13 +70,13 @@ internal class Program
                     x.Id switch
                     {
                         109 => PcStateChangeHow.ShutdownOrStartup,
-                        42 or 107 => PcStateChangeHow.SleepOrWakeUp,
+                        42 or 107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
                         _ => PcStateChangeHow.Unknown
                     },
                     x.Id switch
                     {
-                        42 or 109 => PcStateChangeWhat.Off,
-                        107 => PcStateChangeWhat.On,
+                        42 or 109 or 506 => PcStateChangeWhat.Off,
+                        107 or 507 => PcStateChangeWhat.On,
                         _ => PcStateChangeWhat.Unknown
                     },
                     x.TimeCreated ?? DateTime.Now
