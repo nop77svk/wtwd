@@ -3,11 +3,13 @@ namespace wtwd;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Text;
 using wtwd.model;
 using wtwd.utilities;
 
 internal class Program
 {
+    private const string SessionDisplayIndent = "    ";
     private const string DayFormat = "yyyy-MM-dd";
     private const string NextDayFormat = "(yyyy-MM-dd) HH:mm";
     private const string TimeFormat = "HH:mm";
@@ -36,13 +38,56 @@ internal class Program
             if (prevSession == null || session.SessionFirstStart.When.Date != prevSession.SessionFirstStart.When.Date)
                 System.Console.WriteLine($"{session.SessionFirstStart.When.ToString(DayFormat)}");
 
+            StringBuilder msg = new StringBuilder(SessionDisplayIndent);
+            msg.Append("(");
+            msg.Append(session.SessionFirstStart.When.ToString(TimeFormat));
+            msg.Append(") ");
+            msg.Append(session.SessionLastStart.When.ToString(TimeFormat));
+            msg.Append(" -> ");
+
             if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
-                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> (ongoing session from {session.SessionFirstStart.EventAsString})");
+                msg.Append($"(ongoing session from {session.SessionFirstStart.EventAsString}+{session.SessionLastStart.EventAsString})");
             else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
-                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> {session.SessionLastEnd.When.ToString(NextDayFormat)} = [{session.ShortSessionSpan?.ToString(SessionSpanFormat) ?? "?"} / {session.FullSessionSpan?.ToString(SessionSpanFormat) ?? "?"}] {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd.EventAsString}");
+            {
+                msg.Append(session.SessionFirstEnd.When.ToString(NextDayFormat));
+                msg.Append(" (");
+                msg.Append(session.SessionLastEnd.When.ToString(NextDayFormat));
+                msg.Append(")");
+            }
             else
-                Console.WriteLine($"\t{session.SessionFirstStart.When.ToString(TimeFormat)} -> {session.SessionLastEnd.When.ToString(TimeFormat)} = [{session.ShortSessionSpan?.ToString(SessionSpanFormat) ?? "?"} / {session.FullSessionSpan?.ToString(SessionSpanFormat) ?? "?"}] {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd.EventAsString}");
+            {
+                msg.Append(session.SessionFirstEnd.When.ToString(TimeFormat));
+                msg.Append(" (");
+                msg.Append(session.SessionLastEnd.When.ToString(TimeFormat));
+                msg.Append(")");
+            }
+
+            if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
+            {
+                msg.Append(" = ");
+                msg.Append(session.ShortSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
+                msg.Append(" [");
+                msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
+                msg.Append("] ");
+
+                if (session.SessionFirstStart.How != session.SessionLastStart.How)
+                {
+                    msg.Append(session.SessionFirstStart.EventAsString);
+                    msg.Append("+");
+                }
+
+                msg.Append(session.SessionLastStart.EventAsString);
+                msg.Append(" -> ");
+                msg.Append(session.SessionFirstEnd.EventAsString);
+
+                if (session.SessionFirstEnd.How != session.SessionLastEnd.How)
+                {
+                    msg.Append("+");
+                    msg.Append(session.SessionLastEnd.EventAsString);
+                }
+            }
             
+            System.Console.WriteLine(msg.ToString());
             prevSession = session;
         }
     }
