@@ -33,11 +33,7 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelBoot
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(
-                    PcStateChangeHow.ShutdownOrStartup,
-                    x.Id is 20 or 25 or 27 ? PcStateChangeWhat.On : PcStateChangeWhat.Unknown,
-                    x.TimeCreated ?? DateTime.Now
-                ));
+                .Select(x => x.AsPcStateChange());
             result = result.Concat(queryEvents);
         }
 
@@ -47,16 +43,7 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelGeneral
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(
-                    PcStateChangeHow.ShutdownOrStartup,
-                    x.Id switch
-                    {
-                        12 => PcStateChangeWhat.On,
-                        13 => PcStateChangeWhat.Off,
-                        _ => PcStateChangeWhat.Unknown
-                    },
-                    x.TimeCreated ?? DateTime.Now
-                ));
+                .Select(x => x.AsPcStateChange());
             result = result.Concat(queryEvents);
         }
 
@@ -66,21 +53,7 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = queryKernelPower
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Select(x => new PcStateChange(
-                    x.Id switch
-                    {
-                        109 => PcStateChangeHow.ShutdownOrStartup,
-                        42 or 107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
-                        _ => PcStateChangeHow.Unknown
-                    },
-                    x.Id switch
-                    {
-                        42 or 109 or 506 => PcStateChangeWhat.Off,
-                        107 or 507 => PcStateChangeWhat.On,
-                        _ => PcStateChangeWhat.Unknown
-                    },
-                    x.TimeCreated ?? DateTime.Now
-                ));
+                .Select(x => x.AsPcStateChange());
             result = result.Concat(queryEvents);
         }
 
@@ -90,27 +63,7 @@ internal class Program
             IEnumerable<PcStateChange> queryEvents = querySynTpEnhServiceForLockUnlock
                 .AsEnumerable()
                 .Where(x => x.TimeCreated != null)
-                .Where(x => x.TimeCreated >= since)
-                .Select(x => new ValueTuple<EventRecord, string>(
-                    x,
-                    XDocument.Parse(x.ToXml())
-                        .Descendants(eventLogNS + "Event")
-                        .Descendants(eventLogNS + "EventData")
-                        .Descendants(eventLogNS + "Data")
-                        .Select(x => x.Value)
-                        .Where(x => x.StartsWith("Session Changed User ", StringComparison.OrdinalIgnoreCase))
-                        .FirstOrDefault(string.Empty)
-                ))
-                .Where(x => !string.IsNullOrEmpty(x.Item2))
-                .Select(x => new PcStateChange(
-                    PcStateChangeHow.LockOrUnlock,
-                    x.Item2.EndsWith(" lock", StringComparison.OrdinalIgnoreCase)
-                        ? PcStateChangeWhat.Off
-                        : x.Item2.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
-                            ? PcStateChangeWhat.On
-                            : PcStateChangeWhat.Unknown,
-                    x.Item1.TimeCreated ?? DateTime.Now
-                ));
+                .Select(x => x.AsPcStateChange());
             result = result.Concat(queryEvents);
         }
 
