@@ -1,8 +1,7 @@
 #pragma warning disable CA1416
+namespace wtwd;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
-
-namespace wtwd;
 
 internal static class EventToStateChange
 {
