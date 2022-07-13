@@ -6,20 +6,20 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RuntimeIdentifiers>win-x86;win-x64;win-arm</RuntimeIdentifiers>
-        <Product>Work-Time Watch-Dog</Product>
-        <Authors>Peter Hraško</Authors>
-        <Company>Open source community</Company>
-        <Copyright>Practically copyleft</Copyright>
-        <AssemblyName>wtwd</AssemblyName>
+		<Product>Work-Time Watch-Dog</Product>
+		<Authors>Peter Hraško</Authors>
+		<Company>Open source community</Company>
+		<Copyright>Practically copyleft</Copyright>
+		<AssemblyName>wtwd</AssemblyName>
 		<NoWarn>1701;1702;AD0001;NETSDK1182</NoWarn>
-        <PackageId></PackageId>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<PackageId></PackageId>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 	</PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DebugType>none</DebugType>
-        <DebugSymbols>false</DebugSymbols>
-    </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
