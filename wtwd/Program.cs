@@ -10,17 +10,21 @@ internal class Program
     internal static void Main(string[] args)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
+        TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
+
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
             .Select(evnt => evnt.AsPcStateChange())
+            .Select(stch => stch with { When = stch.When.Round(roundingInterval)})
             .Where(stch => stch.How != PcStateChangeHow.Unknown && stch.What != PcStateChangeWhat.Unknown)
-            .StateChangesToSessions();
+            .StateChangesToSessions()
+            .Where(session => session.FullSessionSpan != TimeSpan.Zero);
 
         foreach (var row in pcSessions)
         {
             if (row.IsStillRunning)
                 Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (ongoing session)");
             else
-                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> {row.SessionLastEnd?.EventAsString ?? "?"} @ {row.SessionLastEnd?.When.ToString() ?? "?"} = {row.FullSessionSpan?.ToString() ?? "?"}");
+                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> {row.SessionLastEnd?.EventAsString ?? "?"} @ {row.SessionLastEnd?.When.ToString() ?? "?"} = {row.ShortSessionSpan?.ToString() ?? "?"} (full {row.FullSessionSpan?.ToString() ?? "?"})");
         }
     }
 
@@ -37,7 +41,7 @@ internal class Program
         if (queryKernelGeneral != null)
             unionedEvents = unionedEvents.Concat(queryKernelGeneral.AsEnumerable());
 
-        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107 or Event = 506 or Event = 507) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107 or EventID = 506 or EventID = 507) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryKernelPower != null)
             unionedEvents = unionedEvents.Concat(queryKernelPower.AsEnumerable());
 
