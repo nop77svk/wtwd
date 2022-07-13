@@ -1,4 +1,4 @@
-namespace wtwd;
+namespace wtwd.ext;
 
 internal static class DateTimeExt
 {
