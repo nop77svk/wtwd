@@ -19,7 +19,8 @@ gives you clues on whether your seemingly 12-hour work day indeed took 12
 hours or was it more like 3 hours of PC work and 9 hours of attending to your
 children in perpetual desperate need of your attention.
 
-Just run and see the results.
+Just run `dotnet wtwd.dll` (provided you have the .NET 5 run-time installedf)
+and see the results.
 
 Tested (as of July 13, 2022) on Windows 10 only.
 
