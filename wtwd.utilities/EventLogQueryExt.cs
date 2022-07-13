@@ -1,12 +1,12 @@
 ﻿#pragma warning disable CA1416
-namespace wtwd.ext;
+namespace wtwd.utilities;
 
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 
-internal static class EventLogQueryExt
+public static class EventLogQueryExt
 {
-    internal static IEnumerable<EventRecord> AsEnumerable(this EventLogQuery query)
+    public static IEnumerable<EventRecord> AsEnumerable(this EventLogQuery query)
     {
         using EventLogReader reader = new EventLogReader(query);
         while (true)

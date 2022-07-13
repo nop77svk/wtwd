@@ -3,10 +3,8 @@ namespace wtwd;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Text;
-using System.Xml.Linq;
-using wtwd.ext;
 using wtwd.model;
+using wtwd.utilities;
 
 internal class Program
 {
