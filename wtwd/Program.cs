@@ -21,12 +21,17 @@ internal class Program
             .StateChangesToSessions()
             .Where(session => session.FullSessionSpan != TimeSpan.Zero);
 
-        foreach (var row in pcSessions)
+        DisplayTheSessions(pcSessions);
+    }
+
+    private static void DisplayTheSessions(IEnumerable<PcSession> sessions)
+    {
+        foreach (var session in sessions)
         {
-            if (row.IsStillRunning)
-                Console.WriteLine($"[{row.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> (ongoing session from {row.SessionFirstStart.EventAsString})");
+            if (session.IsStillRunning)
+                Console.WriteLine($"[{session.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> (ongoing session from {session.SessionFirstStart.EventAsString})");
             else
-                Console.WriteLine($"[{row.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> [{row.SessionLastEnd?.When.ToString("yyyy-MM-dd HH:mm") ?? "?"}] = {row.ShortSessionSpan?.ToString() ?? "?"} (full {row.FullSessionSpan?.ToString() ?? "?"} @ {row.SessionFirstStart.EventAsString} -> {row.SessionLastEnd?.EventAsString ?? "?"})");
+                Console.WriteLine($"[{session.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> [{session.SessionLastEnd?.When.ToString("yyyy-MM-dd HH:mm") ?? "?"}] = {session.ShortSessionSpan?.ToString() ?? "?"} (full {session.FullSessionSpan?.ToString() ?? "?"} @ {session.SessionFirstStart.EventAsString} -> {session.SessionLastEnd?.EventAsString ?? "?"})");
         }
     }
 
