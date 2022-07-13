@@ -24,9 +24,9 @@ internal class Program
         foreach (var row in pcSessions)
         {
             if (row.IsStillRunning)
-                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> (ongoing session)");
+                Console.WriteLine($"[{row.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> (ongoing session from {row.SessionFirstStart.EventAsString})");
             else
-                Console.WriteLine($"{row.SessionFirstStart.EventAsString} @ {row.SessionFirstStart.When} -> {row.SessionLastEnd?.EventAsString ?? "?"} @ {row.SessionLastEnd?.When.ToString() ?? "?"} = {row.ShortSessionSpan?.ToString() ?? "?"} (full {row.FullSessionSpan?.ToString() ?? "?"})");
+                Console.WriteLine($"[{row.SessionFirstStart.When.ToString("yyyy-MM-dd HH:mm")}] -> [{row.SessionLastEnd?.When.ToString("yyyy-MM-dd HH:mm") ?? "?"}] = {row.ShortSessionSpan?.ToString() ?? "?"} (full {row.FullSessionSpan?.ToString() ?? "?"} @ {row.SessionFirstStart.EventAsString} -> {row.SessionLastEnd?.EventAsString ?? "?"})");
         }
     }
 
