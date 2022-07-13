@@ -1,11 +1,11 @@
 ﻿#pragma warning disable SA1313, CA1416
-namespace wtwd;
+namespace wtwd.model;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
 
-internal record PcStateChange(PcStateChangeHow How, PcStateChangeWhat What, DateTime When)
+public record PcStateChange(PcStateChangeHow How, PcStateChangeWhat What, DateTime When)
 {
-    internal string? EventAsString
+    public string? EventAsString
     {
         get => (How, What) switch
         {

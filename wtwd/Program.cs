@@ -5,6 +5,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Xml.Linq;
 using wtwd.ext;
+using wtwd.model;
 
 internal class Program
 {

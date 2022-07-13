@@ -1,4 +1,4 @@
-namespace wtwd;
+namespace wtwd.model;
 
 public class EInvalidSessionMarkerEvent : Exception
 {

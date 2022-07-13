@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd", "wtwd\wtwd.csproj", "{DD11BED1-9C8C-450A-98B8-C91F08C71AAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.model", "wtwd.model\wtwd.model.csproj", "{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DD11BED1-9C8C-450A-98B8-C91F08C71AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD11BED1-9C8C-450A-98B8-C91F08C71AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD11BED1-9C8C-450A-98B8-C91F08C71AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

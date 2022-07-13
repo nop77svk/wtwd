@@ -1,19 +1,19 @@
-﻿namespace wtwd;
+﻿namespace wtwd.model;
 
-internal class PcSession
+public class PcSession
 {
-    internal PcStateChange SessionFirstStart { get; private set; }
-    internal PcStateChange SessionLastStart { get; private set; }
-    internal PcStateChange? SessionFirstEnd { get; private set; }
-    internal PcStateChange? SessionLastEnd { get; private set; }
+    public PcStateChange SessionFirstStart { get; private set; }
+    public PcStateChange SessionLastStart { get; private set; }
+    public PcStateChange? SessionFirstEnd { get; private set; }
+    public PcStateChange? SessionLastEnd { get; private set; }
 
-    internal TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
-    internal bool IsStillRunning { get => SessionLastEnd == null && SessionFirstEnd == null; }
-    internal TimeSpan? ShortSessionSpan { get => (SessionFirstEnd ?? SessionLastEnd)?.When.Subtract(SessionLastStart.When); }
-    internal TimeSpan? FullSessionSpan { get => (SessionLastEnd ?? SessionFirstEnd)?.When.Subtract(SessionFirstStart.When); }
-    internal TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
+    public TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
+    public bool IsStillRunning { get => SessionLastEnd == null && SessionFirstEnd == null; }
+    public TimeSpan? ShortSessionSpan { get => (SessionFirstEnd ?? SessionLastEnd)?.When.Subtract(SessionLastStart.When); }
+    public TimeSpan? FullSessionSpan { get => (SessionLastEnd ?? SessionFirstEnd)?.When.Subtract(SessionFirstStart.When); }
+    public TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
 
-    internal PcSession(PcStateChange sessionStart)
+    public PcSession(PcStateChange sessionStart)
     {
         if (sessionStart.What != PcStateChangeWhat.On)
             throw new ArgumentOutOfRangeException(nameof(sessionStart) + "." + nameof(sessionStart.What), sessionStart.What.ToString());
@@ -22,7 +22,7 @@ internal class PcSession
         SessionLastStart = sessionStart;
     }
 
-    internal void ResolveEvent(PcStateChange evnt)
+    public void ResolveEvent(PcStateChange evnt)
     {
         if (evnt.What == PcStateChangeWhat.On)
             ResolveStartEvent(evnt);

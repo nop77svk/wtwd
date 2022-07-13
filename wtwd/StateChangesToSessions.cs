@@ -1,4 +1,5 @@
 namespace wtwd;
+using wtwd.model;
 
 internal static class PcStateChangeExt
 {

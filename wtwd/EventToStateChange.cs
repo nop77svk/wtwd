@@ -2,6 +2,7 @@
 namespace wtwd;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
+using wtwd.model;
 
 internal static class EventToStateChange
 {
