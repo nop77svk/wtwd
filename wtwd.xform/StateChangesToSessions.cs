@@ -11,6 +11,7 @@ public static class PcStateChangeExt
         foreach (PcStateChange evnt in pcStateChanges
             .Where(x => x.Event.What is PcStateChangeWhat.On or PcStateChangeWhat.Off)
             .OrderBy(x => x.When)
+            .SkipWhile(stch => stch.Event.What == PcStateChangeWhat.Off)
         )
         {
             if (result == null)
