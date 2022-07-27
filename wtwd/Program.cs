@@ -23,15 +23,15 @@ internal class Program
 
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
             .Select(evnt => evnt.AsPcStateChange())
-            .Select(stch => stch with { When = stch.When.Round(roundingInterval)})
             .Where(stch => stch.Event.How != PcStateChangeHow.Unknown && stch.Event.What != PcStateChangeWhat.Unknown)
+//            .Select(stch => stch with { When = stch.When.Round(roundingInterval)})
             .StateChangesToSessions()
             .Where(session => session.FullSessionSpan != TimeSpan.Zero);
 
-        DisplayTheSessions(pcSessions);
+        DisplayTheSessions(pcSessions, roundingInterval);
     }
 
-    private static void DisplayTheSessions(IEnumerable<PcSession> sessions)
+    private static void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
     {
         PcSession? prevSession = null;
         foreach (var session in sessions)
@@ -41,9 +41,9 @@ internal class Program
 
             StringBuilder msg = new StringBuilder(SessionDisplayIndent);
             msg.Append("(");
-            msg.Append(session.SessionFirstStart.When.ToString(TimeFormat));
+            msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
             msg.Append(") ");
-            msg.Append(session.SessionLastStart.When.ToString(TimeFormat));
+            msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
             msg.Append(" -> ");
 
             if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
@@ -52,16 +52,16 @@ internal class Program
             }
             else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
             {
-                msg.Append(session.SessionFirstEnd.When.ToString(NextDayFormat));
+                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(NextDayFormat));
                 msg.Append(" (");
-                msg.Append(session.SessionLastEnd.When.ToString(NextDayFormat));
+                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(NextDayFormat));
                 msg.Append(")");
             }
             else
             {
-                msg.Append(session.SessionFirstEnd.When.ToString(TimeFormat));
+                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
                 msg.Append(" (");
-                msg.Append(session.SessionLastEnd.When.ToString(TimeFormat));
+                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
                 msg.Append(")");
             }
 
