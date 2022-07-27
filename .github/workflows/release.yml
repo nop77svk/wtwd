@@ -42,21 +42,21 @@ jobs:
         dotnet publish -c Release -o ./_publish.win-x64 -r win-x64 --self-contained
         cd ./_publish.win-x64
         cp ../LICENSE .
-        zip -r9v ../_publish.all/ora-lob-unload.${VERSION}.win.x64.zip .
+        zip -r9v ../_publish.all/wtwd.${VERSION}.win.x64.zip .
         cd ..
     - name: Linux x64 Build
       run: |
         dotnet publish -c Release -o ./_publish.linux-x64 -r linux-x64 --self-contained
         cd ./_publish.linux-x64
         cp ../LICENSE .
-        tar cv . | gzip -9c > ../_publish.all/ora-lob-unload.${VERSION}.linux.x64.tgz
+        tar cv . | gzip -9c > ../_publish.all/wtwd.${VERSION}.linux.x64.tgz
         cd ..
     - name: Portable Build
       run: |
         dotnet publish -c Release -o ./_publish.portable --no-self-contained -p:PublishTrimmed=false
         cd ./_publish.portable
         cp ../LICENSE .
-        zip -r9v ../_publish.all/ora-lob-unload.${VERSION}.portable.zip .
+        zip -r9v ../_publish.all/wtwd.${VERSION}.portable.zip .
         cd ..
     - name: Release All Builds
       uses: marvinpinto/action-automatic-releases@latest
@@ -64,4 +64,4 @@ jobs:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
         prerelease: false
         files: |
-          ./_publish.all/ora-lob-unload.*
+          ./_publish.all/wtwd.*
