@@ -63,7 +63,8 @@ internal static class EventToStateChange
                 evnt.Id switch
                 {
                     109 => PcStateChangeHow.ShutdownOrStartup,
-                    42 or 107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
+                    42 => PcStateChangeHow.Hibernate,
+                    107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
                     _ => PcStateChangeHow.Unknown
                 },
                 evnt.Id switch

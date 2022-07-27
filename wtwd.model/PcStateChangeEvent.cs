@@ -9,6 +9,8 @@ public record PcStateChangeEvent(PcStateChangeHow How, PcStateChangeWhat What)
         {
             (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On) => "startup",
             (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.Off) => "shutdown",
+            (PcStateChangeHow.Hibernate, PcStateChangeWhat.On) => "kickstart",
+            (PcStateChangeHow.Hibernate, PcStateChangeWhat.Off) => "hibernate",
             (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.On) => "wakeup",
             (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.Off) => "sleep",
             (PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.On) => "unlock",
