@@ -47,7 +47,7 @@ internal class Program
 
             if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
             {
-                msg.Append($"(ongoing session from {string.Join('+', session.StartEvents.Select(x => x.AsString))})");
+                msg.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
             }
             else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
             {
@@ -72,9 +72,9 @@ internal class Program
                 msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
                 msg.Append("] ");
 
-                msg.Append(string.Join('+', session.StartEvents.Select(x => x.AsString)));
+                msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
                 msg.Append(" -> ");
-                msg.Append(string.Join('+', session.EndEvents.Select(x => x.AsString)));
+                msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
             }
             
             System.Console.WriteLine(msg.ToString());

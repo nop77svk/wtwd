@@ -11,7 +11,7 @@ public class PcSession
     public PcStateChange? SessionLastEnd { get => _sessionEnd.Any() ? _sessionEnd.Last().Value : null; }
 
     public TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
-    public IEnumerable<PcStateChangeEvent> StartEvents
+    public IEnumerable<PcStateChangeEvent> StartEventsOrdered
     {
         get => _sessionStart
             .DistinctBy(x => x.Value.Event)
@@ -19,10 +19,10 @@ public class PcSession
             .Select(x => x.Value.Event);
     }
     public bool IsStillRunning { get => !_sessionEnd.Any(); }
-    public TimeSpan? ShortSessionSpan { get => (SessionFirstEnd ?? SessionLastEnd)?.When.Subtract(SessionLastStart.When); }
-    public TimeSpan? FullSessionSpan { get => (SessionLastEnd ?? SessionFirstEnd)?.When.Subtract(SessionFirstStart.When); }
+    public TimeSpan? ShortSessionSpan { get => SessionFirstEnd?.When.Subtract(SessionLastStart.When); }
+    public TimeSpan? FullSessionSpan { get => SessionLastEnd?.When.Subtract(SessionFirstStart.When); }
     public TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
-    public IEnumerable<PcStateChangeEvent> EndEvents
+    public IEnumerable<PcStateChangeEvent> EndEventsOrdered
     {
         get => _sessionEnd
             .DistinctBy(x => x.Value.Event)
