@@ -16,7 +16,7 @@ internal static class EventToStateChange
             ("System", "Microsoft-Windows-Kernel-General") => FromKernelGeneralEvent(evnt),
             ("System", "Microsoft-Windows-Kernel-Power") => FromKernelPowerEvent(evnt),
             ("Application", "SynTPEnhService") => FromSynTPEnhServiceEvent(evnt),
-            _ => new PcStateChange(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown, DateTime.Now)
+            _ => new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown), DateTime.Now)
         };
     }
 
@@ -31,25 +31,27 @@ internal static class EventToStateChange
     private static PcStateChange FromKernelBootEvent(EventLogRecord evnt)
     {
         if (evnt.Id is 20 or 25 or 27)
-            return new PcStateChange(PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On, evnt.TimeCreated ?? DateTime.Now);
+            return new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On), evnt.TimeCreated ?? DateTime.Now);
         else
-            return new PcStateChange(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown, evnt.TimeCreated ?? DateTime.Now);
+            return new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown), evnt.TimeCreated ?? DateTime.Now);
     }
 
     private static PcStateChange FromKernelGeneralEvent(EventLogRecord evnt)
     {
         return new PcStateChange(
-            evnt.Id switch
-            {
-                12 or 13 => PcStateChangeHow.ShutdownOrStartup,
-                _ => PcStateChangeHow.Unknown,
-            },
-            evnt.Id switch
-            {
-                12 => PcStateChangeWhat.On,
-                13 => PcStateChangeWhat.Off,
-                _ => PcStateChangeWhat.Unknown
-            },
+            new PcStateChangeEvent(
+                evnt.Id switch
+                {
+                    12 or 13 => PcStateChangeHow.ShutdownOrStartup,
+                    _ => PcStateChangeHow.Unknown,
+                },
+                evnt.Id switch
+                {
+                    12 => PcStateChangeWhat.On,
+                    13 => PcStateChangeWhat.Off,
+                    _ => PcStateChangeWhat.Unknown
+                }
+            ),
             evnt.TimeCreated ?? DateTime.Now
         );
     }
@@ -57,18 +59,20 @@ internal static class EventToStateChange
     private static PcStateChange FromKernelPowerEvent(EventLogRecord evnt)
     {
         return new PcStateChange(
-            evnt.Id switch
-            {
-                109 => PcStateChangeHow.ShutdownOrStartup,
-                42 or 107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
-                _ => PcStateChangeHow.Unknown
-            },
-            evnt.Id switch
-            {
-                42 or 109 or 506 => PcStateChangeWhat.Off,
-                107 or 507 => PcStateChangeWhat.On,
-                _ => PcStateChangeWhat.Unknown
-            },
+            new PcStateChangeEvent(
+                evnt.Id switch
+                {
+                    109 => PcStateChangeHow.ShutdownOrStartup,
+                    42 or 107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
+                    _ => PcStateChangeHow.Unknown
+                },
+                evnt.Id switch
+                {
+                    42 or 109 or 506 => PcStateChangeWhat.Off,
+                    107 or 507 => PcStateChangeWhat.On,
+                    _ => PcStateChangeWhat.Unknown
+                }
+            ),
             evnt.TimeCreated ?? DateTime.Now
         );
     }
@@ -88,17 +92,19 @@ internal static class EventToStateChange
         
         if (string.IsNullOrEmpty(relevantEventData) || evnt.TimeCreated == null)
         {
-            result = new PcStateChange(PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.Unknown, evnt.TimeCreated ?? DateTime.Now);
+            result = new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.Unknown), evnt.TimeCreated ?? DateTime.Now);
         }
         else
         {
             result = new PcStateChange(
-                PcStateChangeHow.LockOrUnlock,
-                relevantEventData.EndsWith(" lock", StringComparison.OrdinalIgnoreCase)
-                    ? PcStateChangeWhat.Off
-                    : relevantEventData.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
-                        ? PcStateChangeWhat.On
-                        : PcStateChangeWhat.Unknown,
+                new PcStateChangeEvent(
+                    PcStateChangeHow.LockOrUnlock,
+                    relevantEventData.EndsWith(" lock", StringComparison.OrdinalIgnoreCase)
+                        ? PcStateChangeWhat.Off
+                        : relevantEventData.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
+                            ? PcStateChangeWhat.On
+                            : PcStateChangeWhat.Unknown
+                ),
                 evnt.TimeCreated ?? DateTime.Now
             );
         }

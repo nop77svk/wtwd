@@ -2,79 +2,83 @@
 
 public class PcSession
 {
-    public PcStateChange SessionFirstStart { get; private set; }
-    public PcStateChange SessionLastStart { get; private set; }
-    public PcStateChange? SessionFirstEnd { get; private set; }
-    public PcStateChange? SessionLastEnd { get; private set; }
+    private SortedList<DateTime, PcStateChange> _sessionStart = new ();
+    private SortedList<DateTime, PcStateChange> _sessionEnd = new ();
+
+    public PcStateChange SessionFirstStart { get => _sessionStart.First().Value; }
+    public PcStateChange SessionLastStart { get => _sessionStart.Last().Value; }
+    public PcStateChange? SessionFirstEnd { get => _sessionEnd.Any() ? _sessionEnd.First().Value : null; }
+    public PcStateChange? SessionLastEnd { get => _sessionEnd.Any() ? _sessionEnd.Last().Value : null; }
 
     public TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
-    public bool IsStillRunning { get => SessionLastEnd == null && SessionFirstEnd == null; }
+    public IEnumerable<PcStateChangeEvent> StartEvents
+    {
+        get => _sessionStart
+            .DistinctBy(x => x.Value.Event)
+            .OrderBy(x => x.Value.When)
+            .Select(x => x.Value.Event);
+    }
+    public bool IsStillRunning { get => !_sessionEnd.Any(); }
     public TimeSpan? ShortSessionSpan { get => (SessionFirstEnd ?? SessionLastEnd)?.When.Subtract(SessionLastStart.When); }
     public TimeSpan? FullSessionSpan { get => (SessionLastEnd ?? SessionFirstEnd)?.When.Subtract(SessionFirstStart.When); }
     public TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
+    public IEnumerable<PcStateChangeEvent> EndEvents
+    {
+        get => _sessionEnd
+            .DistinctBy(x => x.Value.Event)
+            .OrderBy(x => x.Value.When)
+            .Select(x => x.Value.Event);
+    }
+
+    public PcSession()
+    {
+    }
 
     public PcSession(PcStateChange sessionStart)
     {
-        if (sessionStart.What != PcStateChangeWhat.On)
-            throw new ArgumentOutOfRangeException(nameof(sessionStart) + "." + nameof(sessionStart.What), sessionStart.What.ToString());
-
-        SessionFirstStart = sessionStart;
-        SessionLastStart = sessionStart;
+        ResolveEvent(sessionStart);
     }
 
     public void ResolveEvent(PcStateChange evnt)
     {
-        if (evnt.What == PcStateChangeWhat.On)
+        if (evnt.Event.What == PcStateChangeWhat.On)
             ResolveStartEvent(evnt);
-        else if (evnt.What == PcStateChangeWhat.Off)
+        else if (evnt.Event.What == PcStateChangeWhat.Off)
             ResolveEndEvent(evnt);
     }
 
     private void ResolveStartEvent(PcStateChange evnt)
     {
-        if (evnt.What != PcStateChangeWhat.On)
-            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.What), evnt.What.ToString());
+        if (evnt.Event.What != PcStateChangeWhat.On)
+            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
 
-        if (SessionFirstStart == null && SessionLastStart == null)
+        if (_sessionEnd.Any())
+            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), $"Cannot add start-event {evnt.Event} to the session when there already are end-events");
+
+        if (_sessionStart.ContainsKey(evnt.When))
         {
-            SessionFirstStart = evnt;
-            SessionLastStart = evnt;
-        }
-        else if (SessionFirstStart == null || SessionLastStart == null)
-        {
-            throw new EInvalidSessionMarkerEvent("Invalid state of session start markers");
+            if (_sessionStart[evnt.When].Event.How < evnt.Event.How)
+                _sessionStart[evnt.When] = evnt;
         }
         else
         {
-            if (evnt.When < SessionFirstStart.When || evnt.When == SessionFirstStart.When && evnt.How < evnt.How)
-                SessionFirstStart = evnt;
-            
-            if (evnt.When > SessionLastStart.When || evnt.When == SessionLastStart.When && evnt.How > evnt.How)
-                SessionLastStart = evnt;
+            _sessionStart.Add(evnt.When, evnt);
         }
     }
 
     private void ResolveEndEvent(PcStateChange evnt)
     {
-        if (evnt.What != PcStateChangeWhat.Off)
-            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.What), evnt.What.ToString());
+        if (evnt.Event.What != PcStateChangeWhat.Off)
+            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
 
-        if (SessionFirstEnd == null && SessionLastEnd == null)
+        if (_sessionEnd.ContainsKey(evnt.When))
         {
-            SessionFirstEnd = evnt;
-            SessionLastEnd = evnt;
-        }
-        else if (SessionFirstEnd == null || SessionLastEnd == null)
-        {
-            throw new EInvalidSessionMarkerEvent("Invalid state of session end markers");
+            if (_sessionEnd[evnt.When].Event.How > evnt.Event.How)
+                _sessionEnd[evnt.When] = evnt;
         }
         else
         {
-            if (evnt.When < SessionFirstEnd.When || evnt.When == SessionFirstEnd.When && evnt.How < evnt.How)
-                SessionFirstEnd = evnt;
-            
-            if (evnt.When > SessionLastEnd.When || evnt.When == SessionLastEnd.When && evnt.How > evnt.How)
-                SessionLastEnd = evnt;
+            _sessionEnd.Add(evnt.When, evnt);
         }
     }
 }

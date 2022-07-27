@@ -23,7 +23,7 @@ internal class Program
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
             .Select(evnt => evnt.AsPcStateChange())
             .Select(stch => stch with { When = stch.When.Round(roundingInterval)})
-            .Where(stch => stch.How != PcStateChangeHow.Unknown && stch.What != PcStateChangeWhat.Unknown)
+            .Where(stch => stch.Event.How != PcStateChangeHow.Unknown && stch.Event.What != PcStateChangeWhat.Unknown)
             .StateChangesToSessions()
             .Where(session => session.FullSessionSpan != TimeSpan.Zero);
 
@@ -46,7 +46,7 @@ internal class Program
             msg.Append(" -> ");
 
             if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
-                msg.Append($"(ongoing session from {session.SessionFirstStart.EventAsString}+{session.SessionLastStart.EventAsString})");
+                msg.Append($"(ongoing session from {session.SessionFirstStart.Event.AsString}+{session.SessionLastStart.Event.AsString})");
             else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
             {
                 msg.Append(session.SessionFirstEnd.When.ToString(NextDayFormat));
@@ -70,20 +70,20 @@ internal class Program
                 msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
                 msg.Append("] ");
 
-                if (session.SessionFirstStart.How != session.SessionLastStart.How)
+                if (session.SessionFirstStart.Event.How != session.SessionLastStart.Event.How)
                 {
-                    msg.Append(session.SessionFirstStart.EventAsString);
+                    msg.Append(session.SessionFirstStart.Event.AsString);
                     msg.Append("+");
                 }
 
-                msg.Append(session.SessionLastStart.EventAsString);
+                msg.Append(session.SessionLastStart.Event.AsString);
                 msg.Append(" -> ");
-                msg.Append(session.SessionFirstEnd.EventAsString);
+                msg.Append(session.SessionFirstEnd.Event.AsString);
 
-                if (session.SessionFirstEnd.How != session.SessionLastEnd.How)
+                if (session.SessionFirstEnd.Event.How != session.SessionLastEnd.Event.How)
                 {
                     msg.Append("+");
-                    msg.Append(session.SessionLastEnd.EventAsString);
+                    msg.Append(session.SessionLastEnd.Event.AsString);
                 }
             }
             

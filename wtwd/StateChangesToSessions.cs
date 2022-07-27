@@ -9,7 +9,7 @@ internal static class PcStateChangeExt
         PcSession? result = null;
 
         foreach (PcStateChange evnt in pcStateChanges
-            .Where(x => x.What is PcStateChangeWhat.On or PcStateChangeWhat.Off)
+            .Where(x => x.Event.What is PcStateChangeWhat.On or PcStateChangeWhat.Off)
             .OrderBy(x => x.When)
         )
         {
@@ -17,11 +17,11 @@ internal static class PcStateChangeExt
             {
                 result = new PcSession(evnt);
             }
-            else if (evnt.What == previousState || evnt.What == PcStateChangeWhat.Off)
+            else if (evnt.Event.What == previousState || evnt.Event.What == PcStateChangeWhat.Off)
             {
                 result.ResolveEvent(evnt);
             }
-            else if (evnt.What == PcStateChangeWhat.On)
+            else if (evnt.Event.What == PcStateChangeWhat.On)
             {
                 yield return result;
                 result = new PcSession(evnt);
@@ -31,7 +31,7 @@ internal static class PcStateChangeExt
                 throw new EInvalidSessionMarkerEvent($"Something wrong has happened in {nameof(StateChangesToSessions)}");
             }
 
-            previousState = evnt.What;
+            previousState = evnt.Event.What;
         }
 
         if (result != null)
