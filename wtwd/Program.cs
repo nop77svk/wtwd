@@ -34,7 +34,6 @@ internal class Program
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
             .Select(evnt => evnt.AsPcStateChange())
             .Where(stch => stch.Event.How != PcStateChangeHow.Unknown && stch.Event.What != PcStateChangeWhat.Unknown)
-
             .StateChangesToSessions()
             .Where(session => session.FullSessionSpan != TimeSpan.Zero);
 
