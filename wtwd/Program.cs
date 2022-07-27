@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
+using CommandLine;
 using wtwd.model;
 using wtwd.utilities;
 using wtwd.xform;
@@ -16,7 +17,16 @@ internal class Program
     private const string TimeFormat = "HH:mm";
     private const string SessionSpanFormat = @"hh\:mm";
 
-    internal static void Main(string[] args)
+    internal static int Main(string[] args)
+    {
+        Parser.Default
+            .ParseArguments<CLI>(args)
+            .WithParsed(cli => MainWithArguments(cli));
+
+        return 0;
+    }
+
+    internal static void MainWithArguments(CLI cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
