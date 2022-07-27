@@ -4,7 +4,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
 using wtwd.model;
 
-public static class EventToStateChange
+public static class WindowsEventToStateChange
 {
     private static readonly XNamespace EventLogNS = "http://schemas.microsoft.com/win/2004/08/events/event";
 
