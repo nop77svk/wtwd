@@ -1,9 +1,9 @@
-namespace wtwd;
+namespace wtwd.xform;
 using wtwd.model;
 
-internal static class PcStateChangeExt
+public static class PcStateChangeExt
 {
-    internal static IEnumerable<PcSession> StateChangesToSessions(this IEnumerable<PcStateChange> pcStateChanges)
+    public static IEnumerable<PcSession> StateChangesToSessions(this IEnumerable<PcStateChange> pcStateChanges)
     {
         PcStateChangeWhat previousState = PcStateChangeWhat.Unknown;
         PcSession? result = null;

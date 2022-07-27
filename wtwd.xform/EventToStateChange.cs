@@ -1,14 +1,14 @@
 #pragma warning disable CA1416
-namespace wtwd;
+namespace wtwd.xform;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
 using wtwd.model;
 
-internal static class EventToStateChange
+public static class EventToStateChange
 {
     private static readonly XNamespace EventLogNS = "http://schemas.microsoft.com/win/2004/08/events/event";
 
-    internal static PcStateChange AsPcStateChange(this EventLogRecord evnt)
+    public static PcStateChange AsPcStateChange(this EventLogRecord evnt)
     {
         return (evnt.LogName, evnt.ProviderName) switch
         {
@@ -20,7 +20,7 @@ internal static class EventToStateChange
         };
     }
 
-    internal static PcStateChange AsPcStateChange(this EventRecord evnt)
+    public static PcStateChange AsPcStateChange(this EventRecord evnt)
     {
         if (evnt is EventLogRecord)
             return ((EventLogRecord)evnt).AsPcStateChange();
