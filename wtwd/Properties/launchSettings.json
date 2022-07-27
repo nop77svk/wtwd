@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "run simple": {
+      "commandName": "Project"
+    },
+    "wtwd help": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}
