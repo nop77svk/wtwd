@@ -1,4 +1,5 @@
 ﻿namespace wtwd.utilities;
+using System.Globalization;
 
 public class TimeSpanFromString
 {
@@ -45,17 +46,12 @@ public class TimeSpanFromString
         else
         {
             float inputAsNumber;
-            try
+            if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.CurrentCulture, out inputAsNumber))
             {
-                inputAsNumber = float.Parse(trimmedInput);
-            }
-            catch (FormatException)
-            {
-                throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
-            }
-            catch (Exception e)
-            {
-                throw new ArgumentOutOfRangeException($"Failed to parse {trimmedInput} as float type", e);
+                if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.InvariantCulture, out inputAsNumber))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
+                }
             }
 
             result = converter(inputAsNumber);
