@@ -1,7 +1,7 @@
 ﻿namespace wtwd.cli.List;
 using CommandLine;
 
-[Verb("list", isDefault: true)]
+[Verb("list", isDefault: true, HelpText = "\nMine the Windows event log for the PC sessions and list them")]
 public class ListCLI
 {
     [Option("trim-sessions-under", Required = false, Default = "3:30", HelpText = ""

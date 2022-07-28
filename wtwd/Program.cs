@@ -9,7 +9,7 @@ internal class Program
     internal static int Main(string[] args)
     {
         Parser.Default
-            .ParseArguments<ListCLI, LockCLI>(args)
+            .ParseArguments<ListCLI, LockCLI, UnlockCLI>(args)
             .WithParsed<ListCLI>(cli => ListProgram.Execute(cli))
             .WithParsed<LockCLI>(cli => LockProgram.Execute(cli))
             .WithParsed<UnlockCLI>(cli => UnlockProgram.Execute(cli));
