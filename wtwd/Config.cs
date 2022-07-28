@@ -1,5 +1,5 @@
 namespace wtwd;
-using wtwd.utilities;
+using wtwd.Utilities;
 
 internal class Config
 {

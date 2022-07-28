@@ -1,4 +1,4 @@
-﻿namespace wtwd.utilities;
+﻿namespace wtwd.Utilities;
 using System.Globalization;
 
 public class TimeSpanFromString

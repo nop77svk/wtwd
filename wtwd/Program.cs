@@ -5,9 +5,9 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using CommandLine;
-using wtwd.model;
-using wtwd.utilities;
-using wtwd.xform;
+using wtwd.Model;
+using wtwd.Utilities;
+using wtwd.Xform;
 
 internal class Program
 {

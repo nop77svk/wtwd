@@ -27,9 +27,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\wtwd.model\wtwd.model.csproj" />
-	  <ProjectReference Include="..\wtwd.utilities\wtwd.utilities.csproj" />
-	  <ProjectReference Include="..\wtwd.xform\wtwd.xform.csproj" />
+	  <ProjectReference Include="..\wtwd.model\wtwd.Model.csproj" />
+	  <ProjectReference Include="..\wtwd.utilities\wtwd.Utilities.csproj" />
+	  <ProjectReference Include="..\wtwd.xform\wtwd.Xform.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostClean" AfterTargets="Clean">
