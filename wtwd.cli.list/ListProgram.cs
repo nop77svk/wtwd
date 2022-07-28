@@ -8,7 +8,7 @@ using wtwd.model;
 using wtwd.utilities;
 using wtwd.xform;
 
-internal static class ListProgram
+public static class ListProgram
 {
     private const string SessionDisplayIndent = "    ";
     private const string DayFormat = "yyyy-MM-dd";
@@ -16,7 +16,7 @@ internal static class ListProgram
     private const string TimeFormat = "HH:mm";
     private const string SessionSpanFormat = @"hh\:mm";
 
-    internal static void Execute(ListConfig cli)
+    public static void Execute(ListConfig cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);

@@ -2,7 +2,7 @@
 using CommandLine;
 
 [Verb("list", isDefault: true)]
-internal class ListCLI
+public class ListCLI
 {
     [Option("trim-sessions-under", Required = false, Default = "3:30", HelpText = ""
         + "\nSessions shorter than the supplied threshold are automatically discarded."

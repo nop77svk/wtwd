@@ -1,9 +1,9 @@
 namespace wtwd.cli.list;
 using wtwd.utilities;
 
-internal class ListConfig
+public class ListConfig
 {
-    internal static ListConfig FromRawCLI(ListCLI cli)
+    public static ListConfig FromRawCLI(ListCLI cli)
     {
         return new ListConfig()
         {
@@ -11,7 +11,7 @@ internal class ListConfig
         };
     }
 
-    internal TimeSpan? TrimSessionsUnder { get; init; }
+    public TimeSpan? TrimSessionsUnder { get; init; }
 
     private ListConfig()
     {
