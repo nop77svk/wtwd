@@ -1,4 +1,4 @@
-namespace wtwd.cli.list;
+namespace wtwd.cli.List;
 using wtwd.utilities;
 
 public class ListConfig

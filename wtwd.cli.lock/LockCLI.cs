@@ -1,4 +1,4 @@
-namespace wtwd.cli.lock
+namespace wtwd.cli.Lock
 {
     using CommandLine;
 

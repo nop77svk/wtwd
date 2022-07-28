@@ -1,7 +1,7 @@
 ﻿namespace wtwd;
 using CommandLine;
-using wtwd.cli.list;
-using wtwd.cli.lock;
+using wtwd.cli.List;
+using wtwd.cli.Lock;
 
 internal class Program
 {
