@@ -35,8 +35,8 @@ internal class Program
             .Select(evnt => evnt.AsPcStateChange())
             .Where(stch => stch.Event.How != PcStateChangeHow.Unknown && stch.Event.What != PcStateChangeWhat.Unknown)
             .StateChangesToSessions()
-            .Where(session => session.FullSessionSpan != TimeSpan.Zero)
-            .Where(session => cli.TrimSessionsUnder == null || session.ShortSessionSpan >= cli.TrimSessionsUnder);
+            .Where(session => session.IsStillRunning || session.FullSessionSpan != TimeSpan.Zero)
+            .Where(session => session.IsStillRunning || cli.TrimSessionsUnder == null || session.ShortSessionSpan >= cli.TrimSessionsUnder);
 
         DisplayTheSessions(pcSessions, roundingInterval);
     }
