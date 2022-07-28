@@ -1,5 +1,5 @@
 #pragma warning disable SA1313, CA1416
-namespace wtwd.model;
+namespace wtwd.Model;
 
 public record PcStateChangeEvent(PcStateChangeHow How, PcStateChangeWhat What)
 {

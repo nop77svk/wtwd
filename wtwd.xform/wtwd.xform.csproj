@@ -26,7 +26,7 @@
 	</Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\wtwd.model\wtwd.model.csproj" />
+    <ProjectReference Include="..\wtwd.model\wtwd.Model.csproj" />
   </ItemGroup>
 
 	<ItemGroup>

@@ -1,8 +1,8 @@
 #pragma warning disable CA1416
-namespace wtwd.xform;
+namespace wtwd.Xform;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
-using wtwd.model;
+using wtwd.Model;
 
 public static class WindowsEventToStateChange
 {

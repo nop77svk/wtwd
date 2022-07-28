@@ -26,9 +26,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\wtwd.cli.list\wtwd.cli.list.csproj" />
-	  <ProjectReference Include="..\wtwd.cli.lock\wtwd.cli.lock.csproj" />
+	  <ProjectReference Include="..\wtwd.cli.List\wtwd.cli.List.csproj" />
+	  <ProjectReference Include="..\wtwd.cli.Lock\wtwd.cli.Lock.csproj" />
 	  <ProjectReference Include="..\wtwd.cli.Unlock\wtwd.cli.Unlock.csproj" />
+	  <ProjectReference Include="..\wtwd.model\wtwd.model.csproj" />
+	  <ProjectReference Include="..\wtwd.utilities\wtwd.utilities.csproj" />
+	  <ProjectReference Include="..\wtwd.xform\wtwd.xform.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostClean" AfterTargets="Clean">

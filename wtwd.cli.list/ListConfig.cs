@@ -1,5 +1,5 @@
 namespace wtwd.cli.List;
-using wtwd.utilities;
+using wtwd.Utilities;
 
 internal class ListConfig
 {

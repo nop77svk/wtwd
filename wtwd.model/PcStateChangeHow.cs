@@ -1,4 +1,4 @@
-﻿namespace wtwd.model;
+﻿namespace wtwd.Model;
 
 public enum PcStateChangeHow
 {
