@@ -12,4 +12,8 @@ internal class Config
     }
 
     internal TimeSpan? TrimSessionsUnder { get; init; }
+
+    private Config()
+    {
+    }
 }
