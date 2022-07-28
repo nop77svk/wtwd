@@ -1,8 +1,6 @@
-namespace wtwd.cli.Lock
-{
-    using CommandLine;
+namespace wtwd.cli.Lock;
+using CommandLine;
 
-    public class LockCLI
-    {
-    }
+public class LockCLI
+{
 }
