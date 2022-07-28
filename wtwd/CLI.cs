@@ -2,6 +2,7 @@
 using CommandLine;
 using wtwd.utilities;
 
+[Verb("list", isDefault: true)]
 internal class CLI
 {
     [Option("trim-sessions-under", Required = false, Default = "3:30", HelpText = ""
