@@ -8,7 +8,7 @@ internal class Program
     {
         Parser.Default
             .ParseArguments<ListCLI>(args)
-            .WithParsed(cli => ListProgram.Execute(ListConfig.FromRawCLI(cli)));
+            .WithParsed<ListCLI>(cli => ListProgram.Execute(ListConfig.FromRawCLI(cli)));
 
         return 0;
     }
