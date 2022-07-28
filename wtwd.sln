@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.List", "wtwd.cli.L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.Lock", "wtwd.cli.Lock\wtwd.cli.Lock.csproj", "{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.Unlock", "wtwd.cli.Unlock\wtwd.cli.Unlock.csproj", "{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
