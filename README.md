@@ -2,7 +2,7 @@
 
 _Warning:_ Windows-only, as it 100% relies on the Windows event log.
 
-## The problem...
+## The problem
 
 Ever needed to track the time you used (i.e., worked on) your PC?
 
@@ -19,7 +19,7 @@ and you don't know where the time got lost?
 
 Well, look no further...
 
-## The solution...
+## The solution
 
 Mine your Windows event log for PC startup/shutdown/wakeup/sleep/unlock/lock
 events and transform them into a human readable information on the times when
@@ -35,3 +35,8 @@ Tested (as of July 13, 2022) on Windows 10 only.
 
 _Note:_ Lock+Unlock events do not exist on all Windows 10 systems. This will
 be worked on in some future releases.
+
+## A few disclaimers
+
+This is a pure console utility, no complex time tracking system. Don't worry &ndash;
+it is not going to report your PC time to your managing superior.
