@@ -3,7 +3,7 @@ using CommandLine;
 using wtwd.utilities;
 
 [Verb("list", isDefault: true)]
-internal class CLI
+internal class ListCLI
 {
     [Option("trim-sessions-under", Required = false, Default = "3:30", HelpText = ""
         + "\nSessions shorter than the supplied threshold are automatically discarded."
