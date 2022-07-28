@@ -27,9 +27,36 @@ public class TimeSpanFromString
                 x => TimeSpan.FromHours(x)
             );
         else if (timeSpanString.Contains(':'))
-            result = TimeSpan.Parse(timeSpanString);
+            result = ParseFromFormattedString(timeSpanString);
         else
             throw new ArgumentOutOfRangeException(nameof(timeSpanString), timeSpanString, "Don't know how to convert this input to a TimeSpan");
+
+        return result;
+    }
+
+    private static TimeSpan? ParseFromFormattedString(string timeSpanString)
+    {
+        TimeSpan result;
+
+        if (!TimeSpan.TryParseExact(timeSpanString, @"mm\:ss", CultureInfo.InvariantCulture, out result))
+        {
+            if (!TimeSpan.TryParseExact(timeSpanString, @"m\:ss", CultureInfo.InvariantCulture, out result))
+            {
+                if (!TimeSpan.TryParseExact(timeSpanString, @"HH\:mm\:ss", CultureInfo.InvariantCulture, out result))
+                {
+                    if (!TimeSpan.TryParseExact(timeSpanString, @"H\:mm\:ss", CultureInfo.InvariantCulture, out result))
+                    {
+                        if (!TimeSpan.TryParseExact(timeSpanString, @"HH\:mm", CultureInfo.InvariantCulture, out result))
+                        {
+                            if (!TimeSpan.TryParseExact(timeSpanString, @"H\:mm", CultureInfo.InvariantCulture, out result))
+                            {
+                                throw new ArgumentOutOfRangeException(nameof(timeSpanString), timeSpanString, "Don't know how to convert this input to a TimeSpan");
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         return result;
     }
