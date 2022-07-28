@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.utilities", "wtwd.util
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.xform", "wtwd.xform\wtwd.xform.csproj", "{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.list", "wtwd.cli.list\wtwd.cli.list.csproj", "{8F5365EC-B921-4B62-A389-1686E7E57E46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.List", "wtwd.cli.List\wtwd.cli.List.csproj", "{8F5365EC-B921-4B62-A389-1686E7E57E46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.lock", "wtwd.cli.lock\wtwd.cli.lock.csproj", "{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.Lock", "wtwd.cli.Lock\wtwd.cli.Lock.csproj", "{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
