@@ -21,12 +21,12 @@ internal class Program
     {
         Parser.Default
             .ParseArguments<ListCLI>(args)
-            .WithParsed(cli => MainWithArguments(cli));
+            .WithParsed(cli => MainWithArguments(Config.FromRawCLI(cli)));
 
         return 0;
     }
 
-    internal static void MainWithArguments(ListCLI cli)
+    internal static void MainWithArguments(Config cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
