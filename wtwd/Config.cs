@@ -3,7 +3,7 @@ using wtwd.utilities;
 
 internal class Config
 {
-    internal static Config FromRawCLI(CLI cli)
+    internal static Config FromRawCLI(ListCLI cli)
     {
         return new Config()
         {
