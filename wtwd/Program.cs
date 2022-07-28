@@ -9,8 +9,8 @@ internal class Program
     {
         Parser.Default
             .ParseArguments<ListCLI, LockCLI>(args)
-            .WithParsed<ListCLI>(cli => ListProgram.Execute(ListConfig.FromRawCLI(cli)))
-            .WithParsed<LockCLI>(cli => LockProgram.Execute(LockConfig.FromRawCLI(cli)));
+            .WithParsed<ListCLI>(cli => ListProgram.Execute(cli))
+            .WithParsed<LockCLI>(cli => LockProgram.Execute(cli));
 
         return 0;
     }

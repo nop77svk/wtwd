@@ -16,7 +16,12 @@ public static class ListProgram
     private const string TimeFormat = "HH:mm";
     private const string SessionSpanFormat = @"hh\:mm";
 
-    public static void Execute(ListConfig cli)
+    public static void Execute(ListCLI cli)
+    {
+        Execute(ListConfig.FromRawCLI(cli));
+    }
+
+    internal static void Execute(ListConfig cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);

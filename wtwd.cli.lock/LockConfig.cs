@@ -1,8 +1,8 @@
 namespace wtwd.cli.Lock;
 
-public class LockConfig
+internal class LockConfig
 {
-    public static LockConfig FromRawCLI(LockCLI cli)
+    internal static LockConfig FromRawCLI(LockCLI cli)
     {
         return new LockConfig();
     }
