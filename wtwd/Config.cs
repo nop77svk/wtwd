@@ -1,11 +1,11 @@
 namespace wtwd;
 using wtwd.utilities;
 
-internal class CleanCLI
+internal class Config
 {
-    internal static CleanCLI FromRawCLI(RawCLI cli)
+    internal static Config FromRawCLI(CLI cli)
     {
-        return new CleanCLI()
+        return new Config()
         {
             TrimSessionsUnder = TimeSpanFromString.Parse(cli.TrimSessionsUnder)
         };

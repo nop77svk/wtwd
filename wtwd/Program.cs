@@ -20,13 +20,13 @@ internal class Program
     internal static int Main(string[] args)
     {
         Parser.Default
-            .ParseArguments<RawCLI>(args)
-            .WithParsed(cli => MainWithArguments(CleanCLI.FromRawCLI(cli)));
+            .ParseArguments<CLI>(args)
+            .WithParsed(cli => MainWithArguments(Config.FromRawCLI(cli)));
 
         return 0;
     }
 
-    internal static void MainWithArguments(CleanCLI cli)
+    internal static void MainWithArguments(Config cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
