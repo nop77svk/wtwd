@@ -31,12 +31,12 @@ to your children (or pets) in desperate need of your attention.
 Just run `dotnet wtwd.dll --help` (provided you have the .NET 6 run-time installed)
 or `wtwd.exe --help` (if you downloaded the Windows full build) and see the results.
 
+## A few disclaimers
+
 Tested (as of July 13, 2022) on Windows 10 only.
 
 _Note:_ Lock+Unlock events do not exist on all Windows 10 systems. This will
 be worked on in some future releases.
 
-## A few disclaimers
-
-This is a pure console utility, no complex time tracking system. Don't worry &ndash;
-it is not going to report your PC time to your managing superior.
+This is a pure console utility, not a complex time tracking system. Don't worry
+&ndash; it is not going to silently report your PC time to your managing superior.
