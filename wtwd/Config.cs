@@ -1,11 +1,11 @@
 namespace wtwd;
 using wtwd.utilities;
 
-internal class Config
+internal class ListConfig
 {
-    internal static Config FromRawCLI(ListCLI cli)
+    internal static ListConfig FromRawCLI(ListCLI cli)
     {
-        return new Config()
+        return new ListConfig()
         {
             TrimSessionsUnder = TimeSpanFromString.Parse(cli.TrimSessionsUnder)
         };
@@ -13,7 +13,7 @@ internal class Config
 
     internal TimeSpan? TrimSessionsUnder { get; init; }
 
-    private Config()
+    private ListConfig()
     {
     }
 }
