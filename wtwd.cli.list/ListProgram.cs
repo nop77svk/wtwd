@@ -1,5 +1,5 @@
 #pragma warning disable CA1416
-namespace wtwd;
+namespace wtwd.cli.list;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;

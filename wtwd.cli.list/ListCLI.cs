@@ -1,4 +1,4 @@
-﻿namespace wtwd;
+﻿namespace wtwd.cli.list;
 using CommandLine;
 
 [Verb("list", isDefault: true)]
