@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\wtwd.cli.list\wtwd.cli.list.csproj" />
+	  <ProjectReference Include="..\wtwd.cli.lock\wtwd.cli.lock.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostClean" AfterTargets="Clean">

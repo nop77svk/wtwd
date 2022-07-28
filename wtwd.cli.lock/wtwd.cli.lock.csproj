@@ -20,6 +20,12 @@
 		<PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\wtwd.model\wtwd.model.csproj" />
+	  <ProjectReference Include="..\wtwd.utilities\wtwd.utilities.csproj" />
+	  <ProjectReference Include="..\wtwd.xform\wtwd.xform.csproj" />
+	</ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
