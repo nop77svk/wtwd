@@ -26,6 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\wtwd.cli.InitLockUnlock\wtwd.cli.InitLockUnlock.csproj" />
 	  <ProjectReference Include="..\wtwd.cli.List\wtwd.cli.List.csproj" />
 	  <ProjectReference Include="..\wtwd.cli.Lock\wtwd.cli.Lock.csproj" />
 	  <ProjectReference Include="..\wtwd.cli.Unlock\wtwd.cli.Unlock.csproj" />
