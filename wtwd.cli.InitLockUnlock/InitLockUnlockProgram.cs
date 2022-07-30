@@ -76,6 +76,7 @@ public static class InitLockUnlockProgram
             definition.Settings.MultipleInstances = TaskInstancesPolicy.Parallel;
             definition.Settings.RestartCount = 3;
             definition.Settings.StartWhenAvailable = true;
+            definition.Settings.StopIfGoingOnBatteries = false;
 
             SessionStateChangeTrigger trigger = new SessionStateChangeTrigger(row.Item3, user.DomainUser);
             trigger.ExecutionTimeLimit = TimeSpan.FromMinutes(2);

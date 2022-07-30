@@ -13,7 +13,7 @@
     },
     "initialize lock-unlock event source": {
       "commandName": "Project",
-      "commandLineArgs": "init-lock-unlock"
+      "commandLineArgs": "init-lock-unlock --exe-path=C:\\pwa\\wtwd\\wtwd.exe"
     },
     "help on verbs": {
       "commandName": "Project",
