@@ -73,9 +73,9 @@ public static class ListProgram
             if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
             {
                 msg.Append(" = ");
-                msg.Append(session.ShortSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
+                msg.Append(session.ShortSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString() ?? "?");
                 msg.Append(" [");
-                msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToString(SessionSpanFormat) ?? "?");
+                msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString() ?? "?");
                 msg.Append("] ");
 
                 msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));

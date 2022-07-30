@@ -3,7 +3,18 @@ using System.Globalization;
 
 public static class TimeSpanExt
 {
-    public static string ToVariableString(this TimeSpan input, string secondsFormat, string minutesFormat, string hoursFormat, string daysFormat)
+    public const string VariableStringSecondsFormat = @"ss";
+    public const string VariableStringMinutesFormat = @"mm\:ss";
+    public const string VariableStringHoursFormat = @"hh\:mm\:ss";
+    public const string VariableStringDaysFormat = @"d\d\ hh\:mm\:ss";
+
+    public static string ToVariableString(
+        this TimeSpan input,
+        string secondsFormat = VariableStringSecondsFormat,
+        string minutesFormat = VariableStringMinutesFormat,
+        string hoursFormat = VariableStringHoursFormat,
+        string daysFormat = VariableStringDaysFormat
+    )
     {
         string result;
 
