@@ -1,4 +1,4 @@
-namespace wtwd.Model;
+namespace NoP77svk.wtwd.Model;
 
 public class EInvalidSessionMarkerEvent : Exception
 {

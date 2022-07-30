@@ -1,9 +1,9 @@
-﻿namespace wtwd;
+﻿namespace NoP77svk.wtwd;
 using CommandLine;
-using wtwd.cli.List;
-using wtwd.cli.Lock;
-using wtwd.cli.Unlock;
-using wtwd.cli.InitLockUnlock;
+using NoP77svk.wtwd.cli.List;
+using NoP77svk.wtwd.cli.Lock;
+using NoP77svk.wtwd.cli.Unlock;
+using NoP77svk.wtwd.cli.InitLockUnlock;
 
 internal class Program
 {

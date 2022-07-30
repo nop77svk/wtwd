@@ -1,5 +1,5 @@
-namespace wtwd.cli.List;
-using wtwd.Utilities;
+namespace NoP77svk.wtwd.cli.List;
+using NoP77svk.wtwd.Utilities;
 
 internal class ListConfig
 {

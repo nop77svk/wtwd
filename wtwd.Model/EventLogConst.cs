@@ -1,4 +1,4 @@
-﻿namespace wtwd.Model;
+﻿namespace NoP77svk.wtwd.Model;
 using System.Xml.Linq;
 
 public static class EventLogConst

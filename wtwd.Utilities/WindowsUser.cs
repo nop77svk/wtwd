@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CA1416
-namespace wtwd.Utilities;
+namespace NoP77svk.wtwd.Utilities;
 using System.Security.Principal;
 
 public record WindowsUser(string Domain, string Name, string? SID)

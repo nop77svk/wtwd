@@ -1,5 +1,5 @@
-namespace wtwd.Model.Xform;
-using wtwd.Model;
+namespace NoP77svk.wtwd.Model.Xform;
+using NoP77svk.wtwd.Model;
 
 public static class PcStateChangeExt
 {

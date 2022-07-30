@@ -1,4 +1,4 @@
-namespace wtwd.cli.Lock;
+namespace NoP77svk.wtwd.cli.Lock;
 
 internal class LockConfig
 {

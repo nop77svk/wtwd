@@ -1,7 +1,7 @@
-﻿namespace wtwd.Model.Xform;
+﻿namespace NoP77svk.wtwd.Model.Xform;
 
-using wtwd.Model;
-using wtwd.Utilities;
+using NoP77svk.wtwd.Model;
+using NoP77svk.wtwd.Utilities;
 
 public static class WindowsUserToEventData
 {

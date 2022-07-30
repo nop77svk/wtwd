@@ -1,4 +1,4 @@
-namespace wtwd.cli.InitLockUnlock;
+namespace NoP77svk.wtwd.cli.InitLockUnlock;
 
 internal class InitLockUnlockConfig
 {

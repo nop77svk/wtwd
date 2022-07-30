@@ -1,9 +1,9 @@
 #pragma warning disable CA1416
-namespace wtwd.cli.InitLockUnlock;
+namespace NoP77svk.wtwd.cli.InitLockUnlock;
 
 using System.Diagnostics;
 using System.Security;
-using wtwd.Model;
+using NoP77svk.wtwd.Model;
 
 public static class InitLockUnlockProgram
 {

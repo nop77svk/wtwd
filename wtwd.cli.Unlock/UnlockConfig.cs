@@ -1,4 +1,4 @@
-namespace wtwd.cli.Unlock;
+namespace NoP77svk.wtwd.cli.Unlock;
 
 internal class UnlockConfig
 {

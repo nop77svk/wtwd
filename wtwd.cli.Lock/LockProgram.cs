@@ -1,10 +1,10 @@
 #pragma warning disable CA1416
-namespace wtwd.cli.Lock;
+namespace NoP77svk.wtwd.cli.Lock;
 using System.Diagnostics;
 using System.Security;
-using wtwd.Model;
-using wtwd.Utilities;
-using wtwd.Model.Xform;
+using NoP77svk.wtwd.Model;
+using NoP77svk.wtwd.Utilities;
+using NoP77svk.wtwd.Model.Xform;
 
 public static class LockProgram
 {

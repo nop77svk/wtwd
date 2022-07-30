@@ -1,14 +1,14 @@
 #pragma warning disable CA1416
-namespace wtwd.cli.List;
+namespace NoP77svk.wtwd.cli.List;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Xml.Linq;
-using wtwd.Model;
-using wtwd.Utilities;
-using wtwd.Model.Xform;
+using NoP77svk.wtwd.Model;
+using NoP77svk.wtwd.Utilities;
+using NoP77svk.wtwd.Model.Xform;
 
 public static class ListProgram
 {
