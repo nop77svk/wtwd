@@ -34,12 +34,12 @@ public static class ListProgram
             .Where(session => cli.TrimSessionsUnder == null
                 || session.ShortSessionSpan >= cli.TrimSessionsUnder
                 || session.IsStillRunning
-            );
+            )
             .Where(session => cli.AllowMachineOnlySessions
                 || session.SessionLastStart.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.SessionFirstEnd?.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.IsStillRunning
-            )
+            );
 
         DisplayTheSessions(pcSessions, roundingInterval);
     }
