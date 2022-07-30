@@ -16,6 +16,7 @@ public static class WindowsEventToStateChange
             ("System", "Microsoft-Windows-Kernel-General") => FromKernelGeneralEvent(evnt),
             ("System", "Microsoft-Windows-Kernel-Power") => FromKernelPowerEvent(evnt),
             ("Application", "SynTPEnhService") => FromSynTPEnhServiceEvent(evnt),
+            (LockUnlockEventLog.LogName, LockUnlockEventLog.SourceName) => FromWTWD(evnt),
             _ => new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown), DateTime.Now)
         };
     }
@@ -111,5 +112,21 @@ public static class WindowsEventToStateChange
         }
 
         return result;
+    }
+
+    private static PcStateChange FromWTWD(EventLogRecord evnt)
+    {
+        return new PcStateChange(
+            new PcStateChangeEvent(
+                PcStateChangeHow.LockOrUnlock,
+                evnt.Id switch
+                {
+                    LockUnlockEventLog.LockEventId => PcStateChangeWhat.Off,
+                    LockUnlockEventLog.UnlockEventId => PcStateChangeWhat.On,
+                    _ => PcStateChangeWhat.Unknown
+                }
+            ),
+            evnt.TimeCreated ?? DateTime.Now
+        );
     }
 }

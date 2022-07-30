@@ -111,6 +111,12 @@ public static class ListProgram
                 .Where(evnt => evnt.TimeCreated >= since)
             );
 
+        EventLogQuery? queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory}]]");
+        if (queryExplicitWtwdLockUnlock != null)
+            unionedEvents = unionedEvents.Concat(queryExplicitWtwdLockUnlock.AsEnumerable()
+                .Where(evnt => evnt.TimeCreated >= since)
+            );
+
         return unionedEvents
             .Where(evnt => evnt.TimeCreated != null)
             .Where(evnt => evnt.TimeCreated >= since);
