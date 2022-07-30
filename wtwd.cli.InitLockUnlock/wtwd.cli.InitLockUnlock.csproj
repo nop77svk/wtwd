@@ -26,6 +26,7 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
+		<PackageReference Include="TaskScheduler" Version="2.10.1" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,6 +35,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\wtwd.Model\wtwd.Model.csproj" />
+		<ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
