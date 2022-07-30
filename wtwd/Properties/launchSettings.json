@@ -3,10 +3,6 @@
     "run simple": {
       "commandName": "Project"
     },
-    "wtwd help": {
-      "commandName": "Project",
-      "commandLineArgs": "--help"
-    },
     "explicit lock event": {
       "commandName": "Project",
       "commandLineArgs": "lock"
@@ -18,6 +14,18 @@
     "initialize lock-unlock event source": {
       "commandName": "Project",
       "commandLineArgs": "init-lock-unlock"
+    },
+    "help on verbs": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    },
+    "help on \"list\" action": {
+      "commandName": "Project",
+      "commandLineArgs": "list --help"
+    },
+    "list --ignore-no-unlock-sessions": {
+      "commandName": "Project",
+      "commandLineArgs": "list --ignore-no-unlock-sessions"
     }
   }
 }
