@@ -1,8 +1,54 @@
 ﻿namespace wtwd.Utilities;
 using System.Globalization;
 
-public class TimeSpanFromString
+public static class TimeSpanExt
 {
+    public static string ToVariableString(this TimeSpan input, string secondsFormat, string minutesFormat, string hoursFormat, string daysFormat)
+    {
+        string result;
+
+        if (input >= TimeSpan.Zero)
+        {
+            if (input < TimeSpan.FromMinutes(1))
+            {
+                result = input.ToString(secondsFormat);
+            }
+            else if (input < TimeSpan.FromHours(1))
+            {
+                result = input.ToString(minutesFormat);
+            }
+            else if (input < TimeSpan.FromDays(1))
+            {
+                result = input.ToString(hoursFormat);
+            }
+            else
+            {
+                result = input.ToString(daysFormat);
+            }
+        }
+        else
+        {
+            if (input > TimeSpan.FromMinutes(-1))
+            {
+                result = input.ToString(secondsFormat);
+            }
+            else if (input > TimeSpan.FromHours(-1))
+            {
+                result = input.ToString(minutesFormat);
+            }
+            else if (input > TimeSpan.FromDays(-1))
+            {
+                result = input.ToString(hoursFormat);
+            }
+            else
+            {
+                result = input.ToString(daysFormat);
+            }
+        }
+
+        return result;
+    }
+
     public static TimeSpan? Parse(string? timeSpanString)
     {
         TimeSpan? result = null;

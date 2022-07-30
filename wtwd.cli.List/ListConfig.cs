@@ -7,7 +7,7 @@ internal class ListConfig
     {
         return new ListConfig()
         {
-            TrimSessionsUnder = TimeSpanFromString.Parse(cli.TrimSessionsUnder)
+            TrimSessionsUnder = TimeSpanExt.Parse(cli.TrimSessionsUnder)
         };
     }
 
