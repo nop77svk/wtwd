@@ -8,13 +8,13 @@ internal class ListConfig
         return new ListConfig()
         {
             TrimSessionsUnder = TimeSpanExt.Parse(cli.TrimSessionsUnder),
-            IgnoreSessionsWoUnlock = cli.IgnoreSessionsWoUnlock
+            AllowMachineOnlySessions = !cli.IgnoreMachineOnlySessions
         };
     }
 
     internal TimeSpan? TrimSessionsUnder { get; init; }
 
-    internal bool IgnoreSessionsWoUnlock { get; init; }
+    internal bool AllowMachineOnlySessions { get; init; }
 
     private ListConfig()
     {
