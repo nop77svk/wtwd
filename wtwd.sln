@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Model", "wtwd.Model\wt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Utilities", "wtwd.Utilities\wtwd.Utilities.csproj", "{9E907804-C5F5-41CA-8177-AA2DD30736CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Model.Xform", "wtwd.Xform\wtwd.Model.Xform.csproj", "{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Model.Xform", "wtwd.Model.Xform\wtwd.Model.Xform.csproj", "{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.List", "wtwd.cli.List\wtwd.cli.List.csproj", "{8F5365EC-B921-4B62-A389-1686E7E57E46}"
 EndProject
