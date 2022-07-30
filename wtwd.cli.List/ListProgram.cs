@@ -105,7 +105,7 @@ public static class ListProgram
                 msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
                 msg.Append(")");
             }
-            
+
             System.Console.WriteLine(msg.ToString());
             prevSession = session;
         }
@@ -130,9 +130,11 @@ public static class ListProgram
 
         EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData/Data]");
         if (querySynTpEnhServiceForLockUnlock != null)
+        {
             unionedEvents = unionedEvents.Concat(querySynTpEnhServiceForLockUnlock.AsEnumerable()
                 .Where(evnt => evnt.TimeCreated >= since)
             );
+        }
 
         EventLogQuery? queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory} and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryExplicitWtwdLockUnlock != null)
@@ -157,7 +159,7 @@ public static class ListProgram
                             node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
                         ))
                         .Aggregate(
-                            seed: new ValueTuple<string?, string?, string?>(),
+                            seed: new ValueTuple<string?, string?, string?>(null, null, null),
                             func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
                         )
                 ))

@@ -18,6 +18,7 @@ public class PcSession
             .OrderBy(x => x.Value.When)
             .Select(x => x.Value.Event);
     }
+
     public bool IsStillRunning { get => !_sessionEnd.Any(); }
     public TimeSpan? ShortSessionSpan { get => SessionFirstEnd?.When.Subtract(SessionLastStart.When); }
     public TimeSpan? FullSessionSpan { get => SessionLastEnd?.When.Subtract(SessionFirstStart.When); }

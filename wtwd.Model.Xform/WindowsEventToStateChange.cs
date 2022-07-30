@@ -89,7 +89,7 @@ public static class WindowsEventToStateChange
             .Select(x => x.Value)
             .Where(x => x.StartsWith("Session Changed User ", StringComparison.OrdinalIgnoreCase))
             .FirstOrDefault(string.Empty);
-        
+
         if (string.IsNullOrEmpty(relevantEventData) || evnt.TimeCreated == null)
         {
             result = new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.Unknown), evnt.TimeCreated ?? DateTime.Now);

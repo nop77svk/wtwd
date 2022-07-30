@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CA1416
+#pragma warning disable SA1313
 namespace NoP77svk.wtwd.Utilities;
 using System.Security.Principal;
 

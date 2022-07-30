@@ -64,29 +64,41 @@ public static class TimeSpanExt
     {
         TimeSpan? result = null;
         if (string.IsNullOrEmpty(timeSpanString))
+        {
             result = null;
+        }
         else if (timeSpanString.EndsWith("s", StringComparison.OrdinalIgnoreCase))
+        {
             result = ParseWithSuffix(
                 timeSpanString,
                 x => x.TrimEnd('s', 'S'),
                 x => TimeSpan.FromSeconds(x)
             );
+        }
         else if (timeSpanString.EndsWith("m", StringComparison.OrdinalIgnoreCase))
+        {
             result = ParseWithSuffix(
                 timeSpanString,
                 x => x.TrimEnd('m', 'M'),
                 x => TimeSpan.FromMinutes(x)
             );
+        }
         else if (timeSpanString.EndsWith("h", StringComparison.OrdinalIgnoreCase))
+        {
             result = ParseWithSuffix(
                 timeSpanString,
                 x => x.TrimEnd('h', 'H'),
                 x => TimeSpan.FromHours(x)
             );
+        }
         else if (timeSpanString.Contains(':'))
+        {
             result = ParseFromFormattedString(timeSpanString);
+        }
         else
+        {
             throw new ArgumentOutOfRangeException(nameof(timeSpanString), timeSpanString, "Don't know how to convert this input to a TimeSpan");
+        }
 
         return result;
     }

@@ -22,6 +22,7 @@
 [assembly: SuppressMessage("Style", "SA1201")] // Enum should not follow a class
 [assembly: SuppressMessage("Style", "SA1300")] // Element ... should begin with an uppercase letter
 [assembly: SuppressMessage("Style", "SA1309")] // Field should not begin with an underscore
+[assembly: SuppressMessage("Style", "SA1408")] // Conditional expressions should declare precedence
 [assembly: SuppressMessage("Style", "SA1413")] // Use trailing comma in multi-line initializers
 [assembly: SuppressMessage("Style", "SA1503")] // Braces should not be ommitted
 [assembly: SuppressMessage("Style", "SA1515")] // 1-line comments should be preceded by a blank line // 2do!

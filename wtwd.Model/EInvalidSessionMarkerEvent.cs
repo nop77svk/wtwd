@@ -6,11 +6,13 @@ public class EInvalidSessionMarkerEvent : Exception
     {
     }
 
-    public EInvalidSessionMarkerEvent(string? message) : base(message)
+    public EInvalidSessionMarkerEvent(string? message)
+        : base(message)
     {
     }
 
-    public EInvalidSessionMarkerEvent(string? message, Exception? innerException) : base(message, innerException)
+    public EInvalidSessionMarkerEvent(string? message, Exception? innerException)
+        : base(message, innerException)
     {
     }
 }
