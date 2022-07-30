@@ -31,7 +31,10 @@ public static class ListProgram
             .Where(stch => stch.Event.How != PcStateChangeHow.Unknown && stch.Event.What != PcStateChangeWhat.Unknown)
             .StateChangesToSessions()
             .Where(session => session.IsStillRunning || session.FullSessionSpan != TimeSpan.Zero)
-            .Where(session => session.IsStillRunning || cli.TrimSessionsUnder == null || session.ShortSessionSpan >= cli.TrimSessionsUnder);
+            .Where(session => cli.TrimSessionsUnder == null
+                || session.ShortSessionSpan >= cli.TrimSessionsUnder
+                || session.IsStillRunning
+            );
 
         DisplayTheSessions(pcSessions, roundingInterval);
     }
