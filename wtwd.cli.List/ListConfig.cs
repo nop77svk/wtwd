@@ -7,11 +7,14 @@ internal class ListConfig
     {
         return new ListConfig()
         {
-            TrimSessionsUnder = TimeSpanExt.Parse(cli.TrimSessionsUnder)
+            TrimSessionsUnder = TimeSpanExt.Parse(cli.TrimSessionsUnder),
+            IgnoreSessionsWoUnlock = cli.IgnoreSessionsWoUnlock
         };
     }
 
     internal TimeSpan? TrimSessionsUnder { get; init; }
+
+    internal bool IgnoreSessionsWoUnlock { get; init; }
 
     private ListConfig()
     {
