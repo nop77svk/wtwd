@@ -1,5 +1,5 @@
 #pragma warning disable CA1416
-namespace wtwd.Xform;
+namespace wtwd.Model.Xform;
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
 using wtwd.Model;

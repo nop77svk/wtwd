@@ -32,7 +32,7 @@
 	  <ProjectReference Include="..\wtwd.cli.Unlock\wtwd.cli.Unlock.csproj" />
 	  <ProjectReference Include="..\wtwd.Model\wtwd.Model.csproj" />
 	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
-	  <ProjectReference Include="..\wtwd.Xform\wtwd.Xform.csproj" />
+	  <ProjectReference Include="..\wtwd.Xform\wtwd.Model.Xform.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostClean" AfterTargets="Clean">

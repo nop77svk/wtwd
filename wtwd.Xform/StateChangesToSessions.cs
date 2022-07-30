@@ -1,4 +1,4 @@
-namespace wtwd.Xform;
+namespace wtwd.Model.Xform;
 using wtwd.Model;
 
 public static class PcStateChangeExt
