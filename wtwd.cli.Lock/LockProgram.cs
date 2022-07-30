@@ -3,6 +3,8 @@ namespace wtwd.cli.Lock;
 using System.Diagnostics;
 using System.Security;
 using wtwd.Model;
+using wtwd.Utilities;
+using wtwd.Xform;
 
 public static class LockProgram
 {
@@ -13,9 +15,15 @@ public static class LockProgram
 
     internal static void Execute(LockConfig cli)
     {
+        WindowsUser user = WindowsUser.Current();
+        object[] eventData = user.AsEventData().ToArray();
+
         try
         {
-            EventLog.WriteEntry(LockUnlockEventLog.SourceName, LockUnlockEventLog.LockMessage, EventLogEntryType.Information, LockUnlockEventLog.LockEventId, LockUnlockEventLog.LockUnlockCategory);
+            // note: It's not nice to log user name+domain into EventData, but .NET 6's EventLog API does not log UserID, so...
+            EventInstance eventInstance = new EventInstance(LockUnlockEventLog.LockEventId, LockUnlockEventLog.LockUnlockCategory, EventLogEntryType.Information);
+            EventLog.WriteEvent(LockUnlockEventLog.SourceName, eventInstance, LockUnlockEventLog.LockMessage, eventData.Length > 0 ? eventData[0] : null, eventData.Length > 1 ? eventData[1] : null, eventData.Length > 2 ? eventData[2] : null);
+
             Console.WriteLine("Lock event successfully logged");
         }
         catch (SecurityException e)

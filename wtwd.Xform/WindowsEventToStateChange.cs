@@ -6,8 +6,6 @@ using wtwd.Model;
 
 public static class WindowsEventToStateChange
 {
-    private static readonly XNamespace EventLogNS = "http://schemas.microsoft.com/win/2004/08/events/event";
-
     public static PcStateChange AsPcStateChange(this EventLogRecord evnt)
     {
         return (evnt.LogName, evnt.ProviderName) switch
@@ -85,9 +83,9 @@ public static class WindowsEventToStateChange
 
         string eventAsXml = evnt.ToXml();
         string? relevantEventData = XDocument.Parse(eventAsXml)
-            .Descendants(EventLogNS + "Event")
-            .Descendants(EventLogNS + "EventData")
-            .Descendants(EventLogNS + "Data")
+            .Descendants(EventLogConst.XmlNS + "Event")
+            .Descendants(EventLogConst.XmlNS + "EventData")
+            .Descendants(EventLogConst.XmlNS + "Data")
             .Select(x => x.Value)
             .Where(x => x.StartsWith("Session Changed User ", StringComparison.OrdinalIgnoreCase))
             .FirstOrDefault(string.Empty);

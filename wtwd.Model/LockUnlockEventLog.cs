@@ -15,4 +15,8 @@ public static class LockUnlockEventLog
 
     public const int UnlockEventId = 1;
     public const string UnlockMessage = "Explicit workstation unlock";
+
+    public const string EventDataUserNamePrefix = "user.name:";
+    public const string EventDataUserDomainPrefix = "user.domain:";
+    public const string EventDataUserSIDPrefix = "user.sid:";
 }
