@@ -34,7 +34,7 @@ public static class TimeSpanExt
             }
             else
             {
-                result = input.ToString(daysFormat);
+                result = "+" + input.ToString(daysFormat);
             }
         }
         else
@@ -53,7 +53,7 @@ public static class TimeSpanExt
             }
             else
             {
-                result = input.ToString(daysFormat);
+                result = "-" + input.ToString(daysFormat);
             }
         }
 

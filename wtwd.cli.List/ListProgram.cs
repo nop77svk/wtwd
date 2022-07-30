@@ -65,9 +65,13 @@ public static class ListProgram
             }
             else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
             {
-                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(NextDayFormat));
+                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
+                msg.Append("[");
+                msg.Append(session.SessionFirstEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
+                msg.Append("]");
+
                 msg.Append(" (");
-                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(NextDayFormat));
+                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
                 msg.Append(")");
             }
             else
@@ -81,14 +85,23 @@ public static class ListProgram
             if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
             {
                 msg.Append(" = ");
-                msg.Append(session.ShortSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString() ?? "?");
-                msg.Append(" [");
-                msg.Append(session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString() ?? "?");
-                msg.Append("] ");
 
+                string? shortSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
+                string? longSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
+
+                msg.Append(shortSessionSpanDisp ?? "?");
+                if (shortSessionSpanDisp != longSessionSpanDisp)
+                {
+                    msg.Append(" [");
+                    msg.Append(longSessionSpanDisp ?? "?");
+                    msg.Append("]");
+                }
+
+                msg.Append(" (");
                 msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
                 msg.Append(" -> ");
                 msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
+                msg.Append(")");
             }
             
             System.Console.WriteLine(msg.ToString());
