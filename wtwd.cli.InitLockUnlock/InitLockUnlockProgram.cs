@@ -20,7 +20,7 @@ public static class InitLockUnlockProgram
     internal static void Execute(InitLockUnlockConfig cli)
     {
         InitializeEventSource();
-        InitializeScheduledTasks();
+        InitializeScheduledTasks(cli);
     }
 
     private static void InitializeEventSource()
@@ -48,7 +48,7 @@ public static class InitLockUnlockProgram
         }
     }
 
-    private static void InitializeScheduledTasks()
+    private static void InitializeScheduledTasks(InitLockUnlockConfig cli)
     {
         TaskFolder wtwdFolder = TaskService.Instance.RootFolder.CreateFolderIfNotExists("NoP77svk").CreateFolderIfNotExists("WTWD");
         Console.WriteLine("Scheduler folder /NoP77svk/WTWD created");
@@ -81,7 +81,7 @@ public static class InitLockUnlockProgram
             trigger.ExecutionTimeLimit = TimeSpan.FromMinutes(2);
             definition.Triggers.Add(trigger);
 
-            ExecAction action = new ExecAction(WtwdProcess.ExeFileName, row.Item1);
+            ExecAction action = new ExecAction(cli.ExeFilePath, row.Item1);
             definition.Actions.Add(action);
 
             Task lockTask = wtwdFolder.RegisterTaskDefinition($"Explicit{row.Item2}", definition);
