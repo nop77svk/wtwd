@@ -33,10 +33,11 @@ or `wtwd.exe --help` (if you downloaded the Windows full build) and see the resu
 
 ## A few disclaimers
 
-Tested (as of July 13, 2022) on Windows 10 only.
-
-_Note:_ Lock+Unlock events do not exist on all Windows 10 systems. This will
-be worked on in some future releases.
-
 This is a pure console utility, not a complex time tracking system. Don't worry
 &ndash; it is not going to silently report your PC time to your managing superior.
+
+Tested (as of July 13, 2022) on Windows 10 only.
+
+_Note:_ Lock+Unlock events do not exist on all Windows 10 systems. This can be
+worked-around via the `init-lock-unlock` verb. Beware, there's some elevated privileges
+switching on and off in front of you!
