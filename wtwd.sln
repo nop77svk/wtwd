@@ -5,11 +5,19 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd", "wtwd\wtwd.csproj", "{DD11BED1-9C8C-450A-98B8-C91F08C71AAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Model", "wtwd.model\wtwd.Model.csproj", "{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Model", "wtwd.Model\wtwd.Model.csproj", "{EB32DDAA-3A8D-4D12-AF55-6A12B6BABDF4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Utilities", "wtwd.utilities\wtwd.Utilities.csproj", "{9E907804-C5F5-41CA-8177-AA2DD30736CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Utilities", "wtwd.Utilities\wtwd.Utilities.csproj", "{9E907804-C5F5-41CA-8177-AA2DD30736CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Xform", "wtwd.xform\wtwd.Xform.csproj", "{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.Xform", "wtwd.Xform\wtwd.Xform.csproj", "{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.List", "wtwd.cli.List\wtwd.cli.List.csproj", "{8F5365EC-B921-4B62-A389-1686E7E57E46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.Lock", "wtwd.cli.Lock\wtwd.cli.Lock.csproj", "{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.Unlock", "wtwd.cli.Unlock\wtwd.cli.Unlock.csproj", "{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wtwd.cli.InitLockUnlock", "wtwd.cli.InitLockUnlock\wtwd.cli.InitLockUnlock.csproj", "{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8A0B311-5038-416D-BE61-D9BDA9BEC2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F5365EC-B921-4B62-A389-1686E7E57E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F5365EC-B921-4B62-A389-1686E7E57E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F5365EC-B921-4B62-A389-1686E7E57E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F5365EC-B921-4B62-A389-1686E7E57E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C38518-C63B-4ABE-8ADD-4FDCE8F4135D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE505C3B-EC98-4BE1-B4A4-9F7C339C1792}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

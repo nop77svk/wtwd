@@ -6,6 +6,18 @@
     "wtwd help": {
       "commandName": "Project",
       "commandLineArgs": "--help"
+    },
+    "explicit lock event": {
+      "commandName": "Project",
+      "commandLineArgs": "lock"
+    },
+    "explicit unlock event": {
+      "commandName": "Project",
+      "commandLineArgs": "unlock"
+    },
+    "initialize lock-unlock event source": {
+      "commandName": "Project",
+      "commandLineArgs": "init-lock-unlock"
     }
   }
 }

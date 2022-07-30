@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
+		<OutputType>Library</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
@@ -10,7 +10,6 @@
 		<Authors>Peter Hraško</Authors>
 		<Company>Open source community</Company>
 		<Copyright>Practically copyleft</Copyright>
-		<AssemblyName>wtwd</AssemblyName>
 		<NoWarn>1701;1702;AD0001;NETSDK1182</NoWarn>
 		<PackageId></PackageId>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
@@ -20,20 +19,6 @@
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="CommandLineParser" Version="2.9.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <ProjectReference Include="..\wtwd.cli.InitLockUnlock\wtwd.cli.InitLockUnlock.csproj" />
-	  <ProjectReference Include="..\wtwd.cli.List\wtwd.cli.List.csproj" />
-	  <ProjectReference Include="..\wtwd.cli.Lock\wtwd.cli.Lock.csproj" />
-	  <ProjectReference Include="..\wtwd.cli.Unlock\wtwd.cli.Unlock.csproj" />
-	  <ProjectReference Include="..\wtwd.Model\wtwd.Model.csproj" />
-	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
-	  <ProjectReference Include="..\wtwd.Xform\wtwd.Xform.csproj" />
-	</ItemGroup>
 
 	<Target Name="PostClean" AfterTargets="Clean">
 		<RemoveDir Directories="$(BaseIntermediateOutputPath)" /><!-- obj -->
