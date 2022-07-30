@@ -15,7 +15,7 @@ public static class LockProgram
     {
         try
         {
-            EventLog.WriteEntry(LockUnlockEventLog.SourceName, LockUnlockEventLog.LockMessage, EventLogEntryType.Information, LockUnlockEventLog.LockEventId, LockUnlockEventLog.LockCategory);
+            EventLog.WriteEntry(LockUnlockEventLog.SourceName, LockUnlockEventLog.LockMessage, EventLogEntryType.Information, LockUnlockEventLog.LockEventId, LockUnlockEventLog.LockUnlockCategory);
             Console.WriteLine("Lock event successfully logged");
         }
         catch (SecurityException e)

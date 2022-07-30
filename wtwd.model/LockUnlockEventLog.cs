@@ -8,11 +8,11 @@ public static class LockUnlockEventLog
 
     public const string NeedElevatedPrivilegesErrorMsg = "Cannot write custom event logs.\n\nPlease, re-run (with elevated privileges) as\n\n\twtwd init-lock-unlock\n\nto set up new event log source for explicit lock/unlock logging";
 
-    public const int LockCategory = 1;
+    public const int LockUnlockCategory = 1;
+
     public const int LockEventId = 0;
     public const string LockMessage = "Explicit workstation lock";
 
-    public const int UnlockCategory = LockCategory;
     public const int UnlockEventId = 1;
     public const string UnlockMessage = "Explicit workstation unlock";
 }
