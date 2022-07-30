@@ -3,7 +3,9 @@ namespace wtwd.cli.List;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
+using System.Xml.Linq;
 using wtwd.Model;
 using wtwd.Utilities;
 using wtwd.Xform;
@@ -24,6 +26,7 @@ public static class ListProgram
     internal static void Execute(ListConfig cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
+        logsSince = DateTime.Now.Date;
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
 
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
@@ -132,14 +135,41 @@ public static class ListProgram
                 .Where(evnt => evnt.TimeCreated >= since)
             );
 
-        EventLogQuery? queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory}]]");
+        EventLogQuery? queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory} and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
         if (queryExplicitWtwdLockUnlock != null)
+        {
+            WindowsUser user = WindowsUser.Current();
+
             unionedEvents = unionedEvents.Concat(queryExplicitWtwdLockUnlock.AsEnumerable()
                 .Where(evnt => evnt.TimeCreated >= since)
+                .Select(evnt => new ValueTuple<EventRecord, ValueTuple<string?, string?, string?>>(
+                    evnt,
+                    XDocument.Parse(evnt.ToXml())
+                        .Descendants(EventLogConst.XmlNS + "Event")
+                        .Descendants(EventLogConst.XmlNS + "EventData")
+                        .Descendants(EventLogConst.XmlNS + "Data")
+                        .Where(node => node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix)
+                            || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix)
+                            || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix)
+                        )
+                        .Select(node => new ValueTuple<string?, string?, string?>(
+                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
+                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
+                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
+                        ))
+                        .Aggregate(
+                            seed: new ValueTuple<string?, string?, string?>(),
+                            func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
+                        )
+                ))
+                .Where(evntPlus => evntPlus.Item2.Item1 == user.Domain && evntPlus.Item2.Item2 == user.Name
+                    || evntPlus.Item2.Item3 == user.SID
+                )
+                .Select(evntPlus => evntPlus.Item1)
             );
+        }
 
         return unionedEvents
-            .Where(evnt => evnt.TimeCreated != null)
             .Where(evnt => evnt.TimeCreated >= since);
     }
 }
