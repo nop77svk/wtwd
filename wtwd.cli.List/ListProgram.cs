@@ -26,7 +26,6 @@ public static class ListProgram
     internal static void Execute(ListConfig cli)
     {
         DateTime logsSince = DateTime.Now.AddMonths(-1);
-        logsSince = DateTime.Now.Date;
         TimeSpan roundingInterval = TimeSpan.FromMinutes(1);
 
         IEnumerable<PcSession> pcSessions = GetEventLogsSince(logsSince)
