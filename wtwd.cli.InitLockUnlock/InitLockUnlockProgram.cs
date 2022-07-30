@@ -24,7 +24,7 @@ public static class InitLockUnlockProgram
             try
             {
                 EventLog.CreateEventSource(eventSource);
-                Console.Error.WriteLine("Event log source successfully initialized");
+                Console.WriteLine("Event log source successfully initialized");
             }
             catch (SecurityException e)
             {
@@ -33,7 +33,7 @@ public static class InitLockUnlockProgram
         }
         else
         {
-            Console.Error.WriteLine("Event log source already initialized");
+            Console.WriteLine("Event log source already initialized");
         }
     }
 }
