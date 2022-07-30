@@ -84,7 +84,7 @@ public static class InitLockUnlockProgram
             ExecAction action = new ExecAction(cli.ExeFilePath, row.Item1);
             definition.Actions.Add(action);
 
-            Task lockTask = wtwdFolder.RegisterTaskDefinition($"Explicit{row.Item2}", definition);
+            Task lockTask = wtwdFolder.RegisterTaskDefinition($"Explicit{row.Item2}-{user.SID ?? user.Domain + "." + user.Name}", definition);
             lockTask.Enabled = true;
 
             Console.WriteLine($"Explicit {row.Item1} scheduled task created");
