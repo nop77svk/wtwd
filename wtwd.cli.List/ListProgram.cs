@@ -41,8 +41,30 @@ public static class ListProgram
                 || session.SessionLastStart.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.SessionFirstEnd?.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.IsStillRunning
-            )
-            .OrderBy(session => session.SessionFirstStart.When);
+            );
+
+        if (cli.TrimBreaksUnder != null)
+        {
+            int runNumber = 0;
+            var temp = pcSessions
+                .OrderBy(session => session.SessionFirstStart.When)
+                .Lag()
+                .Select(x => new ValueTuple<int, PcSession>(
+                    x.Lagged == null || x.Lagged.SessionFirstEnd == null || x.Lagged.SessionFirstEnd.When.Subtract(x.Current.SessionLastStart.When) >= cli.TrimBreaksUnder
+                        ? ++runNumber
+                        : runNumber,
+                    x.Current
+                ))
+                .ToArray();
+
+            pcSessions = temp
+                .GroupBy(
+                    keySelector: x => x.Item1,
+                    elementSelector: x => x.Item2
+                )
+                .Select(grp => grp.OrderBy(session => session.SessionFirstStart.When))
+                .Select(orderedSessions => orderedSessions.First().MergeWith(orderedSessions.Last()));
+        }
 
         DisplayTheSessions(pcSessions, roundingInterval);
     }
