@@ -41,7 +41,8 @@ public static class ListProgram
                 || session.SessionLastStart.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.SessionFirstEnd?.Event.How == PcStateChangeHow.LockOrUnlock
                 || session.IsStillRunning
-            );
+            )
+            .OrderBy(session => session.SessionFirstStart.When);
 
         DisplayTheSessions(pcSessions, roundingInterval);
     }
