@@ -40,6 +40,16 @@ public class PcSession
         ResolveEvent(sessionStart);
     }
 
+    public PcSession MergeWith(PcSession otherSession)
+    {
+        PcSession result = new PcSession()
+        {
+            _sessionStart = this._sessionStart,
+            _sessionEnd = otherSession._sessionEnd
+        };
+        return result;
+    }
+
     public void ResolveEvent(PcStateChange evnt)
     {
         if (evnt.Event.What == PcStateChangeWhat.On)
