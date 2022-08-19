@@ -4,28 +4,31 @@ public static class IEnumerableExt
 {
     public static IEnumerable<(T Current, T? Lagged)> Lag<T>(this IEnumerable<T> collection, int lagSize = 1)
     {
-        return collection.Lag((_, _) => true, lagSize);
+        return collection.Lag(_ => 0, lagSize);
     }
 
-    public static IEnumerable<(T Current, T? Lagged)> Lag<T>(this IEnumerable<T> collection, Func<T, T, bool> areElementsInTheSamePartition, int lagSize = 1)
+    public static IEnumerable<(TElement Current, TElement? Lagged)> Lag<TElement, TPartitionKey>(this IEnumerable<TElement> collection, Func<TElement, TPartitionKey> getPartitionKey, int lagSize = 1)
+        where TPartitionKey : IEquatable<TPartitionKey>
     {
         if (lagSize < 0)
             throw new ArgumentOutOfRangeException(nameof(lagSize), lagSize, "Non-negative integer expected");
 
-        Queue<T> laggedElements = new Queue<T>(lagSize);
-        T? previousElement = default(T);
-        foreach (T element in collection)
+        Queue<TElement> laggedElements = new Queue<TElement>(lagSize);
+        TElement? previousElement = default;
+        foreach (TElement element in collection)
         {
-            if (previousElement == null || !areElementsInTheSamePartition(element, previousElement))
+            if (previousElement == null)
+                laggedElements.Clear();
+            else if (!getPartitionKey(element).Equals(getPartitionKey(previousElement)))
                 laggedElements.Clear();
 
-            T? laggedResult;
+            TElement? resultLaggedElement;
             if (laggedElements.Count == lagSize)
-                laggedResult = laggedElements.Dequeue();
+                resultLaggedElement = laggedElements.Dequeue();
             else
-                laggedResult = default(T);
+                resultLaggedElement = default;
 
-            yield return (element, laggedResult);
+            yield return (element, resultLaggedElement);
 
             laggedElements.Enqueue(element);
             previousElement = element;
