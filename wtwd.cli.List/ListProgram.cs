@@ -45,22 +45,16 @@ public static class ListProgram
 
         if (cli.TrimBreaksUnder != null)
         {
-            int runNumber = 0;
-            var temp = pcSessions
+            pcSessions = pcSessions
                 .OrderBy(session => session.SessionFirstStart.When)
-                .Lag()
-                .Select(x => new ValueTuple<int, PcSession>(
-                    x.Lagged == null || x.Lagged.SessionFirstEnd == null || x.Lagged.SessionFirstEnd.When.Subtract(x.Current.SessionLastStart.When) >= cli.TrimBreaksUnder
-                        ? ++runNumber
-                        : runNumber,
-                    x.Current
-                ))
-                .ToArray();
-
-            pcSessions = temp
+                .RecognizeElementRuns((current, lagged) => current == null && lagged == null
+                    || current != null && lagged != null
+                        && lagged.SessionFirstEnd != null
+                        && current.SessionLastStart.When.Subtract(lagged.SessionFirstEnd.When) < cli.TrimBreaksUnder
+                )
                 .GroupBy(
-                    keySelector: x => x.Item1,
-                    elementSelector: x => x.Item2
+                    keySelector: x => x.RunId,
+                    elementSelector: x => x.Element
                 )
                 .Select(grp => grp.OrderBy(session => session.SessionFirstStart.When))
                 .Select(orderedSessions => orderedSessions.First().MergeWith(orderedSessions.Last()));

@@ -40,14 +40,17 @@ public static class IEnumerableExt
         return collection.Lag((element, previousElement) => getPartitionKey(element).Equals(getPartitionKey(previousElement)));
     }
 
-    public static IEnumerable<(int RunId, TElement Element)> RecognizeElementRuns<TElement>(this IEnumerable<TElement> collection, Func<TElement, TElement, bool> areInTheSameRun)
+    public static IEnumerable<(int RunId, TElement Element)> RecognizeElementRuns<TElement>(this IEnumerable<TElement> collection, Func<TElement, TElement?, bool> areInTheSameRun)
     {
         int runId = 0;
         foreach ((TElement Current, TElement? Lagged) elementTuple in collection.Lag())
         {
-            bool newRunStartsHere = elementTuple.Lagged == null || !areInTheSameRun(elementTuple.Current, elementTuple.Lagged);
+            bool newRunStartsHere = runId == 0
+                || !areInTheSameRun(elementTuple.Current, elementTuple.Lagged);
+
             if (newRunStartsHere)
                 runId++;
+
             yield return (runId, elementTuple.Current);
         }
     }
