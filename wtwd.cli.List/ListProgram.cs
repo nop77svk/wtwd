@@ -43,6 +43,23 @@ public static class ListProgram
                 || session.IsStillRunning
             );
 
+        if (cli.TrimBreaksUnder != null)
+        {
+            pcSessions = pcSessions
+                .OrderBy(session => session.SessionFirstStart.When)
+                .RecognizeElementRuns((current, lagged) => current == null && lagged == null
+                    || current != null && lagged != null
+                        && lagged.SessionFirstEnd != null
+                        && current.SessionLastStart.When.Subtract(lagged.SessionFirstEnd.When) < cli.TrimBreaksUnder
+                )
+                .GroupBy(
+                    keySelector: x => x.RunId,
+                    elementSelector: x => x.Element
+                )
+                .Select(grp => grp.OrderBy(session => session.SessionFirstStart.When))
+                .Select(orderedSessions => orderedSessions.First().MergeWith(orderedSessions.Last()));
+        }
+
         DisplayTheSessions(pcSessions, roundingInterval);
     }
 
