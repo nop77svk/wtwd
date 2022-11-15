@@ -80,6 +80,7 @@ public static class WindowsEventToStateChange
     private static PcStateChange FromSynTPEnhServiceEvent(EventLogRecord evnt)
     {
         PcStateChange result;
+        string relevantUserDataPrefix = @"Session Changed User ";
 
         string eventAsXml = evnt.ToXml();
         string? relevantEventData = XDocument.Parse(eventAsXml)
@@ -87,7 +88,7 @@ public static class WindowsEventToStateChange
             .Descendants(EventLogConst.XmlNS + "EventData")
             .Descendants(EventLogConst.XmlNS + "Data")
             .Select(x => x.Value)
-            .Where(x => x.StartsWith("Session Changed User ", StringComparison.OrdinalIgnoreCase))
+            .Where(x => x.StartsWith(relevantUserDataPrefix, StringComparison.OrdinalIgnoreCase))
             .FirstOrDefault(string.Empty);
 
         if (string.IsNullOrEmpty(relevantEventData) || evnt.TimeCreated == null)
@@ -96,14 +97,18 @@ public static class WindowsEventToStateChange
         }
         else
         {
+            relevantEventData = relevantEventData[relevantUserDataPrefix.Length..];
             result = new PcStateChange(
                 new PcStateChangeEvent(
                     PcStateChangeHow.LockOrUnlock,
-                    relevantEventData.EndsWith(" lock", StringComparison.OrdinalIgnoreCase)
-                        ? PcStateChangeWhat.Off
-                        : relevantEventData.EndsWith(" unlock", StringComparison.OrdinalIgnoreCase)
-                            ? PcStateChangeWhat.On
-                            : PcStateChangeWhat.Unknown
+                    relevantEventData.ToLower() switch
+                    {
+                        "lock" => PcStateChangeWhat.Off,
+                        "unlock" => PcStateChangeWhat.On,
+                        "log off" => PcStateChangeWhat.Off,
+                        "log on" => PcStateChangeWhat.On,
+                        _ => PcStateChangeWhat.Unknown
+                    }
                 ),
                 evnt.TimeCreated ?? DateTime.Now
             );
