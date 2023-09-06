@@ -61,7 +61,7 @@ public static class WindowsEventToStateChange
             new PcStateChangeEvent(
                 evnt.Id switch
                 {
-                    109 or 27 => PcStateChangeHow.ShutdownOrStartup,
+                    109 => PcStateChangeHow.ShutdownOrStartup,
                     42 => PcStateChangeHow.Hibernate,
                     107 or 506 or 507 => PcStateChangeHow.SleepOrWakeUp,
                     _ => PcStateChangeHow.Unknown
@@ -69,7 +69,7 @@ public static class WindowsEventToStateChange
                 evnt.Id switch
                 {
                     42 or 109 or 506 => PcStateChangeWhat.Off,
-                    107 or 507 or 27 => PcStateChangeWhat.On,
+                    107 or 507 => PcStateChangeWhat.On,
                     _ => PcStateChangeWhat.Unknown
                 }
             ),
