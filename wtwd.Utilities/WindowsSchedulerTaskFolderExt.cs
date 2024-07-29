@@ -18,7 +18,7 @@ public static class WindowsSchedulerTaskFolderExt
         {
             if (!e.Message.StartsWith("Cannot create a file when that file already exists."))
             {
-                throw new Exception($"Error creating scheduler folder {folderName} under path {folder.Path}", e);
+                throw new CannotCreateSubfolderException(folder.Path, folderName, e);
             }
 
             result = folder.SubFolders[folderName];
