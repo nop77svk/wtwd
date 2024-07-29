@@ -9,7 +9,7 @@ using NoP77svk.wtwd.Model.Xform;
 
 public static class UnlockProgram
 {
-    public static void Execute(UnlockCLI cli)
+    public static void Execute(UnlockCli cli)
     {
         Execute(UnlockConfig.FromRawCLI(cli));
     }
