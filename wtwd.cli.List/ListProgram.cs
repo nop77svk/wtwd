@@ -133,59 +133,52 @@ public static class ListProgram
         string sinceAsStr = since.ToUniversalTime().ToString("O");
 
         IEnumerable<EventRecord> unionedEvents = new List<EventRecord>();
-        EventLogQuery? queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25 or EventID = 27) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
-        if (queryKernelBoot != null)
-            unionedEvents = unionedEvents.Concat(queryKernelBoot.AsEnumerable());
+        EventLogQuery queryKernelBoot = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Boot' and (EventID = 20 or EventID = 25 or EventID = 27) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        unionedEvents = unionedEvents.Concat(queryKernelBoot.AsEnumerable());
 
-        EventLogQuery? queryKernelGeneral = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-General' and (EventID = 12 or EventID = 13) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
-        if (queryKernelGeneral != null)
-            unionedEvents = unionedEvents.Concat(queryKernelGeneral.AsEnumerable());
+        EventLogQuery queryKernelGeneral = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-General' and (EventID = 12 or EventID = 13) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        unionedEvents = unionedEvents.Concat(queryKernelGeneral.AsEnumerable());
 
-        EventLogQuery? queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107 or EventID = 506 or EventID = 507) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
-        if (queryKernelPower != null)
-            unionedEvents = unionedEvents.Concat(queryKernelPower.AsEnumerable());
+        EventLogQuery queryKernelPower = new EventLogQuery("System", PathType.LogName, $"Event[System[Provider/@Name = 'Microsoft-Windows-Kernel-Power' and (EventID = 109 or EventID = 42 or EventID = 107 or EventID = 506 or EventID = 507) and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
+        unionedEvents = unionedEvents.Concat(queryKernelPower.AsEnumerable());
 
         EventLogQuery? querySynTpEnhServiceForLockUnlock = new EventLogQuery("Application", PathType.LogName, @"Event[System[Provider/@Name = 'SynTPEnhService' and EventID = 0] and EventData/Data]");
-        if (querySynTpEnhServiceForLockUnlock != null)
-        {
-            unionedEvents = unionedEvents.Concat(querySynTpEnhServiceForLockUnlock.AsEnumerable()
+        unionedEvents = unionedEvents
+            .Concat(querySynTpEnhServiceForLockUnlock.AsEnumerable()
                 .Where(evnt => evnt.TimeCreated >= since)
             );
-        }
 
-        EventLogQuery? queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory} and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
-        if (queryExplicitWtwdLockUnlock != null)
-        {
-            WindowsUser user = WindowsUser.Current();
+        EventLogQuery queryExplicitWtwdLockUnlock = new EventLogQuery(LockUnlockEventLog.LogName, PathType.LogName, @$"Event[System[Provider/@Name = '{LockUnlockEventLog.SourceName}' and Task = {LockUnlockEventLog.LockUnlockCategory} and TimeCreated/@SystemTime >= '{sinceAsStr}']]");
 
-            unionedEvents = unionedEvents.Concat(queryExplicitWtwdLockUnlock.AsEnumerable()
-                .Where(evnt => evnt.TimeCreated >= since)
-                .Select(evnt => new ValueTuple<EventRecord, ValueTuple<string?, string?, string?>>(
-                    evnt,
-                    XDocument.Parse(evnt.ToXml())
-                        .Descendants(EventLogConst.XmlNS + "Event")
-                        .Descendants(EventLogConst.XmlNS + "EventData")
-                        .Descendants(EventLogConst.XmlNS + "Data")
-                        .Where(node => node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix)
-                            || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix)
-                            || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix)
-                        )
-                        .Select(node => new ValueTuple<string?, string?, string?>(
-                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
-                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
-                            node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
-                        ))
-                        .Aggregate(
-                            seed: new ValueTuple<string?, string?, string?>(null, null, null),
-                            func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
-                        )
-                ))
-                .Where(evntPlus => evntPlus.Item2.Item1 == user.Domain && evntPlus.Item2.Item2 == user.Name
-                    || evntPlus.Item2.Item3 == user.SID
-                )
-                .Select(evntPlus => evntPlus.Item1)
-            );
-        }
+        WindowsUser user = WindowsUser.Current();
+
+        unionedEvents = unionedEvents.Concat(queryExplicitWtwdLockUnlock.AsEnumerable()
+            .Where(evnt => evnt.TimeCreated >= since)
+            .Select(evnt => new ValueTuple<EventRecord, ValueTuple<string?, string?, string?>>(
+                evnt,
+                XDocument.Parse(evnt.ToXml())
+                    .Descendants(EventLogConst.XmlNS + "Event")
+                    .Descendants(EventLogConst.XmlNS + "EventData")
+                    .Descendants(EventLogConst.XmlNS + "Data")
+                    .Where(node => node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix)
+                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix)
+                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix)
+                    )
+                    .Select(node => new ValueTuple<string?, string?, string?>(
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
+                    ))
+                    .Aggregate(
+                        seed: new ValueTuple<string?, string?, string?>(null, null, null),
+                        func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
+                    )
+            ))
+            .Where(evntPlus => evntPlus.Item2.Item1 == user.Domain && evntPlus.Item2.Item2 == user.Name
+                || evntPlus.Item2.Item3 == user.SID
+            )
+            .Select(evntPlus => evntPlus.Item1)
+        );
 
         return unionedEvents
             .Where(evnt => evnt.TimeCreated >= since);
