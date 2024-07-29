@@ -132,12 +132,10 @@ public static class TimeSpanExt
         else
         {
             float inputAsNumber;
-            if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.CurrentCulture, out inputAsNumber))
+            if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.CurrentCulture, out inputAsNumber)
+                && !float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.InvariantCulture, out inputAsNumber))
             {
-                if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.InvariantCulture, out inputAsNumber))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
-                }
+                throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
             }
 
             result = converter(inputAsNumber);
