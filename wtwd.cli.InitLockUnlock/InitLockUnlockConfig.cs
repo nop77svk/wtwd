@@ -9,7 +9,7 @@ internal class InitLockUnlockConfig
     {
     }
 
-    internal static InitLockUnlockConfig FromRawCLI(InitLockUnlockCLI cli)
+    internal static InitLockUnlockConfig FromRawCLI(InitLockUnlockCli cli)
     {
         return new InitLockUnlockConfig()
         {

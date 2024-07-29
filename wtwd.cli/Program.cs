@@ -15,11 +15,11 @@ internal static class Program
         WindowsVersionChecks();
 
         Parser.Default
-            .ParseArguments<ListCli, LockCli, UnlockCli, InitLockUnlockCLI>(args)
+            .ParseArguments<ListCli, LockCli, UnlockCli, InitLockUnlockCli>(args)
             .WithParsed<ListCli>(cli => ListProgram.Execute(cli))
             .WithParsed<LockCli>(cli => LockProgram.Execute(cli))
             .WithParsed<UnlockCli>(cli => UnlockProgram.Execute(cli))
-            .WithParsed<InitLockUnlockCLI>(cli => InitLockUnlockProgram.Execute(cli));
+            .WithParsed<InitLockUnlockCli>(cli => InitLockUnlockProgram.Execute(cli));
 
         return 0;
     }
