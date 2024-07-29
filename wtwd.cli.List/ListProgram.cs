@@ -67,8 +67,8 @@ public static class ListProgram
 
         string result = offset switch
         {
-            < 0 => offset.ToString(@"\/d"),
-            > 0 => offset.ToString(@"\/\+d"),
+            < 0 => $"[{offset.ToString(@"d")}]",
+            > 0 => $"[+{offset.ToString(@"\/\+\d")}]",
             0 => string.Empty
         };
 
@@ -94,7 +94,7 @@ public static class ListProgram
 
                 msg.Append("(");
                 msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
-                msg.Append(FormatDayOffset(session.SessionFirstStart.When, session.SessionLastStart.When));
+                msg.Append(FormatDayOffset(session.SessionLastStart.When, session.SessionFirstStart.When));
                 msg.Append(") ");
 
                 msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
