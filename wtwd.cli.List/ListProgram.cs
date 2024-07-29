@@ -65,39 +65,54 @@ public static class ListProgram
 
     private static void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
     {
-        PcSession? prevSession = null;
-        foreach (var session in sessions)
-        {
-            if (prevSession == null || session.SessionFirstStart.When.Date != prevSession.SessionFirstStart.When.Date)
-                System.Console.WriteLine($"{session.SessionFirstStart.When.ToString(DayFormat)}");
+        var sessionsGroupedByDay = sessions
+            .GroupBy(session => session.SessionLastStart);
 
+        foreach (var sessionDayGroup in sessionsGroupedByDay)
+        {
+            Console.WriteLine(sessionDayGroup.Key.When.ToString(DayFormat));
+
+            foreach (var session in sessionDayGroup)
+            {
             StringBuilder msg = new StringBuilder(SessionDisplayIndent);
+
             msg.Append("(");
             msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
+
+                if (session.SessionFirstStart.When.Date < session.SessionLastStart.When.Date)
+                {
+                    msg.Append("/");
+                    msg.Append(session.SessionFirstStart.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"d"));
+                }
+
             msg.Append(") ");
             msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
+
             msg.Append(" -> ");
 
             if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
             {
                 msg.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
             }
-            else if (session.SessionLastEnd.When.Date != session.SessionFirstStart.When.Date)
+                else
             {
                 msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
-                msg.Append("[");
+
+                    if (session.SessionFirstEnd.When.Date != session.SessionLastStart.When.Date)
+                    {
+                        msg.Append("/");
                 msg.Append(session.SessionFirstEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
-                msg.Append("]");
+                    }
 
                 msg.Append(" (");
                 msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
-                msg.Append(")");
+
+                    if (session.SessionLastEnd.When.Date != session.SessionLastStart.When.Date)
+                    {
+                        msg.Append("/");
+                        msg.Append(session.SessionLastEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
             }
-            else
-            {
-                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
-                msg.Append(" (");
-                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
+
                 msg.Append(")");
             }
 
@@ -123,8 +138,8 @@ public static class ListProgram
                 msg.Append(")");
             }
 
-            System.Console.WriteLine(msg.ToString());
-            prevSession = session;
+                Console.WriteLine(msg.ToString());
+            }
         }
     }
 
