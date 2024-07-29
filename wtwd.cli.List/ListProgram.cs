@@ -64,13 +64,17 @@ public static class ListProgram
     private static void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
     {
         var sessionsGroupedByDay = sessions
-            .GroupBy(session => session.SessionLastStart);
+            .GroupBy(session => session.SessionLastStart.When.Date)
+            .OrderBy(sessionGroup => sessionGroup.Key);
 
         foreach (var sessionDayGroup in sessionsGroupedByDay)
         {
-            Console.WriteLine(sessionDayGroup.Key.When.ToString(DayFormat));
+            Console.WriteLine(sessionDayGroup.Key.ToString(DayFormat));
 
-            foreach (var session in sessionDayGroup)
+            var daySessionsOrdered = sessionDayGroup
+                .OrderBy(session => session.SessionLastStart.When);
+
+            foreach (var session in daySessionsOrdered)
             {
                 StringBuilder msg = new StringBuilder(SessionDisplayIndent);
 
