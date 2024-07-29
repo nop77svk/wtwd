@@ -7,26 +7,7 @@ public static class IEnumerableExt
         if (lagSize < 0)
             throw new ArgumentOutOfRangeException(nameof(lagSize), lagSize, "Non-negative integer expected");
 
-        Queue<TElement> laggedElements = new Queue<TElement>(lagSize);
-        TElement? previousElement = default;
-        foreach (TElement element in collection)
-        {
-            if (previousElement == null)
-                laggedElements.Clear();
-            else if (!areInTheSamePartition(element, previousElement))
-                laggedElements.Clear();
-
-            TElement? resultLaggedElement;
-            if (laggedElements.Count == lagSize)
-                resultLaggedElement = laggedElements.Dequeue();
-            else
-                resultLaggedElement = default;
-
-            yield return (element, resultLaggedElement);
-
-            laggedElements.Enqueue(element);
-            previousElement = element;
-        }
+        return LagInternal(collection, areInTheSamePartition, lagSize);
     }
 
     public static IEnumerable<(T Current, T? Lagged)> Lag<T>(this IEnumerable<T> collection, int lagSize = 1)
@@ -52,6 +33,30 @@ public static class IEnumerableExt
                 runId++;
 
             yield return (runId, elementTuple.Current);
+        }
+    }
+
+    private static IEnumerable<(TElement Current, TElement? Lagged)> LagInternal<TElement>(IEnumerable<TElement> collection, Func<TElement, TElement, bool> areInTheSamePartition, int lagSize)
+    {
+        Queue<TElement> laggedElements = new Queue<TElement>(lagSize);
+        TElement? previousElement = default;
+        foreach (TElement element in collection)
+        {
+            if (previousElement is null)
+                laggedElements.Clear();
+            else if (!areInTheSamePartition(element, previousElement))
+                laggedElements.Clear();
+
+            TElement? resultLaggedElement;
+            if (laggedElements.Count == lagSize)
+                resultLaggedElement = laggedElements.Dequeue();
+            else
+                resultLaggedElement = default;
+
+            yield return (element, resultLaggedElement);
+
+            laggedElements.Enqueue(element);
+            previousElement = element;
         }
     }
 }

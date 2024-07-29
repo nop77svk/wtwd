@@ -3,7 +3,7 @@ using NoP77svk.wtwd.Utilities;
 
 internal class ListConfig
 {
-    internal static ListConfig FromRawCLI(ListCLI cli)
+    internal static ListConfig FromRawCLI(ListCli cli)
     {
         return new ListConfig()
         {

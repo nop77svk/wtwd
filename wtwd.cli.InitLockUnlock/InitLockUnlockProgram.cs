@@ -12,7 +12,7 @@ using NoP77svk.wtwd.Utilities;
 
 public static class InitLockUnlockProgram
 {
-    public static void Execute(InitLockUnlockCLI cli)
+    public static void Execute(InitLockUnlockCli cli)
     {
         Execute(InitLockUnlockConfig.FromRawCLI(cli));
     }

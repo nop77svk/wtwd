@@ -107,24 +107,14 @@ public static class TimeSpanExt
     {
         TimeSpan result;
 
-        if (!TimeSpan.TryParseExact(timeSpanString, @"mm\:ss", CultureInfo.InvariantCulture, out result))
+        if (!TimeSpan.TryParseExact(timeSpanString, @"mm\:ss", CultureInfo.InvariantCulture, out result)
+            && !TimeSpan.TryParseExact(timeSpanString, @"m\:ss", CultureInfo.InvariantCulture, out result)
+            && !TimeSpan.TryParseExact(timeSpanString, @"HH\:mm\:ss", CultureInfo.InvariantCulture, out result)
+            && !TimeSpan.TryParseExact(timeSpanString, @"H\:mm\:ss", CultureInfo.InvariantCulture, out result)
+            && !TimeSpan.TryParseExact(timeSpanString, @"HH\:mm", CultureInfo.InvariantCulture, out result)
+            && !TimeSpan.TryParseExact(timeSpanString, @"H\:mm", CultureInfo.InvariantCulture, out result))
         {
-            if (!TimeSpan.TryParseExact(timeSpanString, @"m\:ss", CultureInfo.InvariantCulture, out result))
-            {
-                if (!TimeSpan.TryParseExact(timeSpanString, @"HH\:mm\:ss", CultureInfo.InvariantCulture, out result))
-                {
-                    if (!TimeSpan.TryParseExact(timeSpanString, @"H\:mm\:ss", CultureInfo.InvariantCulture, out result))
-                    {
-                        if (!TimeSpan.TryParseExact(timeSpanString, @"HH\:mm", CultureInfo.InvariantCulture, out result))
-                        {
-                            if (!TimeSpan.TryParseExact(timeSpanString, @"H\:mm", CultureInfo.InvariantCulture, out result))
-                            {
-                                throw new ArgumentOutOfRangeException(nameof(timeSpanString), timeSpanString, "Don't know how to convert this input to a TimeSpan");
-                            }
-                        }
-                    }
-                }
-            }
+            throw new ArgumentOutOfRangeException(nameof(timeSpanString), timeSpanString, "Don't know how to convert this input to a TimeSpan");
         }
 
         return result;
@@ -142,12 +132,10 @@ public static class TimeSpanExt
         else
         {
             float inputAsNumber;
-            if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.CurrentCulture, out inputAsNumber))
+            if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.CurrentCulture, out inputAsNumber)
+                && !float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.InvariantCulture, out inputAsNumber))
             {
-                if (!float.TryParse(trimmedInput, NumberStyles.Float, CultureInfo.InvariantCulture, out inputAsNumber))
-                {
-                    throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
-                }
+                throw new ArgumentOutOfRangeException(nameof(timeSpanString), $"Not a valid number ({trimmedInput})");
             }
 
             result = converter(inputAsNumber);

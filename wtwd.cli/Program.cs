@@ -1,23 +1,25 @@
 ﻿namespace NoP77svk.wtwd.cli;
+
 using CommandLine;
+
 using NoP77svk.wtwd.cli.List;
 using NoP77svk.wtwd.cli.Lock;
 using NoP77svk.wtwd.cli.Unlock;
 using NoP77svk.wtwd.cli.InitLockUnlock;
 using NoP77svk.wtwd.Utilities;
 
-internal class Program
+internal static class Program
 {
     internal static int Main(string[] args)
     {
         WindowsVersionChecks();
 
         Parser.Default
-            .ParseArguments<ListCLI, LockCLI, UnlockCLI, InitLockUnlockCLI>(args)
-            .WithParsed<ListCLI>(cli => ListProgram.Execute(cli))
-            .WithParsed<LockCLI>(cli => LockProgram.Execute(cli))
-            .WithParsed<UnlockCLI>(cli => UnlockProgram.Execute(cli))
-            .WithParsed<InitLockUnlockCLI>(cli => InitLockUnlockProgram.Execute(cli));
+            .ParseArguments<ListCli, LockCli, UnlockCli, InitLockUnlockCli>(args)
+            .WithParsed<ListCli>(cli => ListProgram.Execute(cli))
+            .WithParsed<LockCli>(cli => LockProgram.Execute(cli))
+            .WithParsed<UnlockCli>(cli => UnlockProgram.Execute(cli))
+            .WithParsed<InitLockUnlockCli>(cli => InitLockUnlockProgram.Execute(cli));
 
         return 0;
     }

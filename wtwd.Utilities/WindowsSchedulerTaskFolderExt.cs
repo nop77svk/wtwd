@@ -1,6 +1,8 @@
 ﻿namespace wtwd.Utilities;
-using Microsoft.Win32.TaskScheduler;
+
 using System.Runtime.InteropServices;
+
+using Microsoft.Win32.TaskScheduler;
 
 public static class WindowsSchedulerTaskFolderExt
 {
@@ -16,7 +18,7 @@ public static class WindowsSchedulerTaskFolderExt
         {
             if (!e.Message.StartsWith("Cannot create a file when that file already exists."))
             {
-                throw new Exception($"Error creating scheduler folder {folderName} under path {folder.Path}", e);
+                throw new CannotCreateSubfolderException(folder.Path, folderName, e);
             }
 
             result = folder.SubFolders[folderName];

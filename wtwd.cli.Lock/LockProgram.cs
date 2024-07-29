@@ -8,7 +8,7 @@ using NoP77svk.wtwd.Model.Xform;
 
 public static class LockProgram
 {
-    public static void Execute(LockCLI cli)
+    public static void Execute(LockCli cli)
     {
         Execute(LockConfig.FromRawCLI(cli));
     }

@@ -21,8 +21,8 @@ public static class WindowsEventToStateChange
 
     public static PcStateChange AsPcStateChange(this EventRecord evnt)
     {
-        if (evnt is EventLogRecord)
-            return ((EventLogRecord)evnt).AsPcStateChange();
+        if (evnt is EventLogRecord evntLogRec)
+            return evntLogRec.AsPcStateChange();
         else
             throw new ArgumentOutOfRangeException(nameof(evnt), $"Argument not of {nameof(EventLogRecord)} class");
     }
