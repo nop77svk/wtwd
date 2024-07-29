@@ -61,6 +61,20 @@ public static class ListProgram
         DisplayTheSessions(pcSessions, roundingInterval);
     }
 
+    private static string FormatDayOffset(DateTime start, DateTime end)
+    {
+        int offset = (int)Math.Round(end.Date.Subtract(start.Date).TotalDays);
+
+        string result = offset switch
+        {
+            < 0 => offset.ToString(@"\/d"),
+            > 0 => offset.ToString(@"\/\+d"),
+            0 => string.Empty
+        };
+
+        return result;
+    }
+
     private static void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
     {
         var sessionsGroupedByDay = sessions
@@ -80,14 +94,9 @@ public static class ListProgram
 
                 msg.Append("(");
                 msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
-
-                if (session.SessionFirstStart.When.Date < session.SessionLastStart.When.Date)
-                {
-                    msg.Append("/");
-                    msg.Append(session.SessionFirstStart.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"d"));
-                }
-
+                msg.Append(FormatDayOffset(session.SessionFirstStart.When, session.SessionLastStart.When));
                 msg.Append(") ");
+
                 msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
 
                 msg.Append(" -> ");
@@ -99,22 +108,11 @@ public static class ListProgram
                 else
                 {
                     msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
-
-                    if (session.SessionFirstEnd.When.Date != session.SessionLastStart.When.Date)
-                    {
-                        msg.Append("/");
-                        msg.Append(session.SessionFirstEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
-                    }
+                    msg.Append(FormatDayOffset(session.SessionFirstEnd.When, session.SessionLastStart.When));
 
                     msg.Append(" (");
                     msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
-
-                    if (session.SessionLastEnd.When.Date != session.SessionLastStart.When.Date)
-                    {
-                        msg.Append("/");
-                        msg.Append(session.SessionLastEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
-                    }
-
+                    msg.Append(FormatDayOffset(session.SessionLastStart.When, session.SessionLastEnd.When));
                     msg.Append(")");
                 }
 
