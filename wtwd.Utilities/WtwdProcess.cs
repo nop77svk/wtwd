@@ -1,7 +1,7 @@
 ﻿namespace NoP77svk.wtwd.Utilities;
 using System.Diagnostics;
 
-public class WtwdProcess
+public static class WtwdProcess
 {
     public static string ExeFileName { get => CurrentProcessFileName ?? CurrentDomainFriendlyName; }
     internal static string? CurrentProcessFileName { get => Process.GetCurrentProcess().MainModule?.FileName; }
