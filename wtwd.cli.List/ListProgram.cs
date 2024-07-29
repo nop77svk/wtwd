@@ -14,11 +14,9 @@ public static class ListProgram
 {
     private const string SessionDisplayIndent = "    ";
     private const string DayFormat = "yyyy-MM-dd";
-    private const string NextDayFormat = "(yyyy-MM-dd) HH:mm";
     private const string TimeFormat = "HH:mm";
-    private const string SessionSpanFormat = @"hh\:mm";
 
-    public static void Execute(ListCLI cli)
+    public static void Execute(ListCli cli)
     {
         Execute(ListConfig.FromRawCLI(cli));
     }
@@ -74,10 +72,10 @@ public static class ListProgram
 
             foreach (var session in sessionDayGroup)
             {
-            StringBuilder msg = new StringBuilder(SessionDisplayIndent);
+                StringBuilder msg = new StringBuilder(SessionDisplayIndent);
 
-            msg.Append("(");
-            msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
+                msg.Append("(");
+                msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
 
                 if (session.SessionFirstStart.When.Date < session.SessionLastStart.When.Date)
                 {
@@ -85,58 +83,58 @@ public static class ListProgram
                     msg.Append(session.SessionFirstStart.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"d"));
                 }
 
-            msg.Append(") ");
-            msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
+                msg.Append(") ");
+                msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
 
-            msg.Append(" -> ");
+                msg.Append(" -> ");
 
-            if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
-            {
-                msg.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
-            }
+                if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
+                {
+                    msg.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
+                }
                 else
-            {
-                msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
+                {
+                    msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
 
                     if (session.SessionFirstEnd.When.Date != session.SessionLastStart.When.Date)
                     {
                         msg.Append("/");
-                msg.Append(session.SessionFirstEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
+                        msg.Append(session.SessionFirstEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
                     }
 
-                msg.Append(" (");
-                msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
+                    msg.Append(" (");
+                    msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
 
                     if (session.SessionLastEnd.When.Date != session.SessionLastStart.When.Date)
                     {
                         msg.Append("/");
                         msg.Append(session.SessionLastEnd.When.Date.Subtract(session.SessionLastStart.When.Date).ToString(@"\+d"));
-            }
+                    }
 
-                msg.Append(")");
-            }
-
-            if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
-            {
-                msg.Append(" = ");
-
-                string? shortSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
-                string? longSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
-
-                msg.Append(shortSessionSpanDisp ?? "?");
-                if (shortSessionSpanDisp != longSessionSpanDisp)
-                {
-                    msg.Append(" [");
-                    msg.Append(longSessionSpanDisp ?? "?");
-                    msg.Append("]");
+                    msg.Append(")");
                 }
 
-                msg.Append(" (");
-                msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
-                msg.Append(" -> ");
-                msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
-                msg.Append(")");
-            }
+                if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
+                {
+                    msg.Append(" = ");
+
+                    string? shortSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
+                    string? longSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1)).ToVariableString(minutesFormat: @"hh\:mm", hoursFormat: @"hh\:mm", daysFormat: @"d\d\ hh\:mm");
+
+                    msg.Append(shortSessionSpanDisp ?? "?");
+                    if (shortSessionSpanDisp != longSessionSpanDisp)
+                    {
+                        msg.Append(" [");
+                        msg.Append(longSessionSpanDisp ?? "?");
+                        msg.Append("]");
+                    }
+
+                    msg.Append(" (");
+                    msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
+                    msg.Append(" -> ");
+                    msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
+                    msg.Append(")");
+                }
 
                 Console.WriteLine(msg.ToString());
             }
