@@ -29,7 +29,7 @@ public static class PcStateChangeExt
             }
             else
             {
-                throw new EInvalidSessionMarkerEvent($"Something wrong has happened in {nameof(StateChangesToSessions)}");
+                throw new InvalidSessionMarkerEventException($"Something wrong has happened in {nameof(StateChangesToSessions)}");
             }
 
             previousState = evnt.Event.What;
