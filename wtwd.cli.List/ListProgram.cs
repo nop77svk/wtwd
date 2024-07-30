@@ -178,35 +178,35 @@ public static class ListProgram
     {
         DateTime sessionAnchorTstamp = session.SessionLastStart.When;
 
-        StringBuilder msg = new StringBuilder();
+        StringBuilder result = new StringBuilder();
 
-        msg.Append("(");
-        msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
-        msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstStart.When));
-        msg.Append(") ");
+        result.Append("(");
+        result.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
+        result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstStart.When));
+        result.Append(") ");
 
-        msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
+        result.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
 
-        msg.Append(" -> ");
+        result.Append(" -> ");
 
         if (session.SessionLastEnd == null || session.SessionFirstEnd == null)
         {
-            msg.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
+            result.Append($"(ongoing session from {string.Join('+', session.StartEventsOrdered.Select(x => x.AsString))})");
         }
         else
         {
-            msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
-            msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstEnd.When));
+            result.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
+            result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstEnd.When));
 
-            msg.Append(" (");
-            msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
-            msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionLastEnd.When));
-            msg.Append(")");
+            result.Append(" (");
+            result.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
+            result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionLastEnd.When));
+            result.Append(")");
         }
 
         if (session.SessionLastEnd != null && session.SessionFirstEnd != null)
         {
-            msg.Append(" = ");
+            result.Append(" = ");
 
             string? shortSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1))
                 .ToVariableString(minutesFormat: SessionSpanMinutesFormat, hoursFormat: SessionSpanHoursFormat, daysFormat: SessionSpanDaysFormat);
@@ -214,21 +214,21 @@ public static class ListProgram
             string? longSessionSpanDisp = session.FullSessionSpan?.Add(TimeSpan.FromMinutes(1))
                 .ToVariableString(minutesFormat: SessionSpanMinutesFormat, hoursFormat: SessionSpanHoursFormat, daysFormat: SessionSpanDaysFormat);
 
-            msg.Append(shortSessionSpanDisp ?? "?");
+            result.Append(shortSessionSpanDisp ?? "?");
             if (shortSessionSpanDisp != longSessionSpanDisp)
             {
-                msg.Append(" [");
-                msg.Append(longSessionSpanDisp ?? "?");
-                msg.Append("]");
+                result.Append(" [");
+                result.Append(longSessionSpanDisp ?? "?");
+                result.Append("]");
             }
 
-            msg.Append(" (");
-            msg.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
-            msg.Append(" -> ");
-            msg.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
-            msg.Append(")");
+            result.Append(" (");
+            result.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
+            result.Append(" -> ");
+            result.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
+            result.Append(")");
         }
 
-        return msg.ToString();
+        return result.ToString();
     }
 }
