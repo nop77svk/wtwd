@@ -176,11 +176,13 @@ public static class ListProgram
 
     private static string ToDisplayString(this PcSession session, TimeSpan roundingInterval)
     {
+        DateTime sessionAnchorTstamp = session.SessionLastStart.When;
+
         StringBuilder msg = new StringBuilder();
 
         msg.Append("(");
         msg.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
-        msg.Append(FormatDayOffset(session.SessionLastStart.When, session.SessionFirstStart.When));
+        msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstStart.When));
         msg.Append(") ");
 
         msg.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
@@ -194,11 +196,11 @@ public static class ListProgram
         else
         {
             msg.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
-            msg.Append(FormatDayOffset(session.SessionFirstEnd.When, session.SessionLastStart.When));
+            msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstEnd.When));
 
             msg.Append(" (");
             msg.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
-            msg.Append(FormatDayOffset(session.SessionLastStart.When, session.SessionLastEnd.When));
+            msg.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionLastEnd.When));
             msg.Append(")");
         }
 
