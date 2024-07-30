@@ -105,8 +105,8 @@ public static class ListProgram
 
         string result = offset switch
         {
-            < 0 => offset.ToString(@"d"),
-            > 0 => $"+{offset:d}",
+            < 0 => $"/{offset:d}",
+            > 0 => $"/+{offset:d}",
             0 => string.Empty
         };
 
