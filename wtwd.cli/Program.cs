@@ -16,7 +16,7 @@ internal static class Program
 
         Parser.Default
             .ParseArguments<ListCli, LockCli, UnlockCli, InitLockUnlockCli>(args)
-            .WithParsed<ListCli>(cli => ListProgram.Execute(cli))
+            .WithParsed<ListCli>(cli => new ListProgram(cli).Execute())
             .WithParsed<LockCli>(cli => LockProgram.Execute(cli))
             .WithParsed<UnlockCli>(cli => UnlockProgram.Execute(cli))
             .WithParsed<InitLockUnlockCli>(cli => InitLockUnlockProgram.Execute(cli));

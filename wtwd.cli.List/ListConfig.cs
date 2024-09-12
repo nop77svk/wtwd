@@ -1,7 +1,7 @@
 namespace NoP77svk.wtwd.cli.List;
 using NoP77svk.wtwd.Utilities;
 
-internal class ListConfig
+public class ListConfig
 {
     internal static ListConfig FromRawCLI(ListCli cli)
     {
