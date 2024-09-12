@@ -9,7 +9,8 @@ internal class ListConfig
         {
             TrimSessionsUnder = TimeSpanExt.Parse(cli.TrimSessionsUnder),
             TrimBreaksUnder = TimeSpanExt.Parse(cli.TrimBreaksUnder),
-            AllowMachineOnlySessions = !cli.IgnoreMachineOnlySessions
+            AllowMachineOnlySessions = !cli.IgnoreMachineOnlySessions,
+            OutputFormat = RecognizeOutputFormat(cli.Format)
         };
     }
 
@@ -19,7 +20,21 @@ internal class ListConfig
 
     internal bool AllowMachineOnlySessions { get; init; }
 
+    internal ListOutputFormat OutputFormat { get; init; }
+
     private ListConfig()
     {
+    }
+
+    private static ListOutputFormat RecognizeOutputFormat(string? outputFormatCli)
+    {
+        ListOutputFormat result = ListOutputFormat.PrettyPrint;
+
+        if (Enum.TryParse(outputFormatCli?.Replace("-", string.Empty), true, out ListOutputFormat outputFormatParsed))
+        {
+            result = outputFormatParsed;
+        }
+
+        return result;
     }
 }
