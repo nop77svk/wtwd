@@ -3,19 +3,19 @@ namespace NoP77svk.wtwd.Model;
 
 public record PcStateChangeEvent(PcStateChangeHow How, PcStateChangeWhat What)
 {
-    public string? AsString
-    {
-        get => (How, What) switch
+    public PcStateChangeEventName AsEventName
+        => (How, What) switch
         {
-            (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On) => "startup",
-            (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.Off) => "shutdown",
-            (PcStateChangeHow.Hibernate, PcStateChangeWhat.On) => "kickstart",
-            (PcStateChangeHow.Hibernate, PcStateChangeWhat.Off) => "hibernate",
-            (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.On) => "wakeup",
-            (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.Off) => "sleep",
-            (PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.On) => "unlock",
-            (PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.Off) => "lock",
-            _ => null
+            (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On) => PcStateChangeEventName.Startup,
+            (PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.Off) => PcStateChangeEventName.Shutdown,
+            (PcStateChangeHow.Hibernate, PcStateChangeWhat.On) => PcStateChangeEventName.KickStart,
+            (PcStateChangeHow.Hibernate, PcStateChangeWhat.Off) => PcStateChangeEventName.Hibernate,
+            (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.On) => PcStateChangeEventName.WakeUp,
+            (PcStateChangeHow.SleepOrWakeUp, PcStateChangeWhat.Off) => PcStateChangeEventName.Sleep,
+            (PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.On) => PcStateChangeEventName.Unknown,
+            (PcStateChangeHow.LockOrUnlock, PcStateChangeWhat.Off) => PcStateChangeEventName.Lock,
+            _ => PcStateChangeEventName.Unknown
         };
-    }
+
+    public string AsString => this.AsEventName.ToString();
 }

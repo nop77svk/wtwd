@@ -16,4 +16,7 @@ public class ListCli
 
     [Option("ignore-machine-only-sessions", Required = false, HelpText = "Sessions without starting unlock event may be considered purely technical/maintenance. When supplied, supposed \"machine-only\" sessions are not displayed.")]
     public bool IgnoreMachineOnlySessions { get; set; } = false;
+
+    [Option("format", Required = false, HelpText = "Output format")]
+    public string? Format { get; set; }
 }

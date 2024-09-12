@@ -26,6 +26,10 @@
     "list --ignore-no-unlock-sessions": {
       "commandName": "Project",
       "commandLineArgs": "list --ignore-no-unlock-sessions"
+    },
+    "list as JSON": {
+      "commandName": "Project",
+      "commandLineArgs": "--format=json"
     }
   }
 }
