@@ -3,7 +3,8 @@ namespace NoP77svk.wtwd.cli.List;
 
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using NoP77svk.wtwd.Model;
 using NoP77svk.wtwd.Utilities;
 
@@ -52,22 +53,6 @@ public class ListProgram
         DisplayTheSessions(pcSessions, roundingInterval);
     }
 
-    private void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
-    {
-        if (Config.OutputFormat == ListOutputFormat.PrettyPrint)
-        {
-            DisplayTheSessionsHumanReadablePrettyPrint(sessions, roundingInterval);
-        }
-        else if (Config.OutputFormat == ListOutputFormat.JSON)
-        {
-            DisplayTheSessionsJSON(sessions, roundingInterval);
-        }
-        else
-        {
-            throw new NotImplementedException($"Don't know how to {Config.OutputFormat.ToString()}-print the read PC sessions");
-        }
-    }
-
     private static void DisplayTheSessionsHumanReadablePrettyPrint(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
     {
         var sessionsGroupedByDay = sessions
@@ -89,8 +74,46 @@ public class ListProgram
         }
     }
 
-    private static void DisplayTheSessionsJSON(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
+    private static void DisplayTheSessionsJSON(IEnumerable<PcSession> sessions)
     {
-        throw new NotImplementedException("Printing the PC sessions as JSON not yet implemented");
+        IEnumerable<JsonDisplayPcSessionDto> sessionAsJsonDto = sessions
+            .Select(session => new JsonDisplayPcSessionDto(session.SessionLastStart.When, session.SessionFirstEnd?.When ?? DateTime.Now)
+            {
+                FirstStart = session.SessionFirstStart.When,
+                StartEventsOrdered = session.StartEventsOrdered.Select(evnt => evnt.AsString),
+                LastEnd = session.SessionLastEnd?.When,
+                EndEventsOrdered = session.EndEventsOrdered?.Select(evnt => evnt.AsString)
+            })
+            .OrderBy(dto => dto.Start);
+
+        JsonSerializerOptions serializerOptions = new JsonSerializerOptions()
+        {
+            AllowTrailingCommas = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            IncludeFields = false,
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        string sessionAsJsonString = JsonSerializer.Serialize(sessionAsJsonDto, serializerOptions);
+
+        Console.WriteLine(sessionAsJsonString);
+    }
+
+    private void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
+    {
+        if (Config.OutputFormat == ListOutputFormat.PrettyPrint)
+        {
+            DisplayTheSessionsHumanReadablePrettyPrint(sessions, roundingInterval);
+        }
+        else if (Config.OutputFormat == ListOutputFormat.JSON)
+        {
+            DisplayTheSessionsJSON(sessions);
+        }
+        else
+        {
+            throw new NotImplementedException($"Don't know how to {Config.OutputFormat.ToString()}-print the read PC sessions");
+        }
     }
 }

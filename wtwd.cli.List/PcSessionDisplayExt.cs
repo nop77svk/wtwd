@@ -63,7 +63,7 @@ internal static class PcSessionDisplayExt
             result.Append(" (");
             result.Append(string.Join('+', session.StartEventsOrdered.Select(x => x.AsString)));
             result.Append(" -> ");
-            result.Append(string.Join('+', session.EndEventsOrdered.Select(x => x.AsString)));
+            result.Append(string.Join('+', session.EndEventsOrdered?.Select(x => x.AsString) ?? Enumerable.Empty<string>()));
             result.Append(")");
         }
 

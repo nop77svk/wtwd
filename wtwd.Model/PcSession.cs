@@ -12,24 +12,22 @@ public class PcSession
 
     public TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
     public IEnumerable<PcStateChangeEvent> StartEventsOrdered
-    {
-        get => _sessionStart
+        => _sessionStart
             .DistinctBy(x => x.Value.Event)
             .OrderBy(x => x.Value.When)
             .Select(x => x.Value.Event);
-    }
 
     public bool IsStillRunning { get => !_sessionEnd.Any(); }
     public TimeSpan? ShortSessionSpan { get => SessionFirstEnd?.When.Subtract(SessionLastStart.When); }
     public TimeSpan? FullSessionSpan { get => SessionLastEnd?.When.Subtract(SessionFirstStart.When); }
     public TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
-    public IEnumerable<PcStateChangeEvent> EndEventsOrdered
-    {
-        get => _sessionEnd
-            .DistinctBy(x => x.Value.Event)
-            .OrderBy(x => x.Value.When)
-            .Select(x => x.Value.Event);
-    }
+    public IEnumerable<PcStateChangeEvent>? EndEventsOrdered
+        => _sessionEnd.Any()
+            ? _sessionEnd
+                .DistinctBy(x => x.Value.Event)
+                .OrderBy(x => x.Value.When)
+                .Select(x => x.Value.Event)
+            : null;
 
     public PcSession()
     {
