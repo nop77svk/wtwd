@@ -21,7 +21,8 @@ public static class ListProgram
 
     public static void Execute(ListCli cli)
     {
-        Execute(ListConfig.FromRawCLI(cli));
+        ListConfig config = ListConfig.FromRawCLI(cli);
+        Execute(config);
     }
 
     internal static void Execute(ListConfig cli)
