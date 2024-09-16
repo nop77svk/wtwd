@@ -30,9 +30,19 @@ public class ListConfig
     {
         ListOutputFormat result = ListOutputFormat.PrettyPrint;
 
-        if (Enum.TryParse(outputFormatCli?.Replace("-", string.Empty), true, out ListOutputFormat outputFormatParsed))
+        string? canonizedFormatId = outputFormatCli?.Replace("-", string.Empty).ToLower();
+
+        if (Enum.TryParse(canonizedFormatId, true, out ListOutputFormat outputFormatParsed))
         {
             result = outputFormatParsed;
+        }
+        else
+        {
+            result = canonizedFormatId switch
+            {
+                "treccsv" or "timereccsv" or "timerec" or "trec" => ListOutputFormat.TimeRecWorkunitsCSV,
+                _ => ListOutputFormat.PrettyPrint
+            };
         }
 
         return result;

@@ -18,6 +18,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
+		<PackageReference Include="CsvHelper" Version="33.0.1" />
 		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -30,7 +31,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
+		<PackageReference Include="System.Diagnostics.EventLog" Version="8.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -30,6 +30,10 @@
     "list as JSON": {
       "commandName": "Project",
       "commandLineArgs": "--format=json"
+    },
+    "list as TimeRec CSV": {
+      "commandName": "Project",
+      "commandLineArgs": "--format=timerec-csv"
     }
   }
 }

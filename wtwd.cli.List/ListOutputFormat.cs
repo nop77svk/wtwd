@@ -3,5 +3,6 @@
 internal enum ListOutputFormat
 {
     PrettyPrint,
-    JSON
+    JSON,
+    TimeRecWorkunitsCSV
 }

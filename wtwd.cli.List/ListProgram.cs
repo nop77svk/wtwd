@@ -2,9 +2,14 @@
 namespace NoP77svk.wtwd.cli.List;
 
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+
+using CsvHelper;
+using CsvHelper.Configuration;
 using NoP77svk.wtwd.Model;
 using NoP77svk.wtwd.Utilities;
 
@@ -51,6 +56,42 @@ public class ListProgram
         }
 
         DisplayTheSessions(pcSessions, roundingInterval);
+    }
+
+    private static void DisplayTheSessionsTimeRecWorkunitsCSV(IEnumerable<PcSession> sessions)
+    {
+        IEnumerable<TimeRecCsvDisplayPcSessionDto> idleWorkunits = sessions
+            .OrderBy(session => session.SessionLastStart.When)
+            .Lag(session => session.SessionLastStart.When)
+            .Where(x => x.Lagged?.SessionFirstEnd?.When.Date == x.Current.SessionLastStart.When.Date // lagged session must be from the same day as the current session
+                && x.Lagged?.SessionFirstEnd?.When.Date == x.Lagged?.SessionLastStart.When.Date // lagged session must not span multiple days
+                && x.Current.SessionLastStart.When.Date == x.Current.SessionFirstEnd?.When.Date // current session must not span multiple days
+            )
+            .Select(x => new TimeRecCsvDisplayPcSessionDto(x.Lagged!.SessionLastEnd!.When, x.Current.SessionFirstStart.When)
+            {
+                TaskId = "<idle>"
+            });
+
+        IEnumerable<TimeRecCsvDisplayPcSessionDto> workunits = sessions
+            .Select(session => new TimeRecCsvDisplayPcSessionDto(session.SessionLastStart.When, session.SessionFirstEnd?.When ?? DateTime.Now))
+            .Concat(idleWorkunits)
+            .OrderBy(workunit => workunit.CheckIn);
+
+        CsvConfiguration csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            AllowComments = false,
+            Delimiter = ",",
+            Encoding = Encoding.UTF8,
+            HasHeaderRecord = true,
+            IncludePrivateMembers = true,
+            Mode = CsvMode.RFC4180,
+            NewLine = "\n",
+            Quote = '"'
+        };
+
+        using CsvWriter csvWriter = new CsvWriter(Console.Out, csvConfiguration);
+
+        csvWriter.WriteRecords(workunits);
     }
 
     private static void DisplayTheSessionsHumanReadablePrettyPrint(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
@@ -110,6 +151,10 @@ public class ListProgram
         else if (Config.OutputFormat == ListOutputFormat.JSON)
         {
             DisplayTheSessionsJSON(sessions);
+        }
+        else if (Config.OutputFormat == ListOutputFormat.TimeRecWorkunitsCSV)
+        {
+            DisplayTheSessionsTimeRecWorkunitsCSV(sessions);
         }
         else
         {
