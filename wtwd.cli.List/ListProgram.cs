@@ -60,19 +60,20 @@ public class ListProgram
 
     private static void DisplayTheSessionsTimeRecWorkunitsCSV(IEnumerable<PcSession> sessions)
     {
-        IEnumerable<TimeRecCsvDisplayPcSessionDto> idleWorkunits = sessions
+        List<PcSession> sessionsMaterialized = sessions.ToList();
+
+        var idleWorkunits = sessionsMaterialized
             .OrderBy(session => session.SessionLastStart.When)
-            .Lag(session => session.SessionLastStart.When)
+            .Lag()
             .Where(x => x.Lagged?.SessionFirstEnd?.When.Date == x.Current.SessionLastStart.When.Date // lagged session must be from the same day as the current session
                 && x.Lagged?.SessionFirstEnd?.When.Date == x.Lagged?.SessionLastStart.When.Date // lagged session must not span multiple days
-                && x.Current.SessionLastStart.When.Date == x.Current.SessionFirstEnd?.When.Date // current session must not span multiple days
             )
             .Select(x => new TimeRecCsvDisplayPcSessionDto(x.Lagged!.SessionLastEnd!.When, x.Current.SessionFirstStart.When)
             {
                 TaskId = "<idle>"
             });
 
-        IEnumerable<TimeRecCsvDisplayPcSessionDto> workunits = sessions
+        IEnumerable<TimeRecCsvDisplayPcSessionDto> workunits = sessionsMaterialized
             .Select(session => new TimeRecCsvDisplayPcSessionDto(session.SessionLastStart.When, session.SessionFirstEnd?.When ?? DateTime.Now))
             .Concat(idleWorkunits)
             .OrderBy(workunit => workunit.CheckIn);
