@@ -1,4 +1,5 @@
 ﻿namespace NoP77svk.wtwd.cli.List;
+
 using CommandLine;
 
 [Verb("list", isDefault: true, HelpText = "\nMine the Windows event log for the PC sessions and list them")]

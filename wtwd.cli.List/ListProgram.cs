@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 using CsvHelper;
 using CsvHelper.Configuration;
+
 using NoP77svk.wtwd.Model;
 using NoP77svk.wtwd.Utilities;
 
@@ -128,6 +130,15 @@ public class ListProgram
             })
             .OrderBy(dto => dto.Start);
 
+        JsonWriterOptions jsonWriterOptions = new JsonWriterOptions()
+        {
+            Encoder = JavaScriptEncoder.Default,
+            Indented = true,
+            SkipValidation = false
+        };
+
+        using Utf8JsonWriter jsonWriter = new Utf8JsonWriter(Console.OpenStandardOutput(), jsonWriterOptions);
+
         JsonSerializerOptions serializerOptions = new JsonSerializerOptions()
         {
             AllowTrailingCommas = true,
@@ -138,9 +149,7 @@ public class ListProgram
             WriteIndented = true
         };
 
-        string sessionAsJsonString = JsonSerializer.Serialize(sessionAsJsonDto, serializerOptions);
-
-        Console.WriteLine(sessionAsJsonString);
+        JsonSerializer.Serialize(jsonWriter, sessionAsJsonDto, serializerOptions);
     }
 
     private void DisplayTheSessions(IEnumerable<PcSession> sessions, TimeSpan roundingInterval)
