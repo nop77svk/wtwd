@@ -137,7 +137,9 @@ public class ListProgram
             SkipValidation = false
         };
 
-        using Utf8JsonWriter jsonWriter = new Utf8JsonWriter(Console.OpenStandardOutput(), jsonWriterOptions);
+        using Stream consoleOutStream = Console.OpenStandardOutput();
+
+        using Utf8JsonWriter jsonWriter = new Utf8JsonWriter(consoleOutStream, jsonWriterOptions);
 
         JsonSerializerOptions serializerOptions = new JsonSerializerOptions()
         {
