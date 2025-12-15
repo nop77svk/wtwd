@@ -28,7 +28,7 @@ public class ListConfig
 
     private static ListOutputFormat RecognizeOutputFormat(string? outputFormatCli)
     {
-        ListOutputFormat result = ListOutputFormat.PrettyPrint;
+        ListOutputFormat result;
 
         string? canonizedFormatId = outputFormatCli?.Replace("-", string.Empty).ToLower();
 
