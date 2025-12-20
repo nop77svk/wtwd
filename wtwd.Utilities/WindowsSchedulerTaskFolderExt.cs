@@ -1,4 +1,4 @@
-﻿namespace wtwd.Utilities;
+namespace NoP77svk.wtwd.Utilities;
 
 using System.Runtime.InteropServices;
 
