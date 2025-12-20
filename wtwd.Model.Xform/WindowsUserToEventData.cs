@@ -1,4 +1,4 @@
-﻿namespace NoP77svk.wtwd.Model.Xform;
+namespace NoP77svk.wtwd.Model.Xform;
 
 using NoP77svk.wtwd.Model;
 using NoP77svk.wtwd.Utilities;

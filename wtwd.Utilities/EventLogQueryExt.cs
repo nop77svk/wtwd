@@ -1,5 +1,5 @@
-﻿#pragma warning disable CA1416
 namespace NoP77svk.wtwd.Utilities;
+#pragma warning disable CA1416 // Validate platform compatibility
 
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;

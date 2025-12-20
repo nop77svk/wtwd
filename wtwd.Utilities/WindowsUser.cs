@@ -1,6 +1,7 @@
-﻿#pragma warning disable CA1416
-#pragma warning disable SA1313
 namespace NoP77svk.wtwd.Utilities;
+#pragma warning disable SA1313
+#pragma warning disable CA1416 // Validate platform compatibility
+
 using System.Security.Principal;
 
 public record WindowsUser(string Domain, string Name, string? SID)

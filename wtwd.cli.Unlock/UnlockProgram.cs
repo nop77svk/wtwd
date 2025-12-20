@@ -1,8 +1,9 @@
-#pragma warning disable CA1416
 namespace NoP77svk.wtwd.cli.Unlock;
+#pragma warning disable CA1416
 
 using System.Diagnostics;
 using System.Security;
+
 using NoP77svk.wtwd.Model;
 using NoP77svk.wtwd.Utilities;
 using NoP77svk.wtwd.Model.Xform;

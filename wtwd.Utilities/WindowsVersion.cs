@@ -1,4 +1,5 @@
-﻿namespace NoP77svk.wtwd.Utilities;
+namespace NoP77svk.wtwd.Utilities;
+
 using System;
 
 public static class WindowsVersion

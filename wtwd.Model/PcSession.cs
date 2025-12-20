@@ -1,9 +1,9 @@
-﻿namespace NoP77svk.wtwd.Model;
+namespace NoP77svk.wtwd.Model;
 
 public class PcSession
 {
-    private SortedList<DateTime, PcStateChange> _sessionStart = new ();
-    private SortedList<DateTime, PcStateChange> _sessionEnd = new ();
+    private SortedList<DateTime, PcStateChange> _sessionStart = new();
+    private SortedList<DateTime, PcStateChange> _sessionEnd = new();
 
     public PcStateChange SessionFirstStart => _sessionStart.First().Value;
     public PcStateChange SessionLastStart => _sessionStart.Last().Value;
@@ -11,6 +11,7 @@ public class PcSession
     public PcStateChange? SessionLastEnd => _sessionEnd.Any() ? _sessionEnd.Last().Value : null;
 
     public TimeSpan IdleStartSpan => SessionLastStart.When.Subtract(SessionFirstStart.When);
+
     public IEnumerable<PcStateChangeEvent> StartEventsOrdered
         => _sessionStart
             .DistinctBy(x => x.Value.Event)
@@ -21,6 +22,7 @@ public class PcSession
     public TimeSpan? ShortSessionSpan => SessionFirstEnd?.When.Subtract(SessionLastStart.When);
     public TimeSpan? FullSessionSpan => SessionLastEnd?.When.Subtract(SessionFirstStart.When);
     public TimeSpan IdleEndSpan => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero;
+
     public IEnumerable<PcStateChangeEvent>? EndEventsOrdered
         => _sessionEnd.Any()
             ? _sessionEnd

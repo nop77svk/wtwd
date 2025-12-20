@@ -1,5 +1,5 @@
-#pragma warning disable SA1313, CA1416
 namespace NoP77svk.wtwd.Model;
+#pragma warning disable SA1313
 
 public record PcStateChangeEvent(PcStateChangeHow How, PcStateChangeWhat What)
 {
