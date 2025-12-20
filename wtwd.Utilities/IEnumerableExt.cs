@@ -46,25 +46,12 @@ public static class IEnumerableExt
         TElement? previousElement = default;
         foreach (TElement element in collection)
         {
-            if (previousElement is null)
-            {
-                laggedElements.Clear();
-            }
-            else if (!areInTheSamePartition(element, previousElement))
+            if (previousElement is null || !areInTheSamePartition(element, previousElement))
             {
                 laggedElements.Clear();
             }
 
-            TElement? resultLaggedElement;
-            if (laggedElements.Count == lagSize)
-            {
-                resultLaggedElement = laggedElements.Dequeue();
-            }
-            else
-            {
-                resultLaggedElement = default;
-            }
-
+            TElement? resultLaggedElement = laggedElements.Count == lagSize ? laggedElements.Dequeue() : default;
             yield return (element, resultLaggedElement);
 
             laggedElements.Enqueue(element);
