@@ -22,17 +22,25 @@ public static class WindowsEventToStateChange
     public static PcStateChange AsPcStateChange(this EventRecord evnt)
     {
         if (evnt is EventLogRecord evntLogRec)
+        {
             return evntLogRec.AsPcStateChange();
+        }
         else
+        {
             throw new ArgumentOutOfRangeException(nameof(evnt), $"Argument not of {nameof(EventLogRecord)} class");
+        }
     }
 
     private static PcStateChange FromKernelBootEvent(EventLogRecord evnt)
     {
         if (evnt.Id is 20 or 25 or 27)
+        {
             return new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.ShutdownOrStartup, PcStateChangeWhat.On), evnt.TimeCreated ?? DateTime.Now);
+        }
         else
+        {
             return new PcStateChange(new PcStateChangeEvent(PcStateChangeHow.Unknown, PcStateChangeWhat.Unknown), evnt.TimeCreated ?? DateTime.Now);
+        }
     }
 
     private static PcStateChange FromKernelGeneralEvent(EventLogRecord evnt)

@@ -5,7 +5,9 @@ public static class IEnumerableExt
     public static IEnumerable<(TElement Current, TElement? Lagged)> Lag<TElement>(this IEnumerable<TElement> collection, Func<TElement, TElement, bool> areInTheSamePartition, int lagSize = 1)
     {
         if (lagSize < 0)
+        {
             throw new ArgumentOutOfRangeException(nameof(lagSize), lagSize, "Non-negative integer expected");
+        }
 
         return LagInternal(collection, areInTheSamePartition, lagSize);
     }
@@ -30,7 +32,9 @@ public static class IEnumerableExt
                 || !areInTheSameRun(elementTuple.Current, elementTuple.Lagged);
 
             if (newRunStartsHere)
+            {
                 runId++;
+            }
 
             yield return (runId, elementTuple.Current);
         }
@@ -43,15 +47,23 @@ public static class IEnumerableExt
         foreach (TElement element in collection)
         {
             if (previousElement is null)
+            {
                 laggedElements.Clear();
+            }
             else if (!areInTheSamePartition(element, previousElement))
+            {
                 laggedElements.Clear();
+            }
 
             TElement? resultLaggedElement;
             if (laggedElements.Count == lagSize)
+            {
                 resultLaggedElement = laggedElements.Dequeue();
+            }
             else
+            {
                 resultLaggedElement = default;
+            }
 
             yield return (element, resultLaggedElement);
 

@@ -12,7 +12,11 @@ public static class EventLogQueryExt
         while (true)
         {
             using EventRecord? row = reader.ReadEvent();
-            if (row == null) break;
+            if (row == null)
+            {
+                break;
+            }
+
             yield return row;
         }
     }

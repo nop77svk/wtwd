@@ -45,29 +45,40 @@ public class PcSession
             _sessionStart = this._sessionStart,
             _sessionEnd = otherSession._sessionEnd
         };
+
         return result;
     }
 
     public void ResolveEvent(PcStateChange evnt)
     {
         if (evnt.Event.What == PcStateChangeWhat.On)
+        {
             ResolveStartEvent(evnt);
+        }
         else if (evnt.Event.What == PcStateChangeWhat.Off)
+        {
             ResolveEndEvent(evnt);
+        }
     }
 
     private void ResolveStartEvent(PcStateChange evnt)
     {
         if (evnt.Event.What != PcStateChangeWhat.On)
+        {
             throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
+        }
 
         if (_sessionEnd.Any())
+        {
             throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), $"Cannot add start-event {evnt.Event} to the session when there already are end-events");
+        }
 
         if (_sessionStart.ContainsKey(evnt.When))
         {
             if (_sessionStart[evnt.When].Event.How < evnt.Event.How)
+            {
                 _sessionStart[evnt.When] = evnt;
+            }
         }
         else
         {
@@ -78,12 +89,16 @@ public class PcSession
     private void ResolveEndEvent(PcStateChange evnt)
     {
         if (evnt.Event.What != PcStateChangeWhat.Off)
+        {
             throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
+        }
 
         if (_sessionEnd.ContainsKey(evnt.When))
         {
             if (_sessionEnd[evnt.When].Event.How > evnt.Event.How)
+            {
                 _sessionEnd[evnt.When] = evnt;
+            }
         }
         else
         {

@@ -36,6 +36,8 @@ public static class PcStateChangeExt
         }
 
         if (result != null)
+        {
             yield return result;
+        }
     }
 }
