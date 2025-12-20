@@ -29,9 +29,13 @@ internal static class Program
         if (!WindowsVersion.IsTestedVersion)
         {
             if (WindowsVersion.IsCompatibleVersion)
+            {
                 Console.Error.WriteLine($"WARNING:\n{Environment.OSVersion.VersionString} is assumed to be compatible with WTWD, but has not yet been tested!\n");
+            }
             else
+            {
                 throw new NotImplementedException($"{Environment.OSVersion.VersionString} is assumed to be incompatible with WTWD!");
+            }
         }
     }
 }
