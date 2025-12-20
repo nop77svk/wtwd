@@ -19,6 +19,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.Unlock", "wtwd.cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "wtwd.cli.InitLockUnlock", "wtwd.cli.InitLockUnlock\wtwd.cli.InitLockUnlock.csproj", "{84E06BAB-9DE7-4AF5-9D37-67530D72E25D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_solution items", "_solution items", "{252F9185-D6E6-4B83-BF65-AFFACEBC8D6B}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

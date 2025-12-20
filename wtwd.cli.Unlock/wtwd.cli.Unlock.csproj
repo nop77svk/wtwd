@@ -3,37 +3,12 @@
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<Product>Work-Time Watch-Dog</Product>
-		<Authors>Peter Hraško</Authors>
-		<Company>Open source community</Company>
-		<Copyright>Practically copyleft</Copyright>
-		<NoWarn>1701;1702;AD0001;NETSDK1182</NoWarn>
-		<PackageId></PackageId>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>NoP77svk.wtwd.cli.Unlock</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CommandLineParser" Version="2.9.1" />
-		<PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="*">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="*">
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		  <PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="System.Diagnostics.EventLog" Version="*" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Compile Include="..\wtwd.Utilities\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,14 +16,4 @@
 	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
 	  <ProjectReference Include="..\wtwd.Model.Xform\wtwd.Model.Xform.csproj" />
 	</ItemGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DebugType>none</DebugType>
-		<DebugSymbols>false</DebugSymbols>
-	</PropertyGroup>
-
-	<Target Name="PostClean" AfterTargets="Clean">
-		<RemoveDir Directories="$(BaseIntermediateOutputPath)" /><!-- obj -->
-		<RemoveDir Directories="$(BaseOutputPath)" /><!-- bin -->
-	</Target>
 </Project>
