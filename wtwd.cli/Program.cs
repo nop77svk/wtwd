@@ -1,11 +1,11 @@
-﻿namespace NoP77svk.wtwd.cli;
+namespace NoP77svk.wtwd.cli;
 
 using CommandLine;
 
+using NoP77svk.wtwd.cli.InitLockUnlock;
 using NoP77svk.wtwd.cli.List;
 using NoP77svk.wtwd.cli.Lock;
 using NoP77svk.wtwd.cli.Unlock;
-using NoP77svk.wtwd.cli.InitLockUnlock;
 using NoP77svk.wtwd.Utilities;
 
 internal static class Program
