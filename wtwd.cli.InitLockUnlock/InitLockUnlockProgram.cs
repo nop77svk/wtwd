@@ -56,11 +56,11 @@ public static class InitLockUnlockProgram
 
         WindowsUser user = WindowsUser.Current();
 
-        (string, string, TaskSessionStateChangeType)[] taskSettings = new (string, string, TaskSessionStateChangeType)[]
-        {
+        (string, string, TaskSessionStateChangeType)[] taskSettings =
+        [
             new ("lock", "Lock", TaskSessionStateChangeType.SessionLock),
             new ("unlock", "Unlock", TaskSessionStateChangeType.SessionUnlock)
-        };
+        ];
 
         foreach (var row in taskSettings)
         {
