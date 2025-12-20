@@ -5,22 +5,22 @@ public class PcSession
     private SortedList<DateTime, PcStateChange> _sessionStart = new ();
     private SortedList<DateTime, PcStateChange> _sessionEnd = new ();
 
-    public PcStateChange SessionFirstStart { get => _sessionStart.First().Value; }
-    public PcStateChange SessionLastStart { get => _sessionStart.Last().Value; }
-    public PcStateChange? SessionFirstEnd { get => _sessionEnd.Any() ? _sessionEnd.First().Value : null; }
-    public PcStateChange? SessionLastEnd { get => _sessionEnd.Any() ? _sessionEnd.Last().Value : null; }
+    public PcStateChange SessionFirstStart => _sessionStart.First().Value;
+    public PcStateChange SessionLastStart => _sessionStart.Last().Value;
+    public PcStateChange? SessionFirstEnd => _sessionEnd.Any() ? _sessionEnd.First().Value : null;
+    public PcStateChange? SessionLastEnd => _sessionEnd.Any() ? _sessionEnd.Last().Value : null;
 
-    public TimeSpan IdleStartSpan { get => SessionLastStart.When.Subtract(SessionFirstStart.When); }
+    public TimeSpan IdleStartSpan => SessionLastStart.When.Subtract(SessionFirstStart.When);
     public IEnumerable<PcStateChangeEvent> StartEventsOrdered
         => _sessionStart
             .DistinctBy(x => x.Value.Event)
             .OrderBy(x => x.Value.When)
             .Select(x => x.Value.Event);
 
-    public bool IsStillRunning { get => !_sessionEnd.Any(); }
-    public TimeSpan? ShortSessionSpan { get => SessionFirstEnd?.When.Subtract(SessionLastStart.When); }
-    public TimeSpan? FullSessionSpan { get => SessionLastEnd?.When.Subtract(SessionFirstStart.When); }
-    public TimeSpan IdleEndSpan { get => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero; }
+    public bool IsStillRunning => !_sessionEnd.Any();
+    public TimeSpan? ShortSessionSpan => SessionFirstEnd?.When.Subtract(SessionLastStart.When);
+    public TimeSpan? FullSessionSpan => SessionLastEnd?.When.Subtract(SessionFirstStart.When);
+    public TimeSpan IdleEndSpan => SessionLastEnd?.When.Subtract(SessionFirstEnd?.When ?? DateTime.Now) ?? TimeSpan.Zero;
     public IEnumerable<PcStateChangeEvent>? EndEventsOrdered
         => _sessionEnd.Any()
             ? _sessionEnd

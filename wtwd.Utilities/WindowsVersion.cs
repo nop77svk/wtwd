@@ -3,7 +3,7 @@ using System;
 
 public static class WindowsVersion
 {
-    public static bool IsTestedVersion { get => OperatingSystem.IsWindowsVersionAtLeast(10); }
+    public static bool IsTestedVersion => OperatingSystem.IsWindowsVersionAtLeast(10);
 
-    public static bool IsCompatibleVersion { get => OperatingSystem.IsWindowsVersionAtLeast(6, 1); }
+    public static bool IsCompatibleVersion => OperatingSystem.IsWindowsVersionAtLeast(6, 1);
 }

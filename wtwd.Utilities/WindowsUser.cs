@@ -5,7 +5,7 @@ using System.Security.Principal;
 
 public record WindowsUser(string Domain, string Name, string? SID)
 {
-    public string DomainUser { get => $"{Domain}\\{Name}"; }
+    public string DomainUser => $"{Domain}\\{Name}";
 
     public static WindowsUser Current()
     {
