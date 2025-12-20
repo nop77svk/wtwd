@@ -1,5 +1,5 @@
-#pragma warning disable CA1416
 namespace NoP77svk.wtwd.cli.List;
+#pragma warning disable CA1416
 
 using System.Collections.Generic;
 using System.Globalization;

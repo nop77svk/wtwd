@@ -1,4 +1,5 @@
 namespace NoP77svk.wtwd.cli.List;
+
 using NoP77svk.wtwd.Utilities;
 
 public class ListConfig

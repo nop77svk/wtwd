@@ -1,4 +1,4 @@
-﻿namespace NoP77svk.wtwd.Model;
+namespace NoP77svk.wtwd.Model;
 
 public enum PcStateChangeEventName
 {

@@ -1,5 +1,5 @@
-#pragma warning disable CA1416
 namespace NoP77svk.wtwd.cli.InitLockUnlock;
+#pragma warning disable CA1416
 
 using System;
 using System.Diagnostics;

@@ -1,5 +1,5 @@
-﻿#pragma warning disable SA1313
 namespace NoP77svk.wtwd.cli.List;
+#pragma warning disable SA1313
 
 using System;
 
