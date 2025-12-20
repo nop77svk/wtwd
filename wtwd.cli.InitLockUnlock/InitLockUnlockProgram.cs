@@ -50,7 +50,8 @@ public static class InitLockUnlockProgram
 
     private static void InitializeScheduledTasks(InitLockUnlockConfig cli)
     {
-        TaskFolder wtwdFolder = TaskService.Instance.RootFolder.CreateFolderIfNotExists("NoP77svk").CreateFolderIfNotExists("WTWD");
+        using TaskFolder myFolder = TaskService.Instance.RootFolder.CreateFolderIfNotExists("NoP77svk");
+        using TaskFolder wtwdFolder = myFolder.CreateFolderIfNotExists("WTWD");
         Console.WriteLine("Scheduler folder /NoP77svk/WTWD created");
 
         WindowsUser user = WindowsUser.Current();
