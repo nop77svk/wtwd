@@ -5,6 +5,7 @@
     <File Path="LICENSE" />
     <File Path="README.md" />
   </Folder>
+  <Project Path="TRecs.Model/TRecs.Model.csproj" Id="884047f9-d74a-499c-872f-330edd9a673c" />
   <Project Path="wtwd.cli.InitLockUnlock/wtwd.cli.InitLockUnlock.csproj" />
   <Project Path="wtwd.cli.List/wtwd.cli.List.csproj" />
   <Project Path="wtwd.cli.Lock/wtwd.cli.Lock.csproj" />
