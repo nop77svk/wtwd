@@ -19,6 +19,5 @@
 	  <ProjectReference Include="..\wtwd.cli.Unlock\wtwd.cli.Unlock.csproj" />
 	  <ProjectReference Include="..\wtwd.Model\wtwd.Model.csproj" />
 	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
-	  <ProjectReference Include="..\wtwd.Model.Xform\wtwd.Model.Xform.csproj" />
 	</ItemGroup>
 </Project>
