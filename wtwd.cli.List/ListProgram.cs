@@ -105,7 +105,7 @@ public class ListProgram
 
         foreach (var sessionDayGroup in sessionsGroupedByDay)
         {
-            Console.WriteLine(sessionDayGroup.Key.ToString(DayFormat));
+            Console.WriteLine(sessionDayGroup.Key.ToString(DayFormat, CultureInfo.CurrentCulture));
 
             var daySessionsOrdered = sessionDayGroup
                 .OrderBy(session => session.SessionLastStart.When);
@@ -170,7 +170,7 @@ public class ListProgram
         }
         else
         {
-            throw new NotImplementedException($"Don't know how to {Config.OutputFormat.ToString()}-print the read PC sessions");
+            throw new PlatformNotSupportedException($"Don't know how to {Config.OutputFormat.ToString()}-print the read PC sessions");
         }
     }
 }

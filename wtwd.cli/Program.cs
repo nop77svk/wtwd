@@ -34,7 +34,7 @@ internal static class Program
             }
             else
             {
-                throw new NotImplementedException($"{Environment.OSVersion.VersionString} is assumed to be incompatible with WTWD!");
+                throw new PlatformNotSupportedException($"{Environment.OSVersion.VersionString} is assumed to be incompatible with WTWD!");
             }
         }
     }

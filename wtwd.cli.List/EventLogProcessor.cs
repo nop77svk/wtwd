@@ -49,22 +49,23 @@ internal static class EventLogProcessor
                     .Descendants(EventLogConst.XmlNS + "Event")
                     .Descendants(EventLogConst.XmlNS + "EventData")
                     .Descendants(EventLogConst.XmlNS + "Data")
-                    .Where(node => node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix)
-                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix)
-                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix)
+                    .Where(node => node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix, StringComparison.InvariantCulture)
+                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix, StringComparison.InvariantCulture)
+                        || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix, StringComparison.InvariantCulture)
                     )
                     .Select(node => new ValueTuple<string?, string?, string?>(
-                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
-                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
-                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
+                        node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
                     ))
                     .Aggregate(
                         seed: new ValueTuple<string?, string?, string?>(null, null, null),
                         func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
                     )
             ))
-            .Where(evntPlus => evntPlus.Item2.Item1 == osUser.Domain && evntPlus.Item2.Item2 == osUser.Name
-                || evntPlus.Item2.Item3 == osUser.SID
+            .Where(evntPlus => string.Equals(evntPlus.Item2.Item1, osUser.Domain, StringComparison.InvariantCulture)
+                && string.Equals(evntPlus.Item2.Item2, osUser.Name, StringComparison.InvariantCulture)
+                || string.Equals(evntPlus.Item2.Item3, osUser.SID, StringComparison.InvariantCulture)
             )
             .Select(evntPlus => evntPlus.Item1);
 

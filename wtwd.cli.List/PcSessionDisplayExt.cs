@@ -1,5 +1,6 @@
 namespace NoP77svk.wtwd.cli.List;
 
+using System.Globalization;
 using System.Text;
 
 using NoP77svk.wtwd.Model;
@@ -19,11 +20,11 @@ internal static class PcSessionDisplayExt
         StringBuilder result = new StringBuilder();
 
         result.Append("(");
-        result.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat));
+        result.Append(session.SessionFirstStart.When.Round(roundingInterval).ToString(TimeFormat, CultureInfo.CurrentCulture));
         result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstStart.When));
         result.Append(") ");
 
-        result.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat));
+        result.Append(session.SessionLastStart.When.Round(roundingInterval).ToString(TimeFormat, CultureInfo.CurrentCulture));
 
         result.Append(" -> ");
 
@@ -33,11 +34,11 @@ internal static class PcSessionDisplayExt
         }
         else
         {
-            result.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat));
+            result.Append(session.SessionFirstEnd.When.Round(roundingInterval).ToString(TimeFormat, CultureInfo.CurrentCulture));
             result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionFirstEnd.When));
 
             result.Append(" (");
-            result.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat));
+            result.Append(session.SessionLastEnd.When.Round(roundingInterval).ToString(TimeFormat, CultureInfo.CurrentCulture));
             result.Append(FormatDayOffset(sessionAnchorTstamp, session.SessionLastEnd.When));
             result.Append(")");
         }
@@ -53,7 +54,7 @@ internal static class PcSessionDisplayExt
                 .ToVariableString(minutesFormat: SessionSpanMinutesFormat, hoursFormat: SessionSpanHoursFormat, daysFormat: SessionSpanDaysFormat);
 
             result.Append(shortSessionSpanDisp ?? "?");
-            if (shortSessionSpanDisp != longSessionSpanDisp)
+            if (!string.Equals(shortSessionSpanDisp, longSessionSpanDisp))
             {
                 result.Append(" [");
                 result.Append(longSessionSpanDisp ?? "?");

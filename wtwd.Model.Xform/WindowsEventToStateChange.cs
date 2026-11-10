@@ -111,7 +111,7 @@ public static class WindowsEventToStateChange
             result = new PcStateChange(
                 new PcStateChangeEvent(
                     PcStateChangeHow.LockOrUnlock,
-                    relevantEventData.ToLower() switch
+                    relevantEventData.ToLowerInvariant() switch
                     {
                         "lock" => PcStateChangeWhat.Off,
                         "unlock" => PcStateChangeWhat.On,

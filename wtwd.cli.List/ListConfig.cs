@@ -31,7 +31,7 @@ public class ListConfig
     {
         ListOutputFormat result;
 
-        string? canonizedFormatId = outputFormatCli?.Replace("-", string.Empty).ToLower();
+        string? canonizedFormatId = outputFormatCli?.Replace("-", string.Empty).ToLowerInvariant();
 
         if (Enum.TryParse(canonizedFormatId, true, out ListOutputFormat outputFormatParsed))
         {

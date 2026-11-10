@@ -16,7 +16,7 @@ public static class WindowsSchedulerTaskFolderExt
         }
         catch (COMException e)
         {
-            if (!e.Message.StartsWith("Cannot create a file when that file already exists."))
+            if (!e.Message.StartsWith("Cannot create a file when that file already exists.", StringComparison.InvariantCulture))
             {
                 throw new CannotCreateSubfolderException(folder.Path, folderName, e);
             }
