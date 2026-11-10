@@ -12,7 +12,7 @@ insert_final_newline = true
 
 dotnet_diagnostic.CA1816.severity = none # Dispose methods should call SuppressFinalize
 dotnet_diagnostic.CA2000.severity = error # IDisposables must be properly disposed
-dotnet_diagnostic.CA2208.severity = none # Wrong paramName to Argument...Exception
+dotnet_diagnostic.CA2208.severity = warning # Wrong paramName to Argument...Exception
 
 # ================================================================================================
 # StyleCop
@@ -66,5 +66,6 @@ dotnet_diagnostic.IDE0305.severity = none # Use collection expression for fluent
 # SonarQube
 
 dotnet_diagnostic.S2368.severity = none # Make this constructor private or simplify its parameters
-dotnet_diagnostic.S2955.severity = none # Use a comparison to 'default(TCell)'
+dotnet_diagnostic.S2955.severity = warning # Use a comparison to 'default(T)'
 dotnet_diagnostic.S3358.severity = none # Extract this nested ternary operation into an independent statement
+dotnet_diagnostic.S6966.severity = error # await .XyzAsync() instead

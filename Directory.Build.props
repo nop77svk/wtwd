@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>latest</LangVersion>
 
-		<Product>Work-Time Watch-Dog</Product>
+		<Product>T-Rec(s) - The Work-Time Management Suite</Product>
 		<Authors>Peter Hraško</Authors>
 		<Company>Subsecond I/O, s.r.o., Slovakia</Company>
 		<Copyright>Practically copyleft</Copyright>
