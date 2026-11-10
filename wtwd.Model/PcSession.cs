@@ -67,12 +67,12 @@ public class PcSession
     {
         if (evnt.Event.What != PcStateChangeWhat.On)
         {
-            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
+            throw new ArgumentValidationException<PcStateChangeWhat>(PcStateChangeWhat.On, evnt.Event.What);
         }
 
         if (_sessionEnd.Any())
         {
-            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), $"Cannot add start-event {evnt.Event} to the session when there already are end-events");
+            throw new ArgumentValidationException<PcStateChangeWhat>(PcStateChangeWhat.On, evnt.Event.What, $"Cannot add start-event {evnt.Event} to the session when there already are end-events");
         }
 
         if (_sessionStart.ContainsKey(evnt.When))
@@ -92,7 +92,7 @@ public class PcSession
     {
         if (evnt.Event.What != PcStateChangeWhat.Off)
         {
-            throw new ArgumentOutOfRangeException(nameof(evnt) + "." + nameof(evnt.Event), evnt.Event.ToString());
+            throw new ArgumentValidationException<PcStateChangeWhat>(PcStateChangeWhat.Off, evnt.Event.What);
         }
 
         if (_sessionEnd.ContainsKey(evnt.When))
