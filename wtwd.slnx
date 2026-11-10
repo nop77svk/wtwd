@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/_solution items/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="wtwd.cli.InitLockUnlock/wtwd.cli.InitLockUnlock.csproj" />
+  <Project Path="wtwd.cli.List/wtwd.cli.List.csproj" />
+  <Project Path="wtwd.cli.Lock/wtwd.cli.Lock.csproj" />
+  <Project Path="wtwd.cli.Unlock/wtwd.cli.Unlock.csproj" />
+  <Project Path="wtwd.cli/wtwd.cli.csproj" />
+  <Project Path="wtwd.Model.Xform/wtwd.Model.Xform.csproj" />
+  <Project Path="wtwd.Model/wtwd.Model.csproj" />
+  <Project Path="wtwd.Utilities/wtwd.Utilities.csproj" />
+</Solution>
