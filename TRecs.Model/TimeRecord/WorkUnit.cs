@@ -1,4 +1,4 @@
-namespace TRecs.Model;
+namespace TRecs.Model.TimeRecord;
 
 using System;
 
