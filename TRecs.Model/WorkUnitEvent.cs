@@ -14,7 +14,7 @@ public abstract class WorkUnitEvent
         EventTime = eventTime;
     }
 
-    public DateTimeOffset EventTime { get; }
+    public DateTimeOffset EventTime { get; set; }
 
     public int CompareTo(WorkUnitEvent other) => EventTime.CompareTo(other.EventTime);
     public bool Equals(WorkUnitEvent other) => EventTime.Equals(other.EventTime);
@@ -37,9 +37,9 @@ public class WorkUnitStartEvent : WorkUnitEvent
     {
     }
 
-    public WorkUnitTemplate? WorkUnitTemplate { get; init; }
-    public string? WorkUnitComment { get; init; }
-    public string? ExternalTaskReference { get; init; }
+    public TaskTemplate? TaskTemplate { get; set; }
+    public string? WorkUnitComment { get; set; }
+    public string? ExternalTaskReference { get; set; }
 }
 
 public class WorkUnitEndEvent : WorkUnitEvent

@@ -11,8 +11,8 @@ public class CustomerProject
     }
 
     public int Id { get; }
-    public string Name { get; }
+    public string Name { get; set; }
 
-    public decimal HourlyRate { get; init; } = 0.0m;
-    public decimal TimeSummationFactor { get; init; } = 1.0m;
+    public decimal HourlyRate { get; set; } = 0.0m;
+    public decimal TimeSummationFactor { get; set; } = 1.0m;
 }
