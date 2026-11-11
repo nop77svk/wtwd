@@ -1,10 +1,10 @@
-namespace NoP77svk.TRecs.Model.Xform;
+namespace NoP77svk.Wtwd.Model.Xform;
 #pragma warning disable CA1416
 
 using System.Diagnostics.Eventing.Reader;
 using System.Xml.Linq;
 
-using NoP77svk.TRecs.Model;
+using NoP77svk.Wtwd.Model;
 
 public static class WindowsEventToStateChange
 {

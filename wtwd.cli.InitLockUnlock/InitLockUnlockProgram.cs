@@ -6,10 +6,8 @@ using System.Diagnostics;
 using System.Security;
 
 using Microsoft.Win32.TaskScheduler;
-
-using NoP77svk.TRecs.Model;
-using NoP77svk.TRecs.Utilities;
 using NoP77svk.TRecs.Utilities.Windows;
+using NoP77svk.Wtwd.Model;
 
 public static class InitLockUnlockProgram
 {

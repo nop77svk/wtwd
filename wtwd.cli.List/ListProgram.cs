@@ -12,8 +12,7 @@ using System.Text.Json.Serialization;
 using CsvHelper;
 using CsvHelper.Configuration;
 using NoP77svk.Linq;
-using NoP77svk.TRecs.Model;
-using NoP77svk.TRecs.Utilities;
+using NoP77svk.Wtwd.Model;
 
 public class ListProgram
 {

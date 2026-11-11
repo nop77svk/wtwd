@@ -1,4 +1,4 @@
-namespace NoP77svk.TRecs.Model;
+namespace NoP77svk.Wtwd.Model;
 
 public enum PcStateChangeWhat
 {

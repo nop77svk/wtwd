@@ -6,9 +6,9 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Xml.Linq;
 
-using NoP77svk.TRecs.Model;
-using NoP77svk.TRecs.Model.Xform;
 using NoP77svk.TRecs.Utilities.Windows;
+using NoP77svk.Wtwd.Model;
+using NoP77svk.Wtwd.Model.Xform;
 
 internal static class EventLogProcessor
 {

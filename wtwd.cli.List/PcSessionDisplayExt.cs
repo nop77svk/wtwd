@@ -3,8 +3,8 @@ namespace NoP77svk.TRecs.cli.List;
 using System.Globalization;
 using System.Text;
 
-using NoP77svk.TRecs.Model;
 using NoP77svk.TRecs.Utilities;
+using NoP77svk.Wtwd.Model;
 
 internal static class PcSessionDisplayExt
 {
