@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<RootNamespace>NoP77svk.wtwd.Model</RootNamespace>
+		<RootNamespace>NoP77svk.Wtwd.Model</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

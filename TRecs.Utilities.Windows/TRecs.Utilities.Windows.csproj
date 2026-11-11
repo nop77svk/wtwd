@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+    <PropertyGroup>
+        <RootNamespace>NoP77svk.TRecs.Utilities.Windows</RootNamespace>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="System.Diagnostics.EventLog" Version="6.0.0" />
         <PackageReference Include="TaskScheduler" Version="2.10.1" />

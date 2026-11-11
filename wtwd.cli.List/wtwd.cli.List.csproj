@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<RootNamespace>NoP77svk.wtwd.cli.List</RootNamespace>
+		<RootNamespace>NoP77svk.Wtwd.Cli.List</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>

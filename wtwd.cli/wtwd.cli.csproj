@@ -4,7 +4,7 @@
 		<OutputType>Exe</OutputType>
 		<RuntimeIdentifiers>win-x86;win-x64;linux-x64</RuntimeIdentifiers>
 		<AssemblyName>wtwd</AssemblyName>
-		<RootNamespace>NoP77svk.wtwd.cli</RootNamespace>
+		<RootNamespace>NoP77svk.Wtwd.Cli</RootNamespace>
         <ProjectName>Work-Time Watchdog CLI, part of T-Rec(s)</ProjectName>
 	</PropertyGroup>
 

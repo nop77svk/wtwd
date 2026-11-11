@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<RootNamespace>NoP77svk.wtwd.cli.Unlock</RootNamespace>
+		<RootNamespace>NoP77svk.Wtwd.Cli.Unlock</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
