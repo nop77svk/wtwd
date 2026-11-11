@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.cli.Unlock;
+namespace NoP77svk.TRecs.cli.Unlock;
 
 using CommandLine;
 

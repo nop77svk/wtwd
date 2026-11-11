@@ -1,4 +1,4 @@
-﻿namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 
 internal enum ListOutputFormat
 {

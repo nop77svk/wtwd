@@ -10,7 +10,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
+	  <ProjectReference Include="..\TRecs.Utilities.Windows\TRecs.Utilities.Windows.csproj" />
+	  <ProjectReference Include="..\TRecs.Utilities\TRecs.Utilities.csproj" />
 	</ItemGroup>
 
 </Project>

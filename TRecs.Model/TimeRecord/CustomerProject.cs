@@ -1,6 +1,6 @@
 #pragma warning disable SA1313 // Parameter names should begin with lower-case letter
 #pragma warning disable MA0048 // File name must match type name
-namespace TRecs.Model.TimeRecord;
+namespace NoP77svk.TRecs.Model.TimeRecord;
 
 public class CustomerProject
 {

@@ -1,12 +1,13 @@
-namespace NoP77svk.wtwd.cli;
+namespace NoP77svk.TRecs.cli;
 
 using CommandLine;
 
-using NoP77svk.wtwd.cli.InitLockUnlock;
-using NoP77svk.wtwd.cli.List;
-using NoP77svk.wtwd.cli.Lock;
-using NoP77svk.wtwd.cli.Unlock;
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.cli.InitLockUnlock;
+using NoP77svk.TRecs.cli.List;
+using NoP77svk.TRecs.cli.Lock;
+using NoP77svk.TRecs.cli.Unlock;
+using NoP77svk.TRecs.Utilities;
+using NoP77svk.TRecs.Utilities.Windows;
 
 internal static class Program
 {

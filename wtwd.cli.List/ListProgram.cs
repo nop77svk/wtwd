@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 #pragma warning disable CA1416
 
 using System.Collections.Generic;
@@ -11,9 +11,9 @@ using System.Text.Json.Serialization;
 
 using CsvHelper;
 using CsvHelper.Configuration;
-
-using NoP77svk.wtwd.Model;
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.Linq;
+using NoP77svk.TRecs.Model;
+using NoP77svk.TRecs.Utilities;
 
 public class ListProgram
 {

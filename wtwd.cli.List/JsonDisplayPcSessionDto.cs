@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 #pragma warning disable SA1313
 
 using System;

@@ -12,6 +12,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\wtwd.Model\wtwd.Model.csproj" />
-	  <ProjectReference Include="..\wtwd.Utilities\wtwd.Utilities.csproj" />
+	  <ProjectReference Include="..\TRecs.Utilities\TRecs.Utilities.csproj" />
 	</ItemGroup>
 </Project>

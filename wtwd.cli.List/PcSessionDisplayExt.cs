@@ -1,10 +1,10 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 
 using System.Globalization;
 using System.Text;
 
-using NoP77svk.wtwd.Model;
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Model;
+using NoP77svk.TRecs.Utilities;
 
 internal static class PcSessionDisplayExt
 {

@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.Model;
+namespace NoP77svk.TRecs.Model;
 #pragma warning disable SA1313
 
 public record PcStateChangeEvent(PcStateChangeHow How, PcStateChangeWhat What)

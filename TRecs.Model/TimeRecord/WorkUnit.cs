@@ -1,4 +1,4 @@
-namespace TRecs.Model.TimeRecord;
+namespace NoP77svk.TRecs.Model.TimeRecord;
 
 using System;
 
@@ -22,6 +22,6 @@ public class WorkUnit
 
     public TimeSpan CalculateDuration(DateTimeOffset? endExclusiveTime)
         => endExclusiveTime is null
-        ? DateTimeOffset.Now - StartInclusive.EventTime
-        : endExclusiveTime.Value - StartInclusive.EventTime;
+            ? DateTimeOffset.Now - StartInclusive.EventTime
+            : endExclusiveTime.Value - StartInclusive.EventTime;
 }

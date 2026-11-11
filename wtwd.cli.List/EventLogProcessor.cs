@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 #pragma warning disable CA1416
 
 using System.Collections.Generic;
@@ -6,9 +6,9 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Xml.Linq;
 
-using NoP77svk.wtwd.Model;
-using NoP77svk.wtwd.Model.Xform;
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Model;
+using NoP77svk.TRecs.Model.Xform;
+using NoP77svk.TRecs.Utilities.Windows;
 
 internal static class EventLogProcessor
 {
@@ -43,9 +43,9 @@ internal static class EventLogProcessor
         WindowsUser osUser = WindowsUser.Current();
         var queryExplicitWtwdLockUnlockTimeFiltered = queryExplicitWtwdLockUnlock.AsEnumerable()
             .Where(evnt => evnt.TimeCreated >= since)
-            .Select(evnt => new ValueTuple<EventRecord, ValueTuple<string?, string?, string?>>(
-                evnt,
-                XDocument.Parse(evnt.ToXml())
+            .Select(evnt => (
+                Event: evnt,
+                Parsed: XDocument.Parse(evnt.ToXml())
                     .Descendants(EventLogConst.XmlNS + "Event")
                     .Descendants(EventLogConst.XmlNS + "EventData")
                     .Descendants(EventLogConst.XmlNS + "Data")
@@ -53,21 +53,21 @@ internal static class EventLogProcessor
                         || node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix, StringComparison.InvariantCulture)
                         || node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix, StringComparison.InvariantCulture)
                     )
-                    .Select(node => new ValueTuple<string?, string?, string?>(
+                    .Select(node => (
                         node.Value.StartsWith(LockUnlockEventLog.EventDataUserDomainPrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserDomainPrefix.Length).Trim() : null,
                         node.Value.StartsWith(LockUnlockEventLog.EventDataUserNamePrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserNamePrefix.Length).Trim() : null,
                         node.Value.StartsWith(LockUnlockEventLog.EventDataUserSIDPrefix, StringComparison.InvariantCulture) ? node.Value.Substring(LockUnlockEventLog.EventDataUserSIDPrefix.Length).Trim() : null
                     ))
                     .Aggregate(
-                        seed: new ValueTuple<string?, string?, string?>(null, null, null),
+                        seed: ((string?)null, (string?)null, (string?)null),
                         func: (accumulator, value) => (accumulator.Item1 ?? value.Item1, accumulator.Item2 ?? value.Item2, accumulator.Item3 ?? value.Item3)
                     )
             ))
-            .Where(evntPlus => string.Equals(evntPlus.Item2.Item1, osUser.Domain, StringComparison.InvariantCulture)
-                && string.Equals(evntPlus.Item2.Item2, osUser.Name, StringComparison.InvariantCulture)
-                || string.Equals(evntPlus.Item2.Item3, osUser.SID, StringComparison.InvariantCulture)
+            .Where(evntPlus => string.Equals(evntPlus.Parsed.Item1, osUser.Domain, StringComparison.InvariantCulture)
+                && string.Equals(evntPlus.Parsed.Item2, osUser.Name, StringComparison.InvariantCulture)
+                || string.Equals(evntPlus.Parsed.Item3, osUser.SID, StringComparison.InvariantCulture)
             )
-            .Select(evntPlus => evntPlus.Item1);
+            .Select(evntPlus => evntPlus.Event);
 
         result = result.Concat(queryExplicitWtwdLockUnlockTimeFiltered);
 

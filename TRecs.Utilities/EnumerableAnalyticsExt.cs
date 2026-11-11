@@ -50,17 +50,17 @@ namespace NoP77svk.Linq
             where TElement : class
         {
             int runId = 0;
-            foreach ((TElement current, TElement? lagged) in collection.Lag())
+            foreach ((TElement Current, TElement? Lagged) elementTuple in collection.Lag())
             {
                 bool newRunStartsHere = runId == 0
-                    || !areInTheSameRun(current, lagged);
+                    || !areInTheSameRun(elementTuple.Current, elementTuple.Lagged);
 
                 if (newRunStartsHere)
                 {
                     runId++;
                 }
 
-                yield return (runId, current);
+                yield return (runId, elementTuple.Current);
             }
         }
 

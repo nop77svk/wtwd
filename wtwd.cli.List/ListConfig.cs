@@ -1,6 +1,6 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Utilities;
 
 public class ListConfig
 {

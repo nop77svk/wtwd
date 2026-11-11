@@ -1,12 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <RootNamespace>NoP77svk.TRecs.Model</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Include="..\IsExternalInit.cs" Link="IsExternalInit.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <Compile Include="..\IsExternalInit.cs" Link="IsExternalInit.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TRecs.Utilities\TRecs.Utilities.csproj" />
+    </ItemGroup>
 
 </Project>

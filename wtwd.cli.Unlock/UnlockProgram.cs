@@ -1,12 +1,12 @@
-namespace NoP77svk.wtwd.cli.Unlock;
+namespace NoP77svk.TRecs.cli.Unlock;
 #pragma warning disable CA1416
 
 using System.Diagnostics;
 using System.Security;
 
-using NoP77svk.wtwd.Model;
-using NoP77svk.wtwd.Utilities;
-using NoP77svk.wtwd.Model.Xform;
+using NoP77svk.TRecs.Model;
+using NoP77svk.TRecs.Model.Xform;
+using NoP77svk.TRecs.Utilities.Windows;
 
 public static class UnlockProgram
 {

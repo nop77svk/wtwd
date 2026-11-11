@@ -1,5 +1,5 @@
 #pragma warning disable SA1313 // Parameter names should begin with lower-case letter
-namespace TRecs.Model.TimeRecord;
+namespace NoP77svk.TRecs.Model.TimeRecord;
 
 public class TaskTemplate
 {

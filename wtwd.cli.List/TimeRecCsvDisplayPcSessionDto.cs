@@ -1,9 +1,9 @@
-namespace NoP77svk.wtwd.cli.List;
+namespace NoP77svk.TRecs.cli.List;
 #pragma warning disable SA1313
 
 using System;
 
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Utilities;
 
 internal class TimeRecCsvDisplayPcSessionDto
 {

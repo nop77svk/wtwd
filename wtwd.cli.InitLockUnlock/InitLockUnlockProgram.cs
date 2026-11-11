@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.cli.InitLockUnlock;
+namespace NoP77svk.TRecs.cli.InitLockUnlock;
 #pragma warning disable CA1416
 
 using System;
@@ -7,8 +7,9 @@ using System.Security;
 
 using Microsoft.Win32.TaskScheduler;
 
-using NoP77svk.wtwd.Model;
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Model;
+using NoP77svk.TRecs.Utilities;
+using NoP77svk.TRecs.Utilities.Windows;
 
 public static class InitLockUnlockProgram
 {

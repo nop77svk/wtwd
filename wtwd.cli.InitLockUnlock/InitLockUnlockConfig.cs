@@ -1,6 +1,6 @@
-namespace NoP77svk.wtwd.cli.InitLockUnlock;
+namespace NoP77svk.TRecs.cli.InitLockUnlock;
 
-using NoP77svk.wtwd.Utilities;
+using NoP77svk.TRecs.Utilities.Windows;
 
 internal class InitLockUnlockConfig
 {

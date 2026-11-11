@@ -1,4 +1,4 @@
-namespace NoP77svk.wtwd.Utilities;
+namespace NoP77svk.TRecs.Utilities;
 
 using System.Globalization;
 

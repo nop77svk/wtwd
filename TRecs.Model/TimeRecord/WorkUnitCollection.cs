@@ -1,4 +1,4 @@
-namespace TRecs.Model.TimeRecord;
+namespace NoP77svk.TRecs.Model.TimeRecord;
 
 using System;
 using System.Collections.Generic;

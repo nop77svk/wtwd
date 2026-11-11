@@ -6,11 +6,12 @@
     <File Path="README.md" />
   </Folder>
   <Project Path="TRecs.Model/TRecs.Model.csproj" Id="884047f9-d74a-499c-872f-330edd9a673c" />
+  <Project Path="TRecs.Utilities/TRecs.Utilities.csproj" />
+  <Project Path="TRecs.Utilities.Windows/TRecs.Utilities.Windows.csproj" Id="594bd4b6-4be3-4ad4-ab83-5152100dbf11" />
   <Project Path="wtwd.cli.InitLockUnlock/wtwd.cli.InitLockUnlock.csproj" />
   <Project Path="wtwd.cli.List/wtwd.cli.List.csproj" />
   <Project Path="wtwd.cli.Lock/wtwd.cli.Lock.csproj" />
   <Project Path="wtwd.cli.Unlock/wtwd.cli.Unlock.csproj" />
   <Project Path="wtwd.cli/wtwd.cli.csproj" />
   <Project Path="wtwd.Model/wtwd.Model.csproj" />
-  <Project Path="wtwd.Utilities/wtwd.Utilities.csproj" />
 </Solution>
